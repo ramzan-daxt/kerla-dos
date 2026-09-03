@@ -1,12 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import type { LearningItem } from "./home-extras";
 import AppIcon from "./ui-icon";
 
 type GameScreen = "hub" | "word" | "mosaic";
 type Result = "idle" | "right" | "wrong";
 type LetterTile = { id: string; value: string };
+type PieceDrag = { position: number; startX: number; startY: number; x: number; y: number };
 
 const mosaicThemes = [
   {
@@ -56,6 +57,32 @@ function makePuzzleOrder(size = 9): number[] {
   return next;
 }
 
+function puzzlePiecePath(piece: number, columns: number): string {
+  const row = Math.floor(piece / columns);
+  const column = piece % columns;
+  const lastRow = 2;
+  const right = column === columns - 1 ? 0 : (row + column) % 2 === 0 ? 1 : -1;
+  const bottom = row === lastRow ? 0 : (row * columns + column) % 2 === 0 ? 1 : -1;
+  const top = row === 0 ? 0 : -(((row - 1) * columns + column) % 2 === 0 ? 1 : -1);
+  const left = column === 0 ? 0 : -((row + column - 1) % 2 === 0 ? 1 : -1);
+  const depth = 14;
+  const t = top * depth;
+  const r = right * depth;
+  const b = bottom * depth;
+  const l = left * depth;
+  return [
+    "M 0 0 H 35",
+    top ? `C 39 0 38 ${t} 50 ${t} C 62 ${t} 61 0 65 0` : "H 65",
+    "H 100 V 35",
+    right ? `C 100 39 ${100 + r} 38 ${100 + r} 50 C ${100 + r} 62 100 61 100 65` : "V 65",
+    "V 100 H 65",
+    bottom ? `C 61 100 62 ${100 + b} 50 ${100 + b} C 38 ${100 + b} 39 100 35 100` : "H 35",
+    "H 0 V 65",
+    left ? `C 0 61 ${l} 62 ${l} 50 C ${l} 38 0 39 0 35` : "V 35",
+    "V 0 Z",
+  ].join(" ");
+}
+
 export default function GameCenter({ items, onBack }: { items: LearningItem[]; onBack: () => void }) {
   const wordItems = useMemo(
     () => items.filter((item) => item.image && [...item.word.replace(/\s/g, "")].length >= 2 && [...item.word.replace(/\s/g, "")].length <= 9),
@@ -71,7 +98,9 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
   const [puzzleIndex, setPuzzleIndex] = useState(0);
   const [difficulty, setDifficulty] = useState(9);
   const [order, setOrder] = useState<number[]>(() => makePuzzleOrder(9));
-  const [selectedPiece, setSelectedPiece] = useState<number | null>(null);
+  const [dragging, setDragging] = useState<PieceDrag | null>(null);
+  const dragRef = useRef<PieceDrag | null>(null);
+  const boardRef = useRef<HTMLDivElement>(null);
   const [mosaicResult, setMosaicResult] = useState<Result>("idle");
   const [previewUses, setPreviewUses] = useState(0);
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -85,7 +114,8 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
     if (screen === "hub") return onBack();
     if (screen === "mosaic" && themeIndex !== null) {
       setThemeIndex(null);
-      setSelectedPiece(null);
+      setDragging(null);
+      dragRef.current = null;
       setMosaicResult("idle");
       setPreviewOpen(false);
       return;
@@ -127,7 +157,8 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
     setThemeIndex(index);
     setPuzzleIndex(0);
     setOrder(makePuzzleOrder(difficulty));
-    setSelectedPiece(null);
+    setDragging(null);
+    dragRef.current = null;
     setMosaicResult("idle");
     setPreviewUses(0);
     setPreviewOpen(false);
@@ -136,35 +167,58 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
   function choosePuzzle(index: number) {
     setPuzzleIndex(index);
     setOrder(makePuzzleOrder(difficulty));
-    setSelectedPiece(null);
+    setDragging(null);
+    dragRef.current = null;
     setMosaicResult("idle");
     setPreviewUses(0);
     setPreviewOpen(false);
   }
 
-  function movePiece(position: number) {
+  function startPieceDrag(event: ReactPointerEvent<HTMLButtonElement>, position: number) {
     if (mosaicResult === "right") return;
-    if (selectedPiece === null) {
-      setSelectedPiece(position);
-      return;
-    }
-    if (selectedPiece === position) {
-      setSelectedPiece(null);
-      return;
-    }
-    setOrder((current) => {
-      const next = [...current];
-      [next[selectedPiece], next[position]] = [next[position], next[selectedPiece]];
+    const next = { position, startX: event.clientX, startY: event.clientY, x: 0, y: 0 };
+    dragRef.current = next;
+    setDragging(next);
+    event.currentTarget.setPointerCapture(event.pointerId);
+  }
+
+  function movePieceDrag(event: ReactPointerEvent<HTMLButtonElement>) {
+    const current = dragRef.current;
+    if (!current) return;
+    event.preventDefault();
+    const next = {
+      ...current,
+      x: event.clientX - current.startX,
+      y: event.clientY - current.startY,
+    };
+    dragRef.current = next;
+    setDragging(next);
+  }
+
+  function finishPieceDrag(event: ReactPointerEvent<HTMLButtonElement>) {
+    const current = dragRef.current;
+    dragRef.current = null;
+    setDragging(null);
+    if (!current || !boardRef.current) return;
+    const bounds = boardRef.current.getBoundingClientRect();
+    const column = Math.floor(((event.clientX - bounds.left) / bounds.width) * puzzleColumns);
+    const row = Math.floor(((event.clientY - bounds.top) / bounds.height) * 3);
+    if (column < 0 || column >= puzzleColumns || row < 0 || row >= 3) return;
+    const target = row * puzzleColumns + column;
+    if (target === current.position || target >= order.length) return;
+    setOrder((pieces) => {
+      const next = [...pieces];
+      [next[current.position], next[target]] = [next[target], next[current.position]];
       return next;
     });
-    setSelectedPiece(null);
     setMosaicResult("idle");
   }
 
   function chooseDifficulty(size: number) {
     setDifficulty(size);
     setOrder(makePuzzleOrder(size));
-    setSelectedPiece(null);
+    setDragging(null);
+    dragRef.current = null;
     setMosaicResult("idle");
   }
 
@@ -283,25 +337,48 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
           </button>
           <div className="mosaic-workspace">
             <div
+              ref={boardRef}
               className={`mosaic-board ${mosaicResult === "right" ? "checked-correct" : ""}`}
               style={{ gridTemplateColumns: `repeat(${puzzleColumns}, 1fr)` }}
             >
               {order.map((piece, position) => {
                 const row = Math.floor(piece / puzzleColumns);
                 const column = piece % puzzleColumns;
+                const shape = puzzlePiecePath(piece, puzzleColumns);
+                const clipId = `piece-clip-${difficulty}-${piece}-${position}`;
+                const isDragging = dragging?.position === position;
                 return (
                   <button
                     key={`${puzzle.image}-${difficulty}-${position}`}
-                    className={selectedPiece === position ? "selected" : ""}
+                    className={isDragging ? "dragging" : ""}
                     aria-label={`${position + 1}-гӀа дакъа`}
                     disabled={mosaicResult === "right"}
-                    onClick={() => movePiece(position)}
+                    onPointerDown={(event) => startPieceDrag(event, position)}
+                    onPointerMove={movePieceDrag}
+                    onPointerUp={finishPieceDrag}
+                    onPointerCancel={() => { dragRef.current = null; setDragging(null); }}
                     style={{
-                      backgroundImage: `url(${puzzle.image})`,
-                      backgroundSize: `${puzzleColumns * 100}% 300%`,
-                      backgroundPosition: `${(column / (puzzleColumns - 1)) * 100}% ${row * 50}%`,
+                      transform: isDragging ? `translate3d(${dragging.x}px, ${dragging.y}px, 0) scale(1.06)` : undefined,
+                      zIndex: isDragging ? 20 : undefined,
                     }}
-                  />
+                  >
+                    <svg className="mosaic-piece" viewBox="-16 -16 132 132" preserveAspectRatio="none" aria-hidden="true">
+                      <defs>
+                        <clipPath id={clipId} clipPathUnits="userSpaceOnUse"><path d={shape} /></clipPath>
+                      </defs>
+                      <g clipPath={`url(#${clipId})`}>
+                        <image
+                          href={puzzle.image}
+                          x={-column * 100}
+                          y={-row * 100}
+                          width={puzzleColumns * 100}
+                          height="300"
+                          preserveAspectRatio="none"
+                        />
+                      </g>
+                      <path className="mosaic-piece-edge" d={shape} />
+                    </svg>
+                  </button>
                 );
               })}
             </div>
@@ -315,7 +392,7 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
             ) : (
               <button className="game-main-button" onClick={() => setMosaicResult(solved ? "right" : "wrong")}>Таллам бе</button>
             )}
-            <button className="shuffle-puzzle icon-label" onClick={() => { setOrder(makePuzzleOrder(difficulty)); setSelectedPiece(null); setMosaicResult("idle"); }}>
+            <button className="shuffle-puzzle icon-label" onClick={() => { setOrder(makePuzzleOrder(difficulty)); setDragging(null); dragRef.current = null; setMosaicResult("idle"); }}>
               <AppIcon name="refresh" /> Юха кегаде
             </button>
           </div>
