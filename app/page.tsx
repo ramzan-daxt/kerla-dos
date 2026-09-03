@@ -173,7 +173,7 @@ const illustratedWords: Record<string, string> = {
     "body:bone": "/illustrations/body/bone.png",
     "body:skin": "/illustrations/body/skin.png",
     "body:nail": "/illustrations/body/nail.png",
-    "body:body": "/illustrations/alphabet/person.png"
+    "body:body": "/illustrations/body/body-full.png"
 };
 categories.forEach(category => category.words.forEach(word => { word.image = illustratedWords[`${category.id}:${word.id}`] || word.image; }));
 function LockedWords({ words }: {
