@@ -78,3 +78,54 @@ footer{padding:35px;text-align:center;background:#27332c;color:#fff}footer span{
   .alphabet-letter-corner.compound-letter strong,.alphabet-letter-corner.long-letter strong{font-size:70px}
   .alphabet-letter-corner.compound-letter span,.alphabet-letter-corner.long-letter span{font-size:48px}
 }
+
+/* Phone alphabet composition: keep the card book-like, not viewport-tall. */
+@media(max-width:760px){
+  .learn-area:has(.alphabet-stage){padding-top:4px;padding-bottom:28px}
+  .alphabet-stage{width:min(100%,430px);max-width:430px;padding:0;overflow:hidden}
+  .alphabet-card{
+    box-sizing:border-box;
+    width:100%;
+    max-width:430px;
+    min-height:0;
+    padding:16px 18px 18px;
+    border-radius:30px;
+  }
+  .alphabet-layout{height:clamp(340px,92vw,390px);min-height:0;padding:0}
+  .alphabet-picture{height:100%;border-radius:22px}
+  .alphabet-picture img{
+    top:88px;
+    right:8px;
+    bottom:4px;
+    left:8px;
+    width:calc(100% - 16px);
+    height:calc(100% - 92px);
+  }
+  .alphabet-letter-corner,
+  .alphabet-letter-corner.compound-letter,
+  .alphabet-letter-corner.long-letter{top:20px;left:16px;gap:12px}
+  .alphabet-letter-corner strong,
+  .alphabet-letter-corner.compound-letter strong,
+  .alphabet-letter-corner.long-letter strong{font-size:82px;letter-spacing:-2px}
+  .alphabet-letter-corner span,
+  .alphabet-letter-corner.compound-letter span,
+  .alphabet-letter-corner.long-letter span{font-size:56px;letter-spacing:0}
+  .alphabet-card>.play{top:16px;right:16px}
+  .alphabet-card h2{margin:7px 0 0;font-size:34px;line-height:1.15}
+  .alphabet-stage .pager{margin-top:10px}
+}
+
+@media(max-width:359px){
+  .alphabet-stage{width:calc(100% - 8px)}
+  .alphabet-card{padding-right:14px;padding-left:14px}
+  .alphabet-layout{height:330px}
+  .alphabet-letter-corner,
+  .alphabet-letter-corner.compound-letter,
+  .alphabet-letter-corner.long-letter{left:12px;gap:9px}
+  .alphabet-letter-corner strong,
+  .alphabet-letter-corner.compound-letter strong,
+  .alphabet-letter-corner.long-letter strong{font-size:74px}
+  .alphabet-letter-corner span,
+  .alphabet-letter-corner.compound-letter span,
+  .alphabet-letter-corner.long-letter span{font-size:50px}
+}
