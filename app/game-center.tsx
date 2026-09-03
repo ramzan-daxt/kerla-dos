@@ -81,6 +81,7 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
   const [puzzleIndex, setPuzzleIndex] = useState(0);
   const [order, setOrder] = useState<number[]>(makePuzzleOrder);
   const [selectedPiece, setSelectedPiece] = useState<number | null>(null);
+  const [mosaicResult, setMosaicResult] = useState<Result>("idle");
 
   const theme = themeIndex === null ? null : mosaicThemes[themeIndex];
   const puzzle = theme?.puzzles[puzzleIndex % theme.puzzles.length];
@@ -91,6 +92,7 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
     if (screen === "mosaic" && themeIndex !== null) {
       setThemeIndex(null);
       setSelectedPiece(null);
+      setMosaicResult("idle");
       return;
     }
     setScreen("hub");
@@ -125,16 +127,18 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
     setPuzzleIndex(0);
     setOrder(makePuzzleOrder());
     setSelectedPiece(null);
+    setMosaicResult("idle");
   }
 
   function choosePuzzle(index: number) {
     setPuzzleIndex(index);
     setOrder(makePuzzleOrder());
     setSelectedPiece(null);
+    setMosaicResult("idle");
   }
 
   function movePiece(position: number) {
-    if (solved) return;
+    if (mosaicResult === "right") return;
     if (selectedPiece === null) {
       setSelectedPiece(position);
       return;
@@ -149,6 +153,7 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
       return next;
     });
     setSelectedPiece(null);
+    setMosaicResult("idle");
   }
 
   return (
@@ -245,7 +250,7 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
           </div>
           <div className="mosaic-workspace">
             <div className="mosaic-reference"><img src={puzzle.image} alt="" /><small>Масал</small></div>
-            <div className={`mosaic-board ${solved ? "solved" : ""}`}>
+            <div className={`mosaic-board ${mosaicResult === "right" ? "checked-correct" : ""}`}>
               {order.map((piece, position) => {
                 const row = Math.floor(piece / 3);
                 const column = piece % 3;
@@ -254,6 +259,7 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
                     key={`${puzzle.image}-${position}`}
                     className={selectedPiece === position ? "selected" : ""}
                     aria-label={`${position + 1}-гӀа дакъа`}
+                    disabled={mosaicResult === "right"}
                     onClick={() => movePiece(position)}
                     style={{
                       backgroundImage: `url(${puzzle.image})`,
@@ -264,10 +270,19 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
               })}
             </div>
           </div>
-          <p className={`mosaic-feedback ${solved ? "right" : ""}`}>{solved ? "Сурт гулделла!" : "Ши дакъа тӀетаӀайе — царна меттигаш хийца"}</p>
-          <button className="shuffle-puzzle icon-label" onClick={() => { setOrder(makePuzzleOrder()); setSelectedPiece(null); }}>
-            <AppIcon name="refresh" /> Юха кегаде
-          </button>
+          <p className={`mosaic-feedback ${mosaicResult}`}>
+            {mosaicResult === "right" ? "Нийса! Сурт гулделла." : mosaicResult === "wrong" ? "Дакъош нийса дац — юха хьажа" : "Ши дакъа тӀетаӀайе — царна меттигаш хийца"}
+          </p>
+          <div className="mosaic-actions">
+            {mosaicResult === "right" ? (
+              <button className="game-main-button" onClick={() => choosePuzzle((puzzleIndex + 1) % theme.puzzles.length)}>Кхин сурт</button>
+            ) : (
+              <button className="game-main-button" onClick={() => setMosaicResult(solved ? "right" : "wrong")}>Таллам бе</button>
+            )}
+            <button className="shuffle-puzzle icon-label" onClick={() => { setOrder(makePuzzleOrder()); setSelectedPiece(null); setMosaicResult("idle"); }}>
+              <AppIcon name="refresh" /> Юха кегаде
+            </button>
+          </div>
         </section>
       )}
     </main>
