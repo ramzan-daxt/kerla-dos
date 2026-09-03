@@ -76,6 +76,20 @@ const alphabetImages: Record<string, string> = {
     "адам": "/illustrations/alphabet/person.png", "аьрзу": "/illustrations/alphabet/eagle.png", "борз": "/illustrations/animals/wolf.png", "ваша": "/illustrations/family/brother.png", "говр": "/illustrations/animals/horse.png", "гӀала": "/illustrations/alphabet/city.png", "да": "/illustrations/family/father.png", "йетт": "/illustrations/animals/cow.png", "жижиг": "/illustrations/alphabet/meat.png", "зезаг": "/illustrations/alphabet/flower.png", "шун": "/illustrations/alphabet/table.png", "йиша": "/illustrations/family/sister.png", "кор": "/illustrations/alphabet/window.png", "кхор": "/illustrations/alphabet/pear.png", "къолам": "/illustrations/alphabet/pencil.png", "кӀант": "/illustrations/family/son.png", "лам": "/illustrations/alphabet/mountain.png", "малх": "/illustrations/alphabet/sun.png", "нана": "/illustrations/family/mother.png", "олхазар": "/illustrations/alphabet/bird.png", "оьпа": "/illustrations/alphabet/ground-squirrel.png", "пен": "/illustrations/alphabet/wall.png", "пӀелг": "/illustrations/alphabet/finger.png", "руьйта": "/illustrations/alphabet/watering-place.png", "седа": "/illustrations/alphabet/star.png", "тхов": "/illustrations/alphabet/roof.png", "тӀулг": "/illustrations/alphabet/stone.png", "урам": "/illustrations/alphabet/street.png", "уьстагӀ": "/illustrations/animals/sheep.png", "хи": "/illustrations/alphabet/water.png", "хьач": "/illustrations/alphabet/plums.png", "хӀаваъ": "/illustrations/alphabet/air.png", "цициг": "/illustrations/animals/cat.png", "цӀа": "/illustrations/alphabet/house.png", "ча": "/illustrations/animals/bear.png", "чӀара": "/illustrations/alphabet/fish.png", "шура": "/illustrations/alphabet/milk.png", "шиъ": "/illustrations/alphabet/two.png", "туьйра": "/illustrations/alphabet/fairytale.png", "эса": "/illustrations/animals/calf.png", "йурт": "/illustrations/alphabet/village.png", "йуьхь": "/illustrations/alphabet/face.png", "йаздархо": "/illustrations/alphabet/writer.png", "Ӏаж": "/illustrations/alphabet/apple.png"
 };
 categories.push({ id: "alphabet", title: "Абат", russian: "Чеченский алфавит", icon: "Аь", accent: "#ee795b", words: alphabetExamples.map(([letter, example, visual, russian], i) => ({ id: `letter-${i + 1}`, chechen: letter, russian, visual, example, image: `/illustrations/alphabet/cards/letter-${i + 1}.png?v=4` })) });
+const recordedAudioByWord = new Map<string, string>();
+const recordedCategoryIds = new Set(["family", "colors", "animals"]);
+categories.forEach(category => {
+    if (!recordedCategoryIds.has(category.id))
+        return;
+    category.words.forEach(word => {
+        word.audioSrc = `/audio/${category.id}/${word.id}.wav`;
+        recordedAudioByWord.set(word.chechen.toLocaleLowerCase(), word.audioSrc);
+    });
+});
+categories.forEach(category => category.words.forEach(word => {
+    const spokenWord = category.id === "alphabet" ? word.example : word.chechen;
+    word.audioSrc ||= recordedAudioByWord.get((spokenWord || "").toLocaleLowerCase());
+}));
 const categoryIcons: Record<string, string> = {
     alphabet: "/icons/categories/alphabet.png", numbers: "/icons/categories/numbers.png", family: "/icons/categories/family.png",
     colors: "/icons/categories/colors.png", animals: "/icons/categories/animals.png", body: "/icons/categories/body.png",
@@ -206,7 +220,7 @@ export default function Home() {
         say();
     } }); }
     function speakAlphabetPart(w: Word, part: "letter" | "word") { if (muted)
-        return; audio.current?.pause(); speechSynthesis.cancel(); const text = part === "letter" ? w.chechen.split(" ")[0] : (w.example || w.chechen); const clip = new Audio(`/audio/alphabet/${w.id}-${part}.mp3`); clip.volume = settings.volume; audio.current = clip; clip.play().catch(() => { if ("speechSynthesis" in window) {
+        return; audio.current?.pause(); speechSynthesis.cancel(); const text = part === "letter" ? w.chechen.split(" ")[0] : (w.example || w.chechen); const clip = new Audio(part === "word" && w.audioSrc ? w.audioSrc : `/audio/alphabet/${w.id}-${part}.mp3`); clip.volume = settings.volume; audio.current = clip; clip.play().catch(() => { if ("speechSynthesis" in window) {
         const u = new SpeechSynthesisUtterance(text);
         u.lang = "ru-RU";
         u.rate = settings.rate;
@@ -250,7 +264,7 @@ export default function Home() {
         const word = active.words[index];
         active.id === "alphabet" ? speakAlphabetPart(word, "letter") : speak(word);
     } }, [active?.id, index, settings.autoSpeak]);
-    const learningItems: LearningItem[] = categories.filter(c => c.id !== "alphabet" && (premium || freeCategoryIds.has(c.id))).flatMap(c => c.words.map(w => ({ key: `${c.id}:${w.id}`, word: tx(w.chechen), visual: w.visual, category: tx(c.title), color: w.color, image: w.image })));
+    const learningItems: LearningItem[] = categories.filter(c => c.id !== "alphabet" && (premium || freeCategoryIds.has(c.id))).flatMap(c => c.words.map(w => ({ key: `${c.id}:${w.id}`, word: tx(w.chechen), visual: w.visual, category: tx(c.title), color: w.color, image: w.image, audioSrc: w.audioSrc })));
     function toggleFavorite(key: string) { setFavorites(current => { const next = current.includes(key) ? current.filter(x => x !== key) : [...current, key]; localStorage.setItem("kerla-favorites", JSON.stringify(next)); return next; }); }
     if (homeView)
         return <HomeExtras view={homeView} items={learningItems} favorites={favorites} onFavorite={toggleFavorite} onBack={() => setHomeView(null)} rate={settings.rate} volume={settings.volume} latin={settings.script === "latin"} premium={premium}/>;
