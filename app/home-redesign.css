@@ -883,6 +883,10 @@
   overflow: hidden;
 }
 
+.home-shell .games-direction{background:#e6f3ed}.home-shell .games-direction>span{display:grid;place-items:center;border-radius:16px;background:#fff;color:#267665}.home-shell .games-direction .app-icon{width:34px;height:34px}
+
+@media(min-width:761px){.home-shell .direction-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
 .home-shell .stories-direction::after {
   content: "";
   position: absolute;

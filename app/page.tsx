@@ -1009,7 +1009,7 @@ export default function Home() {
     [settingsOpen, setSettingsOpen] = useState(false),
     [settings, setSettings] = useState<Settings>(defaultSettings),
     [homeView, setHomeView] = useState<
-      "categories" | "random" | "favorites" | "stories" | null
+      "categories" | "random" | "favorites" | "stories" | "games" | null
     >(null),
     [favorites, setFavorites] = useState<string[]>([]),
     [lastLesson, setLastLesson] = useState<LessonPosition | null>(null),
@@ -1829,6 +1829,14 @@ export default function Home() {
         </section>
         <section className="content-directions">
           <div className="direction-grid">
+            <button
+              className="direction-card games-direction"
+              onClick={() => setHomeView("games")}
+            >
+              <span><AppIcon name="puzzle" /></span>
+              <strong>Ловзарш</strong>
+              <small>Дош гулде · мозаика</small>
+            </button>
             <button
               className="direction-card random-direction"
               onClick={() => setHomeView("random")}

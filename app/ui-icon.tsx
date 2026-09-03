@@ -3,7 +3,7 @@ import type { SVGProps } from "react";
 export type AppIconName =
     | "arrow-left" | "arrow-right" | "book" | "check" | "close" | "dice"
     | "heart" | "heart-filled" | "lock" | "mute" | "pause" | "play"
-    | "refresh" | "settings" | "sound" | "sparkle" | "star" | "target" | "turtle" | "unlock";
+    | "puzzle" | "refresh" | "settings" | "sound" | "sparkle" | "star" | "target" | "turtle" | "unlock";
 
 type IconProps = SVGProps<SVGSVGElement> & { name: AppIconName };
 
@@ -35,6 +35,7 @@ export default function AppIcon({ name, className = "", ...props }: IconProps) {
         case "arrow-right": return <svg {...common}><path d="M5 12h14m-5.5-5.5L19 12l-5.5 5.5"/></svg>;
         case "refresh": return <svg {...common}><path d="M19.3 8A8 8 0 1 0 20 14m-.7-6V3.8M19.3 8H15"/></svg>;
         case "dice": return <svg {...common}><rect className="icon-soft" x="3.5" y="3.5" width="17" height="17" rx="4"/><circle className="icon-dot" cx="8" cy="8" r="1.2"/><circle className="icon-dot" cx="16" cy="8" r="1.2"/><circle className="icon-dot" cx="12" cy="12" r="1.2"/><circle className="icon-dot" cx="8" cy="16" r="1.2"/><circle className="icon-dot" cx="16" cy="16" r="1.2"/></svg>;
+        case "puzzle": return <svg {...common}><path className="icon-soft" d="M4 4h6.2a2.7 2.7 0 1 0 5.4 0H20v6.1a2.7 2.7 0 1 1 0 5.4V20h-6.1a2.7 2.7 0 1 0-5.4 0H4v-6.1a2.7 2.7 0 1 1 0-5.4z"/></svg>;
         case "check": return <svg {...common}><circle className="icon-soft" cx="12" cy="12" r="9"/><path d="m7.8 12.2 2.7 2.8 5.8-6"/></svg>;
         case "close": return <svg {...common}><path d="m6.5 6.5 11 11m0-11-11 11"/></svg>;
         case "turtle": return <svg {...common}><path className="icon-soft" d="M6 14.5a6 6 0 0 1 12 0z"/><circle cx="19.5" cy="14" r="1.8"/><path d="M7 15.5 5.5 18M16.5 15.5 18 18M9 9.8l3 4.7 3-4.7"/></svg>;
