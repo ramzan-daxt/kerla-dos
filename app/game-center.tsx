@@ -20,23 +20,13 @@ const mosaicThemes = [
     ],
   },
   {
-    id: "nature",
-    title: "Ӏалам",
-    note: "Лам, хи, малх",
+    id: "fairytale-scenes",
+    title: "Туьйран сурташ",
+    note: "Дуьззина сюжетан сурташ",
     puzzles: [
-      { title: "Лам", image: "/illustrations/alphabet/mountain.png" },
-      { title: "Хи", image: "/illustrations/alphabet/water.png" },
-      { title: "Малх", image: "/illustrations/alphabet/sun.png" },
-    ],
-  },
-  {
-    id: "animals",
-    title: "Дийнаташ",
-    note: "Борз, говр, аьрзу",
-    puzzles: [
-      { title: "Борз", image: "/illustrations/animals/wolf.png" },
-      { title: "Говр", image: "/illustrations/animals/horse.png" },
-      { title: "Аьрзу", image: "/illustrations/alphabet/eagle.png" },
+      { title: "Ловзуш Ӏахарш", image: "/stories/borz-ka/scene-01.png" },
+      { title: "Борз а, цхьогал а", image: "/stories/borz-ka/scene-06.png" },
+      { title: "Къена ка а, жӀаьла а", image: "/stories/borz-ka/scene-11.png" },
     ],
   },
 ] as const;
