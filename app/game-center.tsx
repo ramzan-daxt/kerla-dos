@@ -83,6 +83,8 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
   const [order, setOrder] = useState<number[]>(() => makePuzzleOrder(9));
   const [selectedPiece, setSelectedPiece] = useState<number | null>(null);
   const [mosaicResult, setMosaicResult] = useState<Result>("idle");
+  const [previewUses, setPreviewUses] = useState(0);
+  const [previewOpen, setPreviewOpen] = useState(false);
 
   const theme = themeIndex === null ? null : mosaicThemes[themeIndex];
   const puzzle = theme?.puzzles[puzzleIndex % theme.puzzles.length];
@@ -95,6 +97,7 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
       setThemeIndex(null);
       setSelectedPiece(null);
       setMosaicResult("idle");
+      setPreviewOpen(false);
       return;
     }
     setScreen("hub");
@@ -136,6 +139,8 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
     setOrder(makePuzzleOrder(difficulty));
     setSelectedPiece(null);
     setMosaicResult("idle");
+    setPreviewUses(0);
+    setPreviewOpen(false);
   }
 
   function choosePuzzle(index: number) {
@@ -143,6 +148,8 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
     setOrder(makePuzzleOrder(difficulty));
     setSelectedPiece(null);
     setMosaicResult("idle");
+    setPreviewUses(0);
+    setPreviewOpen(false);
   }
 
   function movePiece(position: number) {
@@ -169,6 +176,12 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
     setOrder(makePuzzleOrder(size));
     setSelectedPiece(null);
     setMosaicResult("idle");
+  }
+
+  function openPuzzlePreview() {
+    if (previewUses >= 3) return;
+    setPreviewUses((current) => current + 1);
+    setPreviewOpen(true);
   }
 
   return (
@@ -269,8 +282,16 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
               <button className={difficulty === size ? "active" : ""} key={size} onClick={() => chooseDifficulty(size)}>{size}</button>
             ))}
           </div>
+          <button
+            className="mosaic-preview-button icon-label"
+            disabled={previewUses >= 3}
+            onClick={openPuzzlePreview}
+            aria-haspopup="dialog"
+          >
+            <AppIcon name="eye" />
+            {previewUses < 3 ? `Сурт хьажа · ${3 - previewUses}` : "Сурт хьажна"}
+          </button>
           <div className="mosaic-workspace">
-            <div className="mosaic-reference"><img src={puzzle.image} alt="" /><small>Масал</small></div>
             <div
               className={`mosaic-board ${mosaicResult === "right" ? "checked-correct" : ""}`}
               style={{ gridTemplateColumns: `repeat(${puzzleColumns}, 1fr)` }}
@@ -308,6 +329,18 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
               <AppIcon name="refresh" /> Юха кегаде
             </button>
           </div>
+          {previewOpen && (
+            <div className="mosaic-preview-dialog" role="dialog" aria-modal="true" aria-label={puzzle.title} onClick={() => setPreviewOpen(false)}>
+              <div onClick={(event) => event.stopPropagation()}>
+                <button className="mosaic-preview-close" onClick={() => setPreviewOpen(false)} aria-label="ДӀакъовла">
+                  <AppIcon name="close" />
+                </button>
+                <img src={puzzle.image} alt={puzzle.title} />
+                <strong>{puzzle.title}</strong>
+                <small>{3 - previewUses} юха хьажа йиш ю</small>
+              </div>
+            </div>
+          )}
         </section>
       )}
     </main>

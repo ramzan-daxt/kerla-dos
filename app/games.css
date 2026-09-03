@@ -9,3 +9,17 @@
 .mosaic-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
 .mosaic-actions .shuffle-puzzle{margin:0}
 .mosaic-difficulty{display:flex;align-items:center;justify-content:center;gap:8px;margin:-5px 0 18px}.mosaic-difficulty span{margin-right:3px;color:#758079;font-weight:800}.mosaic-difficulty button{min-width:50px;padding:9px 12px;border:2px solid transparent;border-radius:13px;background:#fff;color:#315248;font-weight:900;box-shadow:0 3px 0 #ded7cb}.mosaic-difficulty button.active{border-color:#2f806f;background:#e7f3ed;color:#205f52}.mosaic-reference img{aspect-ratio:3/2;object-fit:cover}.mosaic-board{aspect-ratio:3/2}
+
+/* The finished picture is a limited hint instead of a permanent reference. */
+.mosaic-workspace{display:flex;justify-content:center}
+.mosaic-preview-button{display:flex;align-items:center;justify-content:center;gap:8px;margin:-5px auto 17px;padding:11px 17px;border:1px solid #d8ddd9;border-radius:999px;background:#fff;color:#214b40;font-weight:900;box-shadow:0 4px 12px #29463d12}
+.mosaic-preview-button .app-icon{width:21px;height:21px}
+.mosaic-preview-button:disabled{color:#929a95;background:#f2f2ef;box-shadow:none;cursor:default}
+.mosaic-preview-dialog{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:22px;background:#14251fba;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.mosaic-preview-dialog>div{position:relative;width:min(100%,680px);padding:14px 14px 18px;border-radius:28px;background:#fff;box-shadow:0 28px 80px #0005}
+.mosaic-preview-dialog img{display:block;width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:18px}
+.mosaic-preview-dialog strong{display:block;margin:14px 52px 2px;font-size:23px}
+.mosaic-preview-dialog small{display:block;color:#7a837e;font-weight:800}
+.mosaic-preview-close{position:absolute;top:25px;right:25px;width:44px;height:44px;display:grid;place-items:center;border:0;border-radius:50%;background:#fff;color:#183d33;box-shadow:0 5px 18px #17231e26}
+.mosaic-preview-close .app-icon{width:22px;height:22px}
+@media(max-width:760px){.mosaic-preview-dialog{padding:14px}.mosaic-preview-dialog>div{padding:10px 10px 16px;border-radius:23px}.mosaic-preview-dialog img{border-radius:15px}.mosaic-preview-close{top:18px;right:18px}.mosaic-preview-dialog strong{margin-top:12px;font-size:20px}}
