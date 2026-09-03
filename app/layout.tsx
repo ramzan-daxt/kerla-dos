@@ -17,6 +17,7 @@ import "./full-story.css";
 import "./ui-icons.css";
 import "./phone.css";
 import "./tablet.css";
+import "./home-redesign.css";
 
 const nunito = Nunito({
   variable: "--font-nunito",
