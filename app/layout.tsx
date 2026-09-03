@@ -16,6 +16,7 @@ import "./icon-assets.css";
 import "./full-story.css";
 import "./ui-icons.css";
 import "./phone.css";
+import "./tablet.css";
 
 const nunito = Nunito({
   variable: "--font-nunito",
@@ -59,6 +60,13 @@ export default function RootLayout({
           "--font-comfortaa": comfortaa.style.fontFamily,
         } as CSSProperties}
       >
+        <div className="phone-portrait-gate" role="status" aria-label="Телефон нисса хӀоттабе">
+          <div className="phone-portrait-picture" aria-hidden="true">
+            <span />
+          </div>
+          <strong>Телефон нисса хӀоттабе</strong>
+          <small>KERLA DOŞ</small>
+        </div>
         {children}
       </body>
     </html>
