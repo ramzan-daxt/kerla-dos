@@ -1685,9 +1685,6 @@ export default function Home() {
             </h1>
             <p>Хьажа а, ладогӀа а, Ӏамаде а, ловза а</p>
           </div>
-          <div className="hero-symbols" aria-hidden="true">
-            <span>А</span><span>Ӏ</span><span>1</span>
-          </div>
         </section>
         <section className="home-progress" aria-label="Кхиам">
           <div className="progress-heading" aria-hidden="true">

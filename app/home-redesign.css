@@ -596,3 +596,234 @@
   .home-section-title::after,
   .home-shell .direction-title::after { width: 27%; }
 }
+
+/* Istang direction: one restrained Chechen motif, calm felt-like surfaces. */
+.home-shell,
+.category-library {
+  --home-green: #174b43;
+  --home-deep: #123a35;
+  --home-coral: #a84738;
+  --home-gold: #c79a36;
+  --home-paper: #f5efe4;
+  background: var(--home-paper);
+}
+
+.home-shell::before,
+.category-library::before {
+  height: 11px;
+  background: var(--home-deep);
+}
+
+.home-shell .hero {
+  min-height: 188px;
+  isolation: isolate;
+  padding: 31px 44px 35px;
+  overflow: hidden;
+  border-radius: 28px;
+  background: var(--home-deep);
+  box-shadow: 0 8px 0 #dfd4c1;
+}
+
+.home-shell .hero::before {
+  inset: auto 35px 15px auto;
+  width: 250px;
+  height: 45px;
+  opacity: .62;
+  background: url("/ornaments/istang-divider.svg") center / contain no-repeat;
+}
+
+.home-shell .hero::after {
+  inset: -28px -36px auto auto;
+  z-index: -1;
+  width: 180px;
+  height: 180px;
+  border: 0;
+  border-radius: 50%;
+  opacity: .08;
+  background: #f5efe4;
+}
+
+.home-shell .hero h1 {
+  max-width: 570px;
+  letter-spacing: -1.8px;
+}
+
+.home-shell .hero h1 span { color: #e9826f; }
+.hero-symbols { display: none; }
+
+.progress-heading {
+  grid-template-columns: auto minmax(90px, 210px);
+  justify-content: start;
+  gap: 16px;
+}
+
+.progress-heading span { display: none; }
+
+.progress-heading small {
+  color: var(--home-deep);
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.progress-heading i {
+  width: 210px;
+  height: 25px;
+  opacity: .8;
+  background: url("/ornaments/istang-divider.svg") center / contain no-repeat;
+}
+
+.home-progress {
+  grid-template-columns: minmax(0, 1.45fr) minmax(330px, .8fr);
+  gap: 10px 22px;
+}
+
+.continue-lesson {
+  padding: 15px 18px;
+  overflow: visible;
+  border: 1px solid #ddd1bd;
+  border-radius: 24px;
+  background: #fffdf8;
+  box-shadow: 0 6px 0 #ddd4c5;
+}
+
+.continue-lesson::before,
+.continue-art::after,
+.continue-copy > i > b::after { display: none; }
+
+.continue-art {
+  width: 70px;
+  border: 0;
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--resume-accent) 13%, #f5efe4);
+  box-shadow: none;
+}
+
+.continue-copy small {
+  color: #906e25;
+  font-size: 12px;
+}
+
+.continue-copy > i {
+  height: 6px;
+  background: #e9e1d5;
+  box-shadow: none;
+}
+
+.continue-copy > i > b { background: var(--home-green); }
+
+.continue-arrow {
+  width: 35px;
+  height: 35px;
+  background: var(--home-green);
+  box-shadow: none;
+}
+
+.home-stats {
+  gap: 0;
+  align-items: center;
+  border-top: 1px solid #dacdb9;
+  border-bottom: 1px solid #dacdb9;
+}
+
+.home-stats > span {
+  min-height: 68px;
+  padding: 9px 8px;
+  border: 0;
+  border-radius: 0;
+  background: transparent !important;
+  box-shadow: none;
+}
+
+.home-stats > span + span { border-left: 1px solid #dacdb9; }
+.home-stats > span::after { display: none; }
+.home-stats svg { width: 20px; height: 20px; }
+.home-stats b { font-size: 22px; }
+.home-stats small { color: #59655f; font-size: 12px; }
+
+.home-section-title::after,
+.home-shell .direction-title::after {
+  top: 1px;
+  width: min(32%, 220px);
+  height: 28px;
+  opacity: .75;
+  background: url("/ornaments/istang-divider.svg") center / contain no-repeat;
+}
+
+.home-shell .feature-card {
+  border: 1px solid #ded3c1;
+  border-top: 1px solid #ded3c1;
+  border-radius: 24px;
+  background: #fffdf8;
+  box-shadow: 0 6px 0 #ddd4c5;
+}
+
+.home-shell .feature-card::after,
+.home-shell .feature-badge::after,
+.home-shell .category-preview::after { display: none; }
+
+.home-shell .feature-badge,
+.home-shell .category-preview {
+  border-radius: 18px;
+  box-shadow: none;
+}
+
+.home-shell .direction-card {
+  border: 1px solid #ded3c1;
+  border-bottom: 1px solid #ded3c1;
+  border-radius: 21px;
+  background: #fffdf8;
+  box-shadow: 0 5px 0 #ddd4c5;
+}
+
+.home-shell .direction-card > span {
+  border-radius: 17px;
+  background: color-mix(in srgb, var(--direction-accent) 13%, #f5efe4);
+}
+
+.category-library-head::after {
+  width: 230px;
+  height: 30px;
+  background: url("/ornaments/istang-divider.svg") center / contain no-repeat;
+}
+
+.category-tile {
+  border: 1px solid #ded3c1;
+  border-radius: 23px;
+  background: #fffdf8;
+  box-shadow: 0 5px 0 #ddd4c5;
+}
+
+@media (max-width: 900px) {
+  .home-progress { grid-template-columns: 1fr; }
+  .home-stats { min-height: 67px; }
+}
+
+@media (max-width: 760px) {
+  .home-shell::before,
+  .category-library::before { height: 8px; }
+  .home-shell .hero {
+    min-height: 158px;
+    padding: 23px 20px 29px;
+    border-radius: 22px;
+  }
+  .home-shell .hero::before {
+    right: 15px;
+    bottom: 11px;
+    width: 150px;
+    height: 30px;
+  }
+  .progress-heading { grid-template-columns: auto minmax(70px, 135px); }
+  .progress-heading i { width: 135px; height: 22px; }
+  .home-section-title::after,
+  .home-shell .direction-title::after { width: 120px; }
+  .home-shell .feature-card { border-radius: 20px; }
+  .home-shell .direction-card { border-radius: 18px; }
+}
+
+@media (max-width: 480px) {
+  .continue-lesson {
+    padding: 12px;
+    grid-template-columns: 58px minmax(0, 1fr) 32px;
+  }
+  .home-stats small { font-size: 10px; }
+}
