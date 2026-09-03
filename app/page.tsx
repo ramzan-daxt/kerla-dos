@@ -1690,6 +1690,11 @@ export default function Home() {
           </div>
         </section>
         <section className="home-progress" aria-label="Кхиам">
+          <div className="progress-heading" aria-hidden="true">
+            <span />
+            <small>САН КХИАМ</small>
+            <i />
+          </div>
           <button
             className="continue-lesson"
             onClick={() => open(resumeCategory, resumeIndex)}
