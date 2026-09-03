@@ -1,0 +1,51 @@
+.feature-badge img,
+.lesson > b img,
+.lesson-head .topic-icon img,
+.direction-card > span img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  user-select: none;
+}
+
+.feature-badge {
+  width: 190px;
+  min-width: 190px;
+  flex-basis: 190px;
+  overflow: hidden;
+}
+
+.feature-badge img {
+  width: 166px;
+  height: 88px;
+  max-width: none;
+  max-height: none;
+}
+
+.lesson > b img,
+.lesson-head .topic-icon img {
+  padding: 5px;
+}
+
+.direction-card > span {
+  display: block;
+  width: 62px;
+  height: 62px;
+  font-size: 0;
+}
+
+@media (max-width: 760px) {
+  .feature-badge {
+    width: 112px;
+    min-width: 112px;
+    flex-basis: 112px;
+  }
+
+  .feature-badge img {
+    width: 88px;
+    height: 64px;
+  }
+}

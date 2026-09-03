@@ -1,0 +1,57 @@
+.play .app-icon,
+.word-favorite .app-icon,
+.favorite-button .app-icon,
+.pager .app-icon,
+.listen-task .app-icon,
+.book-exit .app-icon,
+.tale-controls .app-icon,
+.close-paywall .app-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.word-favorite .app-icon,
+.favorite-button .app-icon { width: 28px; height: 28px; }
+.locked-topic-icon > .app-icon { width: 70px; height: 70px; color: var(--accent); }
+.locked-topic-icon i .app-icon { width: 25px; height: 25px; color: #b47b04; }
+.paywall-icon .app-icon { width: 52px; height: 52px; color: #9c7015; }
+.settings-panel header button .app-icon { width: 23px; height: 23px; }
+.progress-card > span .app-icon { width: 33px; height: 33px; }
+.story-stars .app-icon { width: 42px; height: 42px; }
+.story-stars button { color: #cabfae; }
+.story-stars button.chosen .icon-gold,
+.story-stars button:hover .icon-gold { fill: #f2b83f; stroke: #d99a23; }
+
+.story-grid b { overflow: hidden; padding: 0; }
+.story-grid b img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.story-grid > button:first-child > b { background: #f3ead5 !important; }
+.story-reader > div { width: min(100%, 520px); height: 230px; margin: 0 auto 22px; border-radius: 24px; overflow: hidden; }
+.story-reader > div img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.random-session button .app-icon { width: 16px; height: 16px; margin-right: 3px; vertical-align: -3px; }
+.empty-favorites > span .app-icon { width: 62px; height: 62px; }
+
+.lesson small .icon-label { display: inline-flex; flex: 0; flex-direction: row; align-items: center; gap: 5px; }
+.lesson small .app-icon { width: 16px; height: 16px; vertical-align: -3px; }
+body:not(.premium-open) .grid .lesson.paid-topic > em:after {
+  content: "";
+  width: 21px;
+  height: 21px;
+  display: block;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='5' y='10' width='14' height='11' rx='3'/%3E%3Cpath d='M8 10V7.5a4 4 0 0 1 8 0V10m-4 4v3'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='5' y='10' width='14' height='11' rx='3'/%3E%3Cpath d='M8 10V7.5a4 4 0 0 1 8 0V10m-4 4v3'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+
+.big-card:has(img[src*="/illustrations/numbers/"]) .illustrated-visual {
+  height: 330px;
+  margin-top: 48px;
+}
+.big-card:has(img[src*="/illustrations/numbers/"]) .illustrated-visual img {
+  padding: 8px 28px;
+}
+
+@media (max-width: 560px) {
+  .locked-topic-icon > .app-icon { width: 60px; height: 60px; }
+  .story-reader > div { height: 190px; }
+  .big-card:has(img[src*="/illustrations/numbers/"]) .illustrated-visual { height: 285px; }
+}

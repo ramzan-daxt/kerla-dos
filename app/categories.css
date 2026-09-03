@@ -1,0 +1,60 @@
+body:not(.premium-open) .grid .lesson.paid-topic {
+  position: relative;
+  background: #f1eee7;
+  color: #777d79;
+  box-shadow: none;
+}
+body:not(.premium-open) .grid .lesson.paid-topic > b { filter: grayscale(.75); opacity: .62; }
+body:not(.premium-open) .grid .lesson.paid-topic > em { font-size: 0; background: #d2cec4; }
+body:not(.premium-open) .grid .lesson.paid-topic small { font-size: 14px; color: #9a7a23; }
+.category-gate { min-height: 100vh; }
+.locked-topic {
+  --accent: #4d9d85;
+  width: min(100% - 28px, 520px);
+  margin: 35px auto 70px;
+  padding: 42px 35px 35px;
+  border-radius: 36px;
+  background: #fff;
+  text-align: center;
+  box-shadow: 0 18px 60px #362b181b;
+  border: 3px solid color-mix(in srgb, var(--accent) 22%, white);
+}
+.locked-topic-icon {
+  width: 130px;
+  height: 130px;
+  margin: 0 auto 23px;
+  border-radius: 38px;
+  background: color-mix(in srgb, var(--accent) 16%, white);
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+.locked-topic-icon i {
+  position: absolute;
+  right: -8px;
+  bottom: -8px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: #fff0c8;
+  display: grid;
+  place-items: center;
+  font-style: normal;
+  box-shadow: 0 4px 14px #58451724;
+}
+.locked-topic > small { font-size: 12px; letter-spacing: 2px; color: #a17a1b; font-weight: 900; }
+.locked-topic h1 { font-size: 38px; letter-spacing: -1px; margin: 7px 0 8px; color: var(--accent); }
+.locked-topic p { color: #747d77; margin: 0 0 23px; }
+.locked-topic strong { display: block; font-size: 42px; color: #f06e52; }
+.locked-topic > span { display: block; color: #8d938f; font-size: 13px; margin: 4px 0 22px; }
+.locked-topic .buy-button { max-width: 360px; }
+.category-gate > header { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); }
+.category-gate > header .back { justify-self: start; }
+.category-gate > header .brand { justify-self: center; }
+.category-gate > header .stars { justify-self: end; margin-left: 0; }
+
+@media (max-width: 560px) {
+  .locked-topic { padding: 34px 22px 28px; }
+  .locked-topic-icon { width: 110px; height: 110px; }
+  .locked-topic h1 { font-size: 31px; }
+}
