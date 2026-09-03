@@ -931,4 +931,8 @@
   .continue-copy strong {
     max-width: 100%;
   }
+
+  .home-shell .hero h1 {
+    word-spacing: .12em;
+  }
 }
