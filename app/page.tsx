@@ -139,7 +139,27 @@ const illustratedWords: Record<string, string> = {
     "animals:bull": "/illustrations/animals/bull.png",
     "animals:calf": "/illustrations/animals/calf.png",
     "animals:tiger": "/illustrations/animals/tiger.png",
-    "animals:monkey": "/illustrations/animals/monkey.png"
+    "animals:monkey": "/illustrations/animals/monkey.png",
+    "body:head": "/illustrations/body/head.png",
+    "body:eye": "/illustrations/body/eye.png",
+    "body:ear": "/illustrations/body/ear.png",
+    "body:nose": "/illustrations/body/nose.png",
+    "body:mouth": "/illustrations/body/mouth.png",
+    "body:tooth": "/illustrations/body/tooth.png",
+    "body:tongue": "/illustrations/body/tongue.png",
+    "body:hand": "/illustrations/body/hand.png",
+    "body:foot": "/illustrations/body/foot.png",
+    "body:finger": "/illustrations/alphabet/finger.png",
+    "body:hair": "/illustrations/body/hair.png",
+    "body:face": "/illustrations/alphabet/face.png",
+    "body:heart": "/illustrations/body/heart.png",
+    "body:belly": "/illustrations/body/belly.png",
+    "body:back": "/illustrations/body/back.png",
+    "body:blood": "/illustrations/body/blood.png",
+    "body:bone": "/illustrations/body/bone.png",
+    "body:skin": "/illustrations/body/skin.png",
+    "body:nail": "/illustrations/body/nail.png",
+    "body:body": "/illustrations/alphabet/person.png"
 };
 categories.forEach(category => category.words.forEach(word => { word.image = illustratedWords[`${category.id}:${word.id}`] || word.image; }));
 function LockedWords({ words }: {
