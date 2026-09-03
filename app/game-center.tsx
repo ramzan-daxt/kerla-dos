@@ -101,9 +101,15 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
   }
 
   function openWordGame() {
-    const first = wordItems[0];
-    setWordIndex(0);
-    setLetters(makeTiles(first?.word || "дош"));
+    let nextIndex = 0;
+    if (wordItems.length > 1) {
+      do {
+        nextIndex = Math.floor(Math.random() * wordItems.length);
+      } while (nextIndex === wordIndex);
+    }
+    const nextItem = wordItems[nextIndex];
+    setWordIndex(nextIndex);
+    setLetters(makeTiles(nextItem?.word || "дош"));
     setChosen([]);
     setWordResult("idle");
     setScreen("word");
