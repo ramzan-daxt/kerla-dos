@@ -827,3 +827,90 @@
   }
   .home-stats small { font-size: 10px; }
 }
+
+/* Motif map: each traditional symbol has one purpose; utility stays plain. */
+.home-shell .hero::before {
+  right: 42px;
+  bottom: 18px;
+  width: 108px;
+  height: 108px;
+  opacity: .22;
+  background: url("/ornaments/solar.svg") center / contain no-repeat;
+}
+
+.progress-heading {
+  grid-template-columns: auto;
+}
+
+.progress-heading i,
+.home-section-title::after,
+.home-shell .direction-title::after { display: none; }
+
+.home-shell .feature-badge::before,
+.home-shell .category-preview::before {
+  content: "";
+  position: absolute;
+  right: -6px;
+  bottom: -12px;
+  width: 92px;
+  height: 92px;
+  opacity: .13;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.home-shell .alphabet-feature .feature-badge::before {
+  background-image: url("/ornaments/plant.svg");
+}
+
+.home-shell .numbers-feature .feature-badge::before {
+  background-image: url("/ornaments/solar.svg");
+}
+
+.home-shell .categories-feature .category-preview::before {
+  background-image: url("/ornaments/antlers.svg");
+}
+
+.home-shell .feature-badge img,
+.home-shell .category-preview img {
+  position: relative;
+  z-index: 1;
+}
+
+.home-shell .stories-direction {
+  position: relative;
+  overflow: hidden;
+}
+
+.home-shell .stories-direction::after {
+  content: "";
+  position: absolute;
+  right: 9px;
+  bottom: 6px;
+  width: 48px;
+  height: 48px;
+  opacity: .1;
+  background: url("/ornaments/crescent.svg") center / contain no-repeat;
+}
+
+.category-library-head::after {
+  width: 70px;
+  height: 5px;
+  border-radius: 4px;
+  background: var(--home-gold);
+}
+
+@media (max-width: 760px) {
+  .home-shell .hero::before {
+    right: 12px;
+    bottom: 13px;
+    width: 76px;
+    height: 76px;
+  }
+  .home-shell .feature-badge::before,
+  .home-shell .category-preview::before {
+    width: 65px;
+    height: 65px;
+  }
+}
