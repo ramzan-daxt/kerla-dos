@@ -1785,10 +1785,6 @@ export default function Home() {
             </span>
           </div>
         </section>
-        <div className="home-section-title">
-          <small>ӀАМОРАН НЕКЪАШ</small>
-          <h2>ХӀун Ӏамо лаьа?</h2>
-        </div>
         <section className="learning-paths">
           <button
             className="feature-card alphabet-feature"
@@ -1799,7 +1795,6 @@ export default function Home() {
               <img src={categoryIcons.alphabet} alt="" draggable={false} />
             </span>
             <span className="feature-copy">
-              <small>НОХЧИЙН АБАТ</small>
               <strong>Абат Ӏамо</strong>
               <em>45 элп · хаза · масал</em>
             </span>
@@ -1813,7 +1808,6 @@ export default function Home() {
               <img src={categoryIcons.numbers} alt="" draggable={false} />
             </span>
             <span className="feature-copy">
-              <small>ТЕРАХЬАШ</small>
               <strong>Лоруш Ӏамо</strong>
               <em>0–30 · декъана</em>
             </span>
@@ -1828,17 +1822,12 @@ export default function Home() {
               <img src={categoryIcons.animals} alt="" draggable={false} />
             </span>
             <span className="feature-copy">
-              <small>ДЕШНИЙН ТОБАНАШ</small>
-              <strong>Категореш</strong>
+              <strong>Дешнийн тобанаш</strong>
               <em>12 тоба · дешнаш а, ловзарш а</em>
             </span>
           </button>
         </section>
         <section className="content-directions">
-          <div className="direction-title">
-            <small>КХИН А ӀАМО</small>
-            <h2>ХӀун дан лаьа?</h2>
-          </div>
           <div className="direction-grid">
             <button
               className="direction-card random-direction"

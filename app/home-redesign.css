@@ -935,4 +935,18 @@
   .home-shell .hero h1 {
     word-spacing: .12em;
   }
+
+  .home-shell .feature-copy strong {
+    font-size: 20px;
+    line-height: 1.12;
+  }
+
+  .home-shell .categories-feature .feature-copy strong {
+    font-size: 21px;
+  }
+
+  .home-shell .direction-card strong {
+    font-size: 18px;
+    line-height: 1.15;
+  }
 }
