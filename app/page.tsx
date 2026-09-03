@@ -22,6 +22,7 @@ type Category = {
   accent: string;
   words: Word[];
 };
+type LessonPosition = { categoryId: string; index: number };
 const categories: Category[] = [
   {
     id: "family",
@@ -1010,7 +1011,9 @@ export default function Home() {
     [homeView, setHomeView] = useState<
       "categories" | "random" | "favorites" | "stories" | null
     >(null),
-    [favorites, setFavorites] = useState<string[]>([]);
+    [favorites, setFavorites] = useState<string[]>([]),
+    [lastLesson, setLastLesson] = useState<LessonPosition | null>(null),
+    [seenWords, setSeenWords] = useState<string[]>([]);
   const audio = useRef<HTMLAudioElement | null>(null);
   useEffect(() => {
     const s = localStorage.getItem("kerla-stars");
@@ -1029,6 +1032,16 @@ export default function Home() {
     if (fav)
       try {
         setFavorites(JSON.parse(fav));
+      } catch {}
+    const savedLesson = localStorage.getItem("kerla-last-lesson");
+    if (savedLesson)
+      try {
+        setLastLesson(JSON.parse(savedLesson));
+      } catch {}
+    const seen = localStorage.getItem("kerla-seen-words");
+    if (seen)
+      try {
+        setSeenWords(JSON.parse(seen));
       } catch {}
   }, []);
   useEffect(() => {
@@ -1121,11 +1134,13 @@ export default function Home() {
       }
     });
   }
-  function open(cat: Category) {
+  function open(cat: Category, resumeAt?: number) {
     setActive(cat);
     setMode("learn");
     setIndex(
-      settings.shuffle
+      resumeAt !== undefined
+        ? Math.min(Math.max(resumeAt, 0), cat.words.length - 1)
+        : settings.shuffle
         ? Math.floor(
             Math.random() *
               Math.min(
@@ -1192,6 +1207,21 @@ export default function Home() {
         : speak(word);
     }
   }, [active?.id, index, settings.autoSpeak]);
+  useEffect(() => {
+    if (!active) return;
+    const position = { categoryId: active.id, index };
+    setLastLesson(position);
+    localStorage.setItem("kerla-last-lesson", JSON.stringify(position));
+    const word = active.words[index];
+    if (!word) return;
+    const key = `${active.id}:${word.id}`;
+    setSeenWords((current) => {
+      if (current.includes(key)) return current;
+      const next = [...current, key];
+      localStorage.setItem("kerla-seen-words", JSON.stringify(next));
+      return next;
+    });
+  }, [active?.id, index]);
   const learningItems: LearningItem[] = categories
     .filter(
       (c) => c.id !== "alphabet" && (premium || freeCategoryIds.has(c.id)),
@@ -1216,6 +1246,13 @@ export default function Home() {
       return next;
     });
   }
+  const resumeCategory =
+    categories.find((category) => category.id === lastLesson?.categoryId) ||
+    alphabetCategory;
+  const resumeIndex = Math.min(
+    lastLesson?.index || 0,
+    resumeCategory.words.length - 1,
+  );
   if (homeView === "categories")
     return (
       <ScriptText latin={settings.script === "latin"}>
@@ -1650,6 +1687,53 @@ export default function Home() {
           </div>
           <div className="hero-symbols" aria-hidden="true">
             <span>А</span><span>Ӏ</span><span>1</span>
+          </div>
+        </section>
+        <section className="home-progress" aria-label="Кхиам">
+          <button
+            className="continue-lesson"
+            onClick={() => open(resumeCategory, resumeIndex)}
+          >
+            <span
+              className="continue-art"
+              style={{ "--resume-accent": resumeCategory.accent } as React.CSSProperties}
+            >
+              <img src={resumeCategory.icon} alt="" draggable={false} />
+            </span>
+            <span className="continue-copy">
+              <small>{lastLesson ? "ӀАМОР ДӀАХӀОТТАДЕ" : "ӀАМОР ЙОЛАЙЕ"}</small>
+              <strong>{tx(resumeCategory.title)}</strong>
+              <em>
+                {resumeIndex + 1} / {resumeCategory.words.length}
+              </em>
+              <i aria-hidden="true">
+                <b
+                  style={{
+                    width: `${((resumeIndex + 1) / resumeCategory.words.length) * 100}%`,
+                  }}
+                />
+              </i>
+            </span>
+            <span className="continue-arrow" aria-hidden="true">
+              <AppIcon name="arrow-right" />
+            </span>
+          </button>
+          <div className="home-stats">
+            <span>
+              <AppIcon name="book" />
+              <b>{seenWords.length}</b>
+              <small>Дешнаш</small>
+            </span>
+            <span>
+              <AppIcon name="heart-filled" />
+              <b>{favorites.length}</b>
+              <small>Схьакъастина</small>
+            </span>
+            <span>
+              <AppIcon name="star" />
+              <b>{stars}</b>
+              <small>Седарчий</small>
+            </span>
           </div>
         </section>
         <div className="home-section-title">
