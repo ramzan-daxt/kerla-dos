@@ -1013,8 +1013,15 @@ export default function Home() {
     >(null),
     [favorites, setFavorites] = useState<string[]>([]),
     [lastLesson, setLastLesson] = useState<LessonPosition | null>(null),
-    [seenWords, setSeenWords] = useState<string[]>([]);
+    [seenWords, setSeenWords] = useState<string[]>([]),
+    [cardMotion, setCardMotion] = useState<
+      "idle" | "out-left" | "out-right" | "in-left" | "in-right"
+    >("idle");
   const audio = useRef<HTMLAudioElement | null>(null);
+  const swipeStart = useRef<{ x: number; y: number } | null>(null);
+  const swipeHandled = useRef(false);
+  const motionLocked = useRef(false);
+  const cardTimers = useRef<number[]>([]);
   useEffect(() => {
     const s = localStorage.getItem("kerla-stars");
     if (s) setStars(Number(s));
@@ -1154,6 +1161,27 @@ export default function Home() {
     setAnswer("idle");
     setSelected(null);
   }
+  function moveCard(direction: -1 | 1) {
+    if (!active || motionLocked.current) return;
+    motionLocked.current = true;
+    setCardMotion(direction > 0 ? "out-left" : "out-right");
+    const leaveTimer = window.setTimeout(() => {
+      setIndex((currentIndex) =>
+        direction > 0
+          ? (currentIndex + 1) % active.words.length
+          : currentIndex === 0
+            ? active.words.length - 1
+            : currentIndex - 1,
+      );
+      setCardMotion(direction > 0 ? "in-right" : "in-left");
+      const enterTimer = window.setTimeout(() => {
+        setCardMotion("idle");
+        motionLocked.current = false;
+      }, 240);
+      cardTimers.current.push(enterTimer);
+    }, 190);
+    cardTimers.current.push(leaveTimer);
+  }
   function choose(w: Word) {
     if (answer !== "right") {
       setSelected(w);
@@ -1222,6 +1250,22 @@ export default function Home() {
       return next;
     });
   }, [active?.id, index]);
+  useEffect(() => {
+    function handleCardKeys(event: KeyboardEvent) {
+      if (!active || mode !== "learn") return;
+      if (event.key === "ArrowLeft") moveCard(-1);
+      if (event.key === "ArrowRight") moveCard(1);
+    }
+    window.addEventListener("keydown", handleCardKeys);
+    return () => window.removeEventListener("keydown", handleCardKeys);
+  }, [active?.id, mode]);
+  useEffect(
+    () => () => {
+      cardTimers.current.forEach((timer) => window.clearTimeout(timer));
+      cardTimers.current = [];
+    },
+    [],
+  );
   const learningItems: LearningItem[] = categories
     .filter(
       (c) => c.id !== "alphabet" && (premium || freeCategoryIds.has(c.id)),
@@ -1425,13 +1469,34 @@ export default function Home() {
                 className={`card-stage ${active.id === "alphabet" ? "alphabet-stage" : ""}`}
               >
                 <div
-                  className={`big-card ${active.id === "alphabet" ? "alphabet-card" : ""}`}
+                  className={`big-card ${active.id === "alphabet" ? "alphabet-card" : ""} card-motion-${cardMotion}`}
                   style={{ "--accent": active.accent } as React.CSSProperties}
-                  onClick={() =>
+                  onTouchStart={(event) => {
+                    const touch = event.touches[0];
+                    swipeStart.current = { x: touch.clientX, y: touch.clientY };
+                    swipeHandled.current = false;
+                  }}
+                  onTouchEnd={(event) => {
+                    const start = swipeStart.current;
+                    const touch = event.changedTouches[0];
+                    swipeStart.current = null;
+                    if (!start) return;
+                    const deltaX = touch.clientX - start.x;
+                    const deltaY = touch.clientY - start.y;
+                    if (Math.abs(deltaX) > 52 && Math.abs(deltaX) > Math.abs(deltaY) * 1.25) {
+                      swipeHandled.current = true;
+                      moveCard(deltaX < 0 ? 1 : -1);
+                    }
+                  }}
+                  onClick={() => {
+                    if (swipeHandled.current) {
+                      swipeHandled.current = false;
+                      return;
+                    }
                     active.id === "alphabet"
                       ? speakAlphabetPart(current, "letter")
-                      : speak(current)
-                  }
+                      : speak(current);
+                  }}
                 >
                   <button className="play" aria-label="Хаза">
                     <AppIcon name="sound" />
@@ -1516,27 +1581,9 @@ export default function Home() {
                   <small>Дош хаза тӀетаӀайе</small>
                 </div>
                 <div className="pager">
-                  <button
-                    onClick={() =>
-                      setIndex(
-                        index === 0 ? active.words.length - 1 : index - 1,
-                      )
-                    }
-                    aria-label="Хьалхара"
-                  >
-                    <AppIcon name="arrow-left" />
-                  </button>
                   <span>
                     {index + 1} / {active.words.length}
                   </span>
-                  <button
-                    onClick={() => {
-                      setIndex((index + 1) % active.words.length);
-                    }}
-                    aria-label="РогӀера"
-                  >
-                    <AppIcon name="arrow-right" />
-                  </button>
                 </div>
               </div>
             </section>

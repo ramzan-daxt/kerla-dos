@@ -35,8 +35,23 @@ footer{padding:35px;text-align:center;background:#27332c;color:#fff}footer span{
 .letter-in-word{display:inline-block;margin:0 2px;padding:0 .08em .04em;border-radius:.22em;background:color-mix(in srgb,var(--accent) 18%,#fff1bd);color:var(--accent);font:inherit;line-height:.95;box-shadow:inset 0 -.12em color-mix(in srgb,var(--accent) 20%,transparent)}
 .big-card .alphabet-caption{margin:5px 0 10px;color:#8a7c72;font-size:14px;font-weight:700}
 
+/* Card navigation is gesture-first: no side arrows, one continuous swipe. */
+.card-stage{padding-left:0;padding-right:0;overflow:hidden}
+.card-stage .pager button{display:none}
+.card-stage .big-card{touch-action:pan-y;user-select:none;will-change:transform,opacity}
+.card-motion-out-left{animation:card-out-left .19s cubic-bezier(.55,.05,.8,.45) both}
+.card-motion-out-right{animation:card-out-right .19s cubic-bezier(.55,.05,.8,.45) both}
+.card-motion-in-right{animation:card-in-right .24s cubic-bezier(.2,.8,.25,1) both}
+.card-motion-in-left{animation:card-in-left .24s cubic-bezier(.2,.8,.25,1) both}
+@keyframes card-out-left{to{opacity:0;transform:translateX(-58%) rotate(-2deg) scale(.97)}}
+@keyframes card-out-right{to{opacity:0;transform:translateX(58%) rotate(2deg) scale(.97)}}
+@keyframes card-in-right{from{opacity:0;transform:translateX(58%) rotate(2deg) scale(.97)}to{opacity:1;transform:none}}
+@keyframes card-in-left{from{opacity:0;transform:translateX(-58%) rotate(-2deg) scale(.97)}to{opacity:1;transform:none}}
+.pager{margin-top:15px;margin-bottom:0;pointer-events:none}
+.pager span{padding:6px 13px;border-radius:999px;background:#ffffffb8;color:#68736d;font-weight:800}
+
 @media(max-width:760px){
-  .alphabet-stage{padding-left:38px;padding-right:38px}
+  .alphabet-stage{padding-left:0;padding-right:0}
   .alphabet-card{max-width:540px;min-height:590px;padding:22px 20px}
   .alphabet-layout{min-height:438px;padding-top:38px}
   .alphabet-letter-corner{top:72px;left:20px;gap:14px}
