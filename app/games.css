@@ -8,3 +8,4 @@
 .mosaic-feedback.wrong{color:#c45d4b}
 .mosaic-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
 .mosaic-actions .shuffle-puzzle{margin:0}
+.mosaic-difficulty{display:flex;align-items:center;justify-content:center;gap:8px;margin:-5px 0 18px}.mosaic-difficulty span{margin-right:3px;color:#758079;font-weight:800}.mosaic-difficulty button{min-width:50px;padding:9px 12px;border:2px solid transparent;border-radius:13px;background:#fff;color:#315248;font-weight:900;box-shadow:0 3px 0 #ded7cb}.mosaic-difficulty button.active{border-color:#2f806f;background:#e7f3ed;color:#205f52}.mosaic-reference img{aspect-ratio:3/2;object-fit:cover}.mosaic-board{aspect-ratio:3/2}

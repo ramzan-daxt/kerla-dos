@@ -59,8 +59,8 @@ function makeTiles(word: string): LetterTile[] {
   );
 }
 
-function makePuzzleOrder(): number[] {
-  const solved = Array.from({ length: 9 }, (_, index) => index);
+function makePuzzleOrder(size = 9): number[] {
+  const solved = Array.from({ length: size }, (_, index) => index);
   let next = shuffled(solved);
   if (next.every((value, index) => value === index)) next = [...next.slice(1), next[0]];
   return next;
@@ -79,13 +79,15 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
   const [wordResult, setWordResult] = useState<Result>("idle");
   const [themeIndex, setThemeIndex] = useState<number | null>(null);
   const [puzzleIndex, setPuzzleIndex] = useState(0);
-  const [order, setOrder] = useState<number[]>(makePuzzleOrder);
+  const [difficulty, setDifficulty] = useState(9);
+  const [order, setOrder] = useState<number[]>(() => makePuzzleOrder(9));
   const [selectedPiece, setSelectedPiece] = useState<number | null>(null);
   const [mosaicResult, setMosaicResult] = useState<Result>("idle");
 
   const theme = themeIndex === null ? null : mosaicThemes[themeIndex];
   const puzzle = theme?.puzzles[puzzleIndex % theme.puzzles.length];
   const solved = order.every((value, index) => value === index);
+  const puzzleColumns = difficulty / 3;
 
   function returnOneLevel() {
     if (screen === "hub") return onBack();
@@ -125,14 +127,14 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
   function chooseTheme(index: number) {
     setThemeIndex(index);
     setPuzzleIndex(0);
-    setOrder(makePuzzleOrder());
+    setOrder(makePuzzleOrder(difficulty));
     setSelectedPiece(null);
     setMosaicResult("idle");
   }
 
   function choosePuzzle(index: number) {
     setPuzzleIndex(index);
-    setOrder(makePuzzleOrder());
+    setOrder(makePuzzleOrder(difficulty));
     setSelectedPiece(null);
     setMosaicResult("idle");
   }
@@ -152,6 +154,13 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
       [next[selectedPiece], next[position]] = [next[position], next[selectedPiece]];
       return next;
     });
+    setSelectedPiece(null);
+    setMosaicResult("idle");
+  }
+
+  function chooseDifficulty(size: number) {
+    setDifficulty(size);
+    setOrder(makePuzzleOrder(size));
     setSelectedPiece(null);
     setMosaicResult("idle");
   }
@@ -248,22 +257,32 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
               </button>
             ))}
           </div>
+          <div className="mosaic-difficulty" aria-label="Халона">
+            <span>Дакъош:</span>
+            {[9, 12, 15].map((size) => (
+              <button className={difficulty === size ? "active" : ""} key={size} onClick={() => chooseDifficulty(size)}>{size}</button>
+            ))}
+          </div>
           <div className="mosaic-workspace">
             <div className="mosaic-reference"><img src={puzzle.image} alt="" /><small>Масал</small></div>
-            <div className={`mosaic-board ${mosaicResult === "right" ? "checked-correct" : ""}`}>
+            <div
+              className={`mosaic-board ${mosaicResult === "right" ? "checked-correct" : ""}`}
+              style={{ gridTemplateColumns: `repeat(${puzzleColumns}, 1fr)` }}
+            >
               {order.map((piece, position) => {
-                const row = Math.floor(piece / 3);
-                const column = piece % 3;
+                const row = Math.floor(piece / puzzleColumns);
+                const column = piece % puzzleColumns;
                 return (
                   <button
-                    key={`${puzzle.image}-${position}`}
+                    key={`${puzzle.image}-${difficulty}-${position}`}
                     className={selectedPiece === position ? "selected" : ""}
                     aria-label={`${position + 1}-гӀа дакъа`}
                     disabled={mosaicResult === "right"}
                     onClick={() => movePiece(position)}
                     style={{
                       backgroundImage: `url(${puzzle.image})`,
-                      backgroundPosition: `${column * 50}% ${row * 50}%`,
+                      backgroundSize: `${puzzleColumns * 100}% 300%`,
+                      backgroundPosition: `${(column / (puzzleColumns - 1)) * 100}% ${row * 50}%`,
                     }}
                   />
                 );
@@ -279,7 +298,7 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
             ) : (
               <button className="game-main-button" onClick={() => setMosaicResult(solved ? "right" : "wrong")}>Таллам бе</button>
             )}
-            <button className="shuffle-puzzle icon-label" onClick={() => { setOrder(makePuzzleOrder()); setSelectedPiece(null); setMosaicResult("idle"); }}>
+            <button className="shuffle-puzzle icon-label" onClick={() => { setOrder(makePuzzleOrder(difficulty)); setSelectedPiece(null); setMosaicResult("idle"); }}>
               <AppIcon name="refresh" /> Юха кегаде
             </button>
           </div>
