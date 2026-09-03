@@ -914,3 +914,21 @@
     height: 65px;
   }
 }
+
+/* Keep the resume artwork inside its mobile grid column. */
+@media (max-width: 480px) {
+  .continue-lesson {
+    grid-template-columns: 58px minmax(0, 1fr) 32px;
+    gap: 12px;
+  }
+
+  .continue-art {
+    width: 58px;
+    height: 58px;
+  }
+
+  .continue-copy small,
+  .continue-copy strong {
+    max-width: 100%;
+  }
+}
