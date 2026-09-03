@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import type { CSSProperties } from "react";
 import { Comfortaa, Nunito } from "next/font/google";
 import "./globals.css";
@@ -37,6 +37,12 @@ export const metadata: Metadata = {
     shortcut: "/kerla-dos-logo.png",
     apple: "/kerla-dos-logo.png",
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
