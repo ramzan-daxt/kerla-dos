@@ -111,4 +111,118 @@
   .direction-card small {
     font-size: 13px;
   }
+
+  /* Keep the complete game flow visible as one mobile task. */
+  .app-shell > header {
+    min-height: 58px;
+  }
+
+  .app-shell > header .brand {
+    font-size: 20px !important;
+  }
+
+  .app-shell > header .brand::before {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 13px !important;
+  }
+
+  .app-shell > header .sound {
+    width: 44px;
+    height: 44px;
+  }
+
+  .lesson-head {
+    min-height: 70px;
+    margin: 2px 12px 0;
+    padding: 10px 12px;
+    gap: 11px;
+    border-radius: 22px;
+  }
+
+  .lesson-head .topic-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 15px;
+  }
+
+  .lesson-head h1 {
+    font-size: 22px;
+  }
+
+  .lesson-head small {
+    font-size: 13px;
+  }
+
+  .lesson-head .stars {
+    padding: 7px 9px;
+    border-radius: 13px;
+  }
+
+  .modes {
+    width: calc(100% - 24px);
+    margin: 10px auto 8px;
+    padding: 4px;
+    border-radius: 16px;
+  }
+
+  .modes button {
+    min-height: 42px;
+    padding: 8px;
+    font-size: 15px;
+  }
+
+  .game-area {
+    padding: 0 12px 24px;
+  }
+
+  .listen-task {
+    margin: 8px auto 12px;
+  }
+
+  .listen-task button {
+    width: 76px;
+    height: 76px;
+  }
+
+  .listen-task button .app-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .answer-grid {
+    gap: 8px;
+  }
+
+  .answer-grid.picture-only button {
+    min-height: 124px;
+    border-width: 3px;
+    border-radius: 21px;
+    box-shadow: 0 6px 0 #e6e0d4, 0 10px 24px #42371e10;
+  }
+
+  .answer-grid .answer-illustration {
+    max-width: 118px;
+    max-height: 104px;
+  }
+
+  .answer-grid .answer-color {
+    width: 76px;
+    height: 76px;
+  }
+
+  .feedback {
+    margin-top: 11px;
+    padding: 9px;
+    font-size: 14px;
+  }
+
+  .feedback.idle {
+    display: none;
+  }
+
+  .check-button {
+    margin-top: 12px;
+    padding: 14px;
+  }
 }
