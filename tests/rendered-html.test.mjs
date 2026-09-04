@@ -25,6 +25,13 @@ test("leaves the category library when a lesson is opened", async () => {
 
   assert.match(
     source,
-    /function open\(cat: Category, resumeAt\?: number\) \{\s*setHomeView\(null\);\s*setActive\(cat\);/,
+    /function open\(cat: Category, resumeAt\?: number\) \{[\s\S]{0,1600}?setHomeView\(null\);[\s\S]{0,200}?setActive\(cat\);/,
   );
+});
+
+test("returns word lessons to the category library", async () => {
+  const source = await readFile(new URL("app/page.tsx", projectRoot), "utf8");
+
+  assert.match(source, /function closeLesson\(toCategories = false\)/);
+  assert.match(source, /setHomeView\(toCategories \? "categories" : null\)/);
 });

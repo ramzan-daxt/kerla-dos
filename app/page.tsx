@@ -1033,6 +1033,8 @@ export default function Home() {
   const motionDirection = useRef<-1 | 1>(1);
   const indexRef = useRef(0);
   const cardTimers = useRef<number[]>([]);
+  const audioRequest = useRef(0);
+  const skipNextAutoSpeak = useRef(false);
   useEffect(() => {
     const s = localStorage.getItem("kerla-stars");
     if (s) setStars(Number(s));
@@ -1070,7 +1072,18 @@ export default function Home() {
     localStorage.setItem("kerla-settings", JSON.stringify(settings));
   }, [premium, settings]);
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    const resetScroll = () => {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    };
+    resetScroll();
+    const frame = window.requestAnimationFrame(resetScroll);
+    const timer = window.setTimeout(resetScroll, 80);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.clearTimeout(timer);
+    };
   }, [active?.id, homeView]);
   const available =
     active && (premium || freeCategoryIds.has(active.id)) ? active.words : [];
@@ -1090,87 +1103,104 @@ export default function Home() {
     setSettings(v);
     localStorage.setItem("kerla-settings", JSON.stringify(v));
   }
-  function speak(w: Word) {
-    if (muted || !active) return;
+  function stopAudio() {
+    audioRequest.current += 1;
     audio.current?.pause();
-    const clip = new Audio(
-      w.audioSrc || "/audio/" + active.id + "/" + w.id + ".wav",
-    );
+    if ("speechSynthesis" in window) speechSynthesis.cancel();
+  }
+  function playAudio(src: string, text: string) {
+    const request = ++audioRequest.current;
+    if ("speechSynthesis" in window) speechSynthesis.cancel();
+    const clip = audio.current || new Audio();
+    clip.pause();
+    clip.src = src;
+    clip.currentTime = 0;
     clip.volume = settings.volume;
     audio.current = clip;
     clip.play().catch(() => {
-      if ("speechSynthesis" in window) {
-        speechSynthesis.cancel();
-        const say = () => {
-          const u = new SpeechSynthesisUtterance(
-            w.example ? `${w.chechen}. ${w.example}` : w.chechen,
-          );
-          u.lang = "ru-RU";
-          u.rate = settings.rate;
-          u.volume = settings.volume;
-          speechSynthesis.speak(u);
-          if (settings.repeat) {
-            u.onend = () => {
-              const again = new SpeechSynthesisUtterance(
-                w.example || w.chechen,
-              );
-              again.rate = settings.rate;
-              again.volume = settings.volume;
-              speechSynthesis.speak(again);
-            };
-          }
+      if (audioRequest.current !== request || !("speechSynthesis" in window))
+        return;
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = "ru-RU";
+      u.rate = settings.rate;
+      u.volume = settings.volume;
+      speechSynthesis.speak(u);
+      if (settings.repeat)
+        u.onend = () => {
+          if (audioRequest.current !== request) return;
+          const again = new SpeechSynthesisUtterance(text);
+          again.lang = "ru-RU";
+          again.rate = settings.rate;
+          again.volume = settings.volume;
+          speechSynthesis.speak(again);
         };
-        say();
-      }
     });
+  }
+  function speak(w: Word, category: Category | null = active) {
+    if (muted || !category) return;
+    playAudio(
+      w.audioSrc || `/audio/${category.id}/${w.id}.wav`,
+      w.example ? `${w.chechen}. ${w.example}` : w.chechen,
+    );
   }
   function speakAlphabetPart(w: Word, part: "letter" | "word") {
     if (muted) return;
-    audio.current?.pause();
-    speechSynthesis.cancel();
     const text =
       part === "letter" ? w.chechen.split(" ")[0] : w.example || w.chechen;
-    const clip = new Audio(
+    playAudio(
       part === "word" && w.audioSrc
         ? w.audioSrc
         : `/audio/alphabet/${w.id}-${part}.mp3`,
+      text,
     );
-    clip.volume = settings.volume;
-    audio.current = clip;
-    clip.play().catch(() => {
-      if ("speechSynthesis" in window) {
-        const u = new SpeechSynthesisUtterance(text);
-        u.lang = "ru-RU";
-        u.rate = settings.rate;
-        u.volume = settings.volume;
-        speechSynthesis.speak(u);
-        if (settings.repeat)
-          u.onend = () => {
-            const again = new SpeechSynthesisUtterance(text);
-            again.lang = "ru-RU";
-            again.rate = settings.rate;
-            again.volume = settings.volume;
-            speechSynthesis.speak(again);
-          };
-      }
-    });
   }
   function open(cat: Category, resumeAt?: number) {
+    const startIndex =
+      resumeAt !== undefined
+        ? Math.min(Math.max(resumeAt, 0), cat.words.length - 1)
+        : 0;
+    clearCardTimers();
+    motionLocked.current = false;
+    motionPhase.current = "idle";
+    indexRef.current = startIndex;
+    setCardMotion("idle");
+    setCardDrag(0);
+    setCardExitOrigin(0);
+    setCardDragging(false);
     setHomeView(null);
     setActive(cat);
     setMode("learn");
-    setIndex(
-      resumeAt !== undefined
-        ? Math.min(Math.max(resumeAt, 0), cat.words.length - 1)
-        : 0,
-    );
+    setIndex(startIndex);
     setRound(0);
     setAnswer("idle");
     setSelected(null);
+    if (
+      settings.autoSpeak &&
+      (premium || freeCategoryIds.has(cat.id)) &&
+      cat.words[startIndex]
+    ) {
+      skipNextAutoSpeak.current = true;
+      cat.id === "alphabet"
+        ? speakAlphabetPart(cat.words[startIndex], "letter")
+        : speak(cat.words[startIndex], cat);
+    }
   }
   function clearCardTimers() {
     cardTimers.current.forEach((timer) => window.clearTimeout(timer));
     cardTimers.current = [];
+  }
+  function closeLesson(toCategories = false) {
+    stopAudio();
+    clearCardTimers();
+    motionLocked.current = false;
+    motionPhase.current = "idle";
+    swipeStart.current = null;
+    setCardMotion("idle");
+    setCardDrag(0);
+    setCardExitOrigin(0);
+    setCardDragging(false);
+    setActive(null);
+    setHomeView(toCategories ? "categories" : null);
   }
   function finishCardEnter() {
     if (!active || motionPhase.current !== "in") return;
@@ -1273,6 +1303,10 @@ export default function Home() {
     setPaywall(false);
   }
   useEffect(() => {
+    if (skipNextAutoSpeak.current) {
+      skipNextAutoSpeak.current = false;
+      return;
+    }
     if (settings.autoSpeak && active && !motionLocked.current) {
       const word = active.words[index];
       active.id === "alphabet"
@@ -1309,6 +1343,7 @@ export default function Home() {
   }, [active?.id, mode]);
   useEffect(
     () => () => {
+      stopAudio();
       cardTimers.current.forEach((timer) => window.clearTimeout(timer));
       cardTimers.current = [];
     },
@@ -1422,10 +1457,10 @@ export default function Home() {
       <ScriptText latin={false}>
         <main className="app-shell category-gate">
           <header>
-            <button className="back icon-label" onClick={() => setActive(null)}>
-              <AppIcon name="arrow-left" /> <span>Коьртачу агӀор</span>
+            <button className="back icon-label" onClick={() => closeLesson(true)}>
+              <AppIcon name="arrow-left" /> <span>Дешнийн тобанаш</span>
             </button>
-            <a className="brand" onClick={() => setActive(null)}>
+            <a className="brand" onClick={() => closeLesson(false)}>
               KERLA <i>DOŞ</i>
             </a>
             <div className="stars icon-label">
@@ -1462,15 +1497,28 @@ export default function Home() {
       <ScriptText latin={false}>
         <main className="app-shell">
           <header>
-            <button className="back icon-label" onClick={() => setActive(null)}>
-              <AppIcon name="arrow-left" /> <span>Коьртачу агӀор</span>
+            <button
+              className="back icon-label"
+              onClick={() =>
+                closeLesson(active.id !== "alphabet" && active.id !== "numbers")
+              }
+            >
+              <AppIcon name="arrow-left" />
+              <span>
+                {active.id !== "alphabet" && active.id !== "numbers"
+                  ? "Дешнийн тобанаш"
+                  : "Коьртачу агӀор"}
+              </span>
             </button>
-            <a className="brand" onClick={() => setActive(null)}>
+            <a className="brand" onClick={() => closeLesson(false)}>
               KERLA <i>DOŞ</i>
             </a>
             <button
               className="sound"
-              onClick={() => setMuted(!muted)}
+              onClick={() => {
+                if (!muted) stopAudio();
+                setMuted(!muted);
+              }}
               aria-label={muted ? "Аз дӀайолаяйта" : "Аз дӀайаккха"}
             >
               <AppIcon name={muted ? "mute" : "sound"} />
@@ -1503,6 +1551,7 @@ export default function Home() {
             <button
               className={mode === "game" ? "active" : ""}
               onClick={() => {
+                stopAudio();
                 setMode("game");
                 setAnswer("idle");
                 setSelected(null);
