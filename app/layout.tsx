@@ -20,6 +20,7 @@ import "./tablet.css";
 import "./home-redesign.css";
 import "./games.css";
 import "./minimal-cards.css";
+import "./random-learning.css";
 
 const nunito = Nunito({
   variable: "--font-nunito",

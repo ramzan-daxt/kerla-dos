@@ -1,6 +1,6 @@
 "use client";
 import { useMemo, useRef, useState } from "react";
-import ScriptText from "./script-text";
+import ScriptText, { latinize } from "./script-text";
 import FullStory from "./full-story";
 import GameCenter from "./game-center";
 import AppIcon from "./ui-icon";
@@ -20,6 +20,116 @@ const tales = [
     { id: "friends", image: "/stories/borz-ka/scene-05.png", title: "Ши доттагӀ", summary: "ДоттагӀаллех а, вовшашка гӀо дарх а лаьцна", text: ["Цхьана хьуьн чохь ши доттагӀ вехаш хилла.", "Цара даима вовшашка гӀо дора, яахӀума екъара, цхьаьна ловзара.", "Бакъ доттагӀ халачу хенахь гуш ву."] },
     { id: "sun", image: "/stories/borz-ka/scene-01.png", title: "Малх а, морх а", summary: "Ӏаламах а, де дика хиларх а лаьцна", text: ["Ӏуьйранна стиглахь морхаш хилла.", "ТӀаккха малх арабаьлла, хьуьн серлаяьлла.", "Берийн самукъадала ловзуш арадаьлла."] }
 ];
+
+function RandomLearning({
+    item,
+    favorites,
+    premium,
+    sessionSize,
+    sessionStep,
+    onFavorite,
+    onChooseSize,
+    onNext,
+    onSpeak,
+}: {
+    item: LearningItem;
+    favorites: string[];
+    premium: boolean;
+    sessionSize: number;
+    sessionStep: number;
+    onFavorite: (key: string) => void;
+    onChooseSize: (size: number) => void;
+    onNext: () => void;
+    onSpeak: (word: string, audioSrc?: string) => void;
+}) {
+    const complete = sessionStep >= sessionSize;
+    const progress = Math.round((sessionStep / sessionSize) * 100);
+
+    return (
+        <section className="random-zone random-learning-zone">
+            <div className="random-heading">
+                <div>
+                    <small>ХӀИНЦАЛЕРА ДОШ</small>
+                    <h1>Тайп-тайпана дешнаш Ӏамо</h1>
+                </div>
+                <div className="random-counter" aria-label={`${sessionStep} / ${sessionSize}`}>
+                    <strong>{sessionStep}</strong>
+                    <span>/ {sessionSize}</span>
+                </div>
+            </div>
+
+            <div className="random-workspace">
+                <aside className="random-controls">
+                    <h2>Масийтта дош Ӏамо?</h2>
+                    <div className="random-size-options" role="group" aria-label="Дешнийн дукхалла">
+                        {[10, 20, 30, 40, 50].map(size => (
+                            <button
+                                key={size}
+                                type="button"
+                                disabled={!premium && size > 10}
+                                aria-pressed={sessionSize === size}
+                                className={sessionSize === size ? "active" : ""}
+                                onClick={() => onChooseSize(size)}
+                            >
+                                {!premium && size > 10 && <AppIcon name="lock" />}
+                                {size}
+                            </button>
+                        ))}
+                    </div>
+                    <div className="random-progress" aria-hidden="true">
+                        <span style={{ width: `${progress}%` }} />
+                    </div>
+                    <p className="random-tip">
+                        <AppIcon name="heart" />
+                        Дош схьакъастина лардан дог тӀетаӀайе
+                    </p>
+                </aside>
+
+                <div className="random-study">
+                    <div className="random-card" onClick={() => onSpeak(item.word, item.audioSrc)}>
+                        <div className="random-card-actions">
+                            <button
+                                type="button"
+                                className="random-heart"
+                                onClick={event => {
+                                    event.stopPropagation();
+                                    onFavorite(item.key);
+                                }}
+                                aria-label="Схьакъастина"
+                            >
+                                <AppIcon name={favorites.includes(item.key) ? "heart-filled" : "heart"} />
+                            </button>
+                            <button
+                                type="button"
+                                className="random-sound"
+                                onClick={event => {
+                                    event.stopPropagation();
+                                    onSpeak(item.word, item.audioSrc);
+                                }}
+                                aria-label="Хаза"
+                            >
+                                <AppIcon name="sound" />
+                            </button>
+                        </div>
+                        <div
+                            className="random-visual"
+                            style={!item.image && item.color ? { background: item.color } : {}}
+                        >
+                            {item.image ? <img src={item.image} alt="" draggable={false} /> : item.color ? "" : item.visual}
+                        </div>
+                        <h2>{item.word}</h2>
+                        <p className="random-latin" lang="ce-Latn">{latinize(item.word)}</p>
+                        <span className="random-category">{item.category}</span>
+                    </div>
+                    <button type="button" className="next-random icon-label" onClick={onNext}>
+                        <AppIcon name={complete ? "refresh" : "dice"} />
+                        {complete ? "Юха волавала" : "Кхин дош"}
+                    </button>
+                </div>
+            </div>
+        </section>
+    );
+}
 export default function HomeExtras({ view, items, favorites, onFavorite, onBack, rate, volume, latin, premium }: {
     view: View;
     items: LearningItem[];
@@ -120,5 +230,32 @@ export default function HomeExtras({ view, items, favorites, onFavorite, onBack,
         return <ScriptText latin={latin}><main className="extra-shell"><header><button className="back icon-label" onClick={closeStory}><AppIcon name="arrow-left"/> <span>Хьалха</span></button><a className="brand" onClick={leaveStory}>KERLA <i>DOŞ</i></a></header><article className="story-reader"><div><img src={story.image} alt=""/></div><small>ТУЬЙРА</small><h1>{story.title}</h1>{story.text.map((paragraph, index) => <p key={index}>{paragraph}</p>)}<button className="icon-label" onClick={toggleStoryAudio}><AppIcon name={storyAudioState === "playing" ? "pause" : "play"}/>{storyAudioState === "playing" ? "Соцаде" : storyAudioState === "paused" ? "ДӀахӀоттаде" : "Туьйра хаза"}</button></article></main></ScriptText>;
     if (view === "games")
         return <ScriptText latin={latin}><GameCenter items={items} onBack={onBack}/></ScriptText>;
+    if (view === "random" && item)
+        return (
+            <ScriptText latin={latin}>
+                <main className="extra-shell random-extra-shell">
+                    <header>
+                        <button className="back icon-label" onClick={onBack}>
+                            <AppIcon name="arrow-left" /> <span>Коьртачу агӀор</span>
+                        </button>
+                        <a className="brand" onClick={onBack}>KERLA <i>DOŞ</i></a>
+                        <span className="extra-count icon-label">
+                            {favorites.length} <AppIcon name="heart-filled" />
+                        </span>
+                    </header>
+                    <RandomLearning
+                        item={item}
+                        favorites={favorites}
+                        premium={premium}
+                        sessionSize={sessionSize}
+                        sessionStep={sessionStep}
+                        onFavorite={onFavorite}
+                        onChooseSize={chooseSessionSize}
+                        onNext={nextRandom}
+                        onSpeak={say}
+                    />
+                </main>
+            </ScriptText>
+        );
     return <ScriptText latin={latin}><main className="extra-shell"><header><button className="back icon-label" onClick={onBack}><AppIcon name="arrow-left"/> <span>Коьртачу агӀор</span></button><a className="brand" onClick={onBack}>KERLA <i>DOŞ</i></a><span className="extra-count icon-label">{favorites.length} <AppIcon name="heart-filled"/></span></header>{view === "random" && item && <section className="random-zone"><small>ХӀИНЦАЛЕРА ДОШ</small><h1>Тайп-тайпана дешнаш Ӏамо</h1><div className="random-session"><span>Масийтта дош Ӏамо?</span><div>{[10, 20, 30, 40, 50].map(size => <button key={size} disabled={!premium && size > 10} className={sessionSize === size ? "active" : ""} onClick={() => chooseSessionSize(size)}>{!premium && size > 10 && <AppIcon name="lock"/>}{size}</button>)}</div><small>{sessionStep} / {sessionSize}</small></div><div className="random-card"><button className="favorite-button" onClick={() => onFavorite(item.key)} aria-label="Схьакъастина"><AppIcon name={favorites.includes(item.key) ? "heart-filled" : "heart"}/></button><div className="random-visual" style={!item.image && item.color ? { background: item.color } : {}}>{item.image ? <img src={item.image} alt="" draggable={false}/> : item.color ? "" : item.visual}</div><h2>{item.word}</h2><p>{item.category}</p><button className="random-audio icon-label" onClick={() => say(item.word, item.audioSrc)}><AppIcon name="sound"/> Хаза</button></div><button className="next-random icon-label" onClick={nextRandom}><AppIcon name={sessionStep >= sessionSize ? "refresh" : "dice"}/>{sessionStep >= sessionSize ? "Юха волавала" : "Кхин дош"}</button><p className="random-note"><span className="icon-label">Схьакъастина <AppIcon name="heart-filled"/></span> тӀетаӀайе — и юха Ӏаморан могӀанна тӀекхочур ду.</p></section>}{view === "favorites" && <section className="favorites-zone favorite-learning"><small>ЮХА ӀАМОР</small><h1>Схьакъастина дешнаш</h1>{!favoriteItem ? <div className="empty-favorites"><span><AppIcon name="heart"/></span><h2>ХӀинца дешнаш дац</h2><p>«Тайп-тайпана дешнаш Ӏамо» декъехь дог тӀетаӀайе.</p></div> : <><p className="review-intro">{saved.length} дош юха Ӏаморан могӀанехь ду</p><div className="card-stage"><div className="big-card favorite-study-card" onClick={() => say(favoriteItem.word, favoriteItem.audioSrc)}><button className="play" aria-label="Хаза"><AppIcon name="sound"/></button><button className="word-favorite" aria-label="ДӀадаккха" onClick={event => { event.stopPropagation(); onFavorite(favoriteItem.key); }}><AppIcon name="heart-filled"/></button>{favoriteItem.image ? <div className="word-visual illustrated-visual"><img src={favoriteItem.image} alt="" draggable={false}/></div> : favoriteItem.color ? <span className="color-orb" style={{ background: favoriteItem.color }}/> : <div className="word-visual">{favoriteItem.visual}</div>}<h2>{favoriteItem.word}</h2><small>{favoriteItem.category}</small></div><div className="pager"><button onClick={() => setFavoriteIndex(i => i === 0 ? saved.length - 1 : i - 1)} aria-label="Хьалхара"><AppIcon name="arrow-left"/></button><span>{favoriteIndex % saved.length + 1} / {saved.length}</span><button onClick={() => setFavoriteIndex(i => (i + 1) % saved.length)} aria-label="РогӀера"><AppIcon name="arrow-right"/></button></div></div></>}</section>}{view === "stories" && <section className="stories-zone"><small>ХАЗА А, ДЕША А</small><h1>Туьйранаш</h1><p>Дуьххьарлера жиманиг туьйранаш берашца дешарна.</p><div className="story-grid">{tales.map((tale, index) => <button key={tale.id} onClick={() => setStory(tale)}><b><img src={tale.image} alt=""/></b><span><small>{index + 1}-ГӀА ТУЬЙРА</small><strong>{tale.title}</strong><em>{tale.summary}</em></span></button>)}</div></section>}</main></ScriptText>;
 }
