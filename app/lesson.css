@@ -40,14 +40,14 @@ footer{padding:35px;text-align:center;background:#27332c;color:#fff}footer span{
 .card-stage .pager button{display:none}
 .card-stage .big-card{touch-action:pan-y;user-select:none;will-change:transform,opacity;transition:transform .2s cubic-bezier(.2,.8,.25,1),opacity .2s ease}
 .card-stage .big-card.card-dragging{cursor:grabbing;transition:none}
-.card-motion-out-left{animation:card-out-left .19s cubic-bezier(.55,.05,.8,.45) both}
-.card-motion-out-right{animation:card-out-right .19s cubic-bezier(.55,.05,.8,.45) both}
-.card-motion-in-right{animation:card-in-right .24s cubic-bezier(.2,.8,.25,1) both}
-.card-motion-in-left{animation:card-in-left .24s cubic-bezier(.2,.8,.25,1) both}
-@keyframes card-out-left{to{opacity:0;transform:translateX(-58%) rotate(-2deg) scale(.97)}}
-@keyframes card-out-right{to{opacity:0;transform:translateX(58%) rotate(2deg) scale(.97)}}
-@keyframes card-in-right{from{opacity:0;transform:translateX(58%) rotate(2deg) scale(.97)}to{opacity:1;transform:none}}
-@keyframes card-in-left{from{opacity:0;transform:translateX(-58%) rotate(-2deg) scale(.97)}to{opacity:1;transform:none}}
+.card-motion-out-left{animation:card-out-left .22s cubic-bezier(.48,.06,.82,.45) both}
+.card-motion-out-right{animation:card-out-right .22s cubic-bezier(.48,.06,.82,.45) both}
+.card-motion-in-right{animation:card-in-right .26s cubic-bezier(.18,.8,.24,1) both}
+.card-motion-in-left{animation:card-in-left .26s cubic-bezier(.18,.8,.24,1) both}
+@keyframes card-out-left{from{opacity:1;transform:translateX(var(--card-exit-origin,0px))}to{opacity:0;transform:translateX(calc(-100% - 70vw)) rotate(-4deg) scale(.97)}}
+@keyframes card-out-right{from{opacity:1;transform:translateX(var(--card-exit-origin,0px))}to{opacity:0;transform:translateX(calc(100% + 70vw)) rotate(4deg) scale(.97)}}
+@keyframes card-in-right{from{opacity:0;transform:translateX(calc(100% + 36px)) scale(.98)}to{opacity:1;transform:none}}
+@keyframes card-in-left{from{opacity:0;transform:translateX(calc(-100% - 36px)) scale(.98)}to{opacity:1;transform:none}}
 .pager{margin-top:15px;margin-bottom:0;pointer-events:none}
 .pager span{padding:6px 13px;border-radius:999px;background:#ffffffb8;color:#68736d;font-weight:800}
 

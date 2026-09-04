@@ -1018,6 +1018,7 @@ export default function Home() {
       "idle" | "out-left" | "out-right" | "in-left" | "in-right"
     >("idle"),
     [cardDrag, setCardDrag] = useState(0),
+    [cardExitOrigin, setCardExitOrigin] = useState(0),
     [cardDragging, setCardDragging] = useState(false);
   const audio = useRef<HTMLAudioElement | null>(null);
   const swipeStart = useRef<{
@@ -1027,6 +1028,9 @@ export default function Home() {
   } | null>(null);
   const swipeHandled = useRef(false);
   const motionLocked = useRef(false);
+  const motionPhase = useRef<"idle" | "out" | "in">("idle");
+  const motionDirection = useRef<-1 | 1>(1);
+  const indexRef = useRef(0);
   const cardTimers = useRef<number[]>([]);
   useEffect(() => {
     const s = localStorage.getItem("kerla-stars");
@@ -1168,26 +1172,64 @@ export default function Home() {
     setAnswer("idle");
     setSelected(null);
   }
+  function clearCardTimers() {
+    cardTimers.current.forEach((timer) => window.clearTimeout(timer));
+    cardTimers.current = [];
+  }
+  function finishCardEnter() {
+    if (!active || motionPhase.current !== "in") return;
+    clearCardTimers();
+    motionPhase.current = "idle";
+    setCardMotion("idle");
+    setCardExitOrigin(0);
+    motionLocked.current = false;
+    if (settings.autoSpeak) {
+      const nextWord = active.words[indexRef.current];
+      active.id === "alphabet"
+        ? speakAlphabetPart(nextWord, "letter")
+        : speak(nextWord);
+    }
+  }
+  function finishCardExit() {
+    if (!active || motionPhase.current !== "out") return;
+    clearCardTimers();
+    const direction = motionDirection.current;
+    const nextIndex =
+      direction > 0
+        ? (indexRef.current + 1) % active.words.length
+        : indexRef.current === 0
+          ? active.words.length - 1
+          : indexRef.current - 1;
+    indexRef.current = nextIndex;
+    setIndex(nextIndex);
+    motionPhase.current = "in";
+    setCardMotion(direction > 0 ? "in-right" : "in-left");
+    cardTimers.current.push(window.setTimeout(finishCardEnter, 500));
+  }
   function moveCard(direction: -1 | 1) {
     if (!active || motionLocked.current) return;
-    motionLocked.current = true;
-    setCardMotion(direction > 0 ? "out-left" : "out-right");
-    const leaveTimer = window.setTimeout(() => {
-      setIndex((currentIndex) =>
+    clearCardTimers();
+    if (
+      settings.reduceMotion ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      const nextIndex =
         direction > 0
-          ? (currentIndex + 1) % active.words.length
-          : currentIndex === 0
+          ? (indexRef.current + 1) % active.words.length
+          : indexRef.current === 0
             ? active.words.length - 1
-            : currentIndex - 1,
-      );
-      setCardMotion(direction > 0 ? "in-right" : "in-left");
-      const enterTimer = window.setTimeout(() => {
-        setCardMotion("idle");
-        motionLocked.current = false;
-      }, 240);
-      cardTimers.current.push(enterTimer);
-    }, 190);
-    cardTimers.current.push(leaveTimer);
+            : indexRef.current - 1;
+      indexRef.current = nextIndex;
+      setIndex(nextIndex);
+      setCardDrag(0);
+      setCardExitOrigin(0);
+      return;
+    }
+    motionLocked.current = true;
+    motionPhase.current = "out";
+    motionDirection.current = direction;
+    setCardMotion(direction > 0 ? "out-left" : "out-right");
+    cardTimers.current.push(window.setTimeout(finishCardExit, 500));
   }
   function choose(w: Word) {
     if (answer !== "right") {
@@ -1235,13 +1277,16 @@ export default function Home() {
     setPaywall(false);
   }
   useEffect(() => {
-    if (settings.autoSpeak && active) {
+    if (settings.autoSpeak && active && !motionLocked.current) {
       const word = active.words[index];
       active.id === "alphabet"
         ? speakAlphabetPart(word, "letter")
         : speak(word);
     }
   }, [active?.id, index, settings.autoSpeak]);
+  useEffect(() => {
+    indexRef.current = index;
+  }, [index]);
   useEffect(() => {
     if (!active) return;
     const position = { categoryId: active.id, index };
@@ -1478,10 +1523,12 @@ export default function Home() {
                 className={`card-stage ${active.id === "alphabet" ? "alphabet-stage" : ""}`}
               >
                 <div
+                  key={`${active.id}:${current.id}:${cardMotion.startsWith("in-") ? "incoming" : "current"}`}
                   className={`big-card ${active.id === "alphabet" ? "alphabet-card" : ""} card-motion-${cardMotion}${cardDragging ? " card-dragging" : ""}`}
                   style={
                     {
                       "--accent": active.accent,
+                      "--card-exit-origin": `${cardExitOrigin}px`,
                       ...(cardMotion === "idle" && cardDrag !== 0
                         ? {
                             transform: `translateX(${cardDrag}px) rotate(${cardDrag / 90}deg)`,
@@ -1498,6 +1545,7 @@ export default function Home() {
                       pointerId: event.pointerId,
                     };
                     swipeHandled.current = false;
+                    setCardExitOrigin(0);
                     setCardDragging(true);
                     event.currentTarget.setPointerCapture(event.pointerId);
                   }}
@@ -1517,19 +1565,27 @@ export default function Home() {
                     const deltaY = event.clientY - start.y;
                     swipeStart.current = null;
                     setCardDragging(false);
-                    setCardDrag(0);
                     if (
                       Math.abs(deltaX) > 52 &&
                       Math.abs(deltaX) > Math.abs(deltaY) * 1.25
                     ) {
                       swipeHandled.current = true;
+                      setCardExitOrigin(Math.max(-170, Math.min(170, deltaX)));
+                      setCardDrag(0);
                       moveCard(deltaX < 0 ? 1 : -1);
+                    } else {
+                      setCardDrag(0);
                     }
                   }}
                   onPointerCancel={() => {
                     swipeStart.current = null;
                     setCardDragging(false);
                     setCardDrag(0);
+                  }}
+                  onAnimationEnd={(event) => {
+                    if (event.target !== event.currentTarget) return;
+                    if (motionPhase.current === "out") finishCardExit();
+                    else if (motionPhase.current === "in") finishCardEnter();
                   }}
                   onClick={() => {
                     if (swipeHandled.current) {
