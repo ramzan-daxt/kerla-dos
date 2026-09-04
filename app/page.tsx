@@ -1835,8 +1835,8 @@ export default function Home() {
           <div>
             <p className="eyebrow">МАРША ДОГӀИЙЛА!</p>
             <h1>
-              Хьажа, хаза,
-              <br /><span>Ӏама, ловза</span>
+              Нохчийн мотт
+              <br /><span>ловзуш Ӏамо</span>
             </h1>
             <p>Хьажа а, ладогӀа а, Ӏамаде а, ловза а</p>
           </div>
