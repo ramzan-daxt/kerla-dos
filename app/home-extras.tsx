@@ -130,7 +130,7 @@ function RandomLearning({
         </section>
     );
 }
-export default function HomeExtras({ view, items, favorites, onFavorite, onBack, rate, volume, latin, premium }: {
+export default function HomeExtras({ view, items, favorites, onFavorite, onBack, rate, volume, latin, premium, mosaicPieces }: {
     view: View;
     items: LearningItem[];
     favorites: string[];
@@ -140,6 +140,7 @@ export default function HomeExtras({ view, items, favorites, onFavorite, onBack,
     volume: number;
     latin: boolean;
     premium: boolean;
+    mosaicPieces: 6 | 9 | 12 | 15;
 }) {
     const [random, setRandom] = useState(() => Math.floor(Math.random() * Math.max(1, items.length))), [story, setStory] = useState<(typeof tales)[number] | null>(null), [storyAudioState, setStoryAudioState] = useState<"idle" | "playing" | "paused">("idle"), [sessionSize, setSessionSize] = useState(10), [sessionStep, setSessionStep] = useState(1), [favoriteIndex, setFavoriteIndex] = useState(0);
     const wordAudio = useRef<HTMLAudioElement | null>(null);
@@ -229,7 +230,7 @@ export default function HomeExtras({ view, items, favorites, onFavorite, onBack,
     if (story)
         return <ScriptText latin={latin}><main className="extra-shell"><header><button className="back icon-label" onClick={closeStory}><AppIcon name="arrow-left"/> <span>Хьалха</span></button><a className="brand" onClick={leaveStory}>KERLA <i>DOŞ</i></a></header><article className="story-reader"><div><img src={story.image} alt=""/></div><small>ТУЬЙРА</small><h1>{story.title}</h1>{story.text.map((paragraph, index) => <p key={index}>{paragraph}</p>)}<button className="icon-label" onClick={toggleStoryAudio}><AppIcon name={storyAudioState === "playing" ? "pause" : "play"}/>{storyAudioState === "playing" ? "Соцаде" : storyAudioState === "paused" ? "ДӀахӀоттаде" : "Туьйра хаза"}</button></article></main></ScriptText>;
     if (view === "games")
-        return <ScriptText latin={latin}><GameCenter items={items} onBack={onBack}/></ScriptText>;
+        return <ScriptText latin={latin}><GameCenter items={items} onBack={onBack} mosaicPieces={mosaicPieces}/></ScriptText>;
     if (view === "random" && item)
         return (
             <ScriptText latin={latin}>

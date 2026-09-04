@@ -97,7 +97,7 @@ function puzzlePiecePath(piece: number, columns: number, rows: number): string {
   ].join(" ");
 }
 
-export default function GameCenter({ items, onBack }: { items: LearningItem[]; onBack: () => void }) {
+export default function GameCenter({ items, onBack, mosaicPieces }: { items: LearningItem[]; onBack: () => void; mosaicPieces: 6 | 9 | 12 | 15 }) {
   const wordItems = useMemo(
     () => items.filter((item) => item.image && [...item.word.replace(/\s/g, "")].length >= 2 && [...item.word.replace(/\s/g, "")].length <= 9),
     [items],
@@ -110,8 +110,8 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
   const [wordResult, setWordResult] = useState<Result>("idle");
   const [themeIndex, setThemeIndex] = useState<number | null>(null);
   const [puzzleIndex, setPuzzleIndex] = useState(0);
-  const [difficulty, setDifficulty] = useState(9);
-  const [order, setOrder] = useState<number[]>(() => makePuzzleOrder(9));
+  const difficulty = mosaicPieces;
+  const [order, setOrder] = useState<number[]>(() => makePuzzleOrder(mosaicPieces));
   const [dragging, setDragging] = useState<PieceDrag | null>(null);
   const dragRef = useRef<PieceDrag | null>(null);
   const boardRef = useRef<HTMLDivElement>(null);
@@ -128,10 +128,17 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
     return () => media.removeEventListener("change", updateLayout);
   }, []);
 
+  useEffect(() => {
+    setOrder(makePuzzleOrder(difficulty));
+    setMosaicResult("idle");
+  }, [difficulty]);
+
   const theme = themeIndex === null ? null : mosaicThemes[themeIndex];
   const puzzle = theme?.puzzles[puzzleIndex % theme.puzzles.length];
   const solved = order.every((value, index) => value === index);
-  const puzzleColumns = phonePortrait ? 3 : difficulty / 3;
+  const puzzleColumns = phonePortrait
+    ? difficulty === 6 ? 2 : 3
+    : difficulty === 6 ? 3 : difficulty / 3;
   const puzzleRows = difficulty / puzzleColumns;
 
   function returnOneLevel() {
@@ -238,14 +245,6 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
     setMosaicResult("idle");
   }
 
-  function chooseDifficulty(size: number) {
-    setDifficulty(size);
-    setOrder(makePuzzleOrder(size));
-    setDragging(null);
-    dragRef.current = null;
-    setMosaicResult("idle");
-  }
-
   function openPuzzlePreview() {
     if (previewUses >= 3) return;
     setPreviewUses((current) => current + 1);
@@ -337,17 +336,12 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
         <section className="mosaic-game">
           <small>МОЗАИКА · {theme.title}</small>
           <h1>{puzzle.title}</h1>
+          <h2 className="puzzle-picker-title">Сурт харжа</h2>
           <div className="puzzle-picker">
             {theme.puzzles.map((item, index) => (
               <button className={puzzleIndex === index ? "active" : ""} key={item.title} onClick={() => choosePuzzle(index)}>
                 <img src={item.image} alt="" /><span>{item.title}</span>
               </button>
-            ))}
-          </div>
-          <div className="mosaic-difficulty" aria-label="Халона">
-            <span>Дакъош:</span>
-            {[9, 12, 15].map((size) => (
-              <button className={difficulty === size ? "active" : ""} key={size} onClick={() => chooseDifficulty(size)}>{size}</button>
             ))}
           </div>
           <button

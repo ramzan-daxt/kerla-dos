@@ -35,3 +35,13 @@
 .mosaic-board.checked-correct .mosaic-piece{filter:none}
 .mosaic-board.checked-correct .mosaic-piece-edge{stroke:transparent}
 .mosaic-board.checked-correct button{overflow:visible}
+
+/* The image selector is a real swipeable carousel; puzzle size lives in Settings. */
+.puzzle-picker-title{margin:0 0 10px;font-size:16px;color:#64756e;text-align:left}
+.puzzle-picker{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(150px,31%);justify-content:start;gap:12px;margin:0 0 20px;padding:3px 3px 12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:3px;overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.puzzle-picker::-webkit-scrollbar{display:none}
+.puzzle-picker button{width:100%;min-width:0;padding:7px;border:2px solid transparent;border-radius:18px;background:#fff;color:inherit;scroll-snap-align:start;transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease}
+.puzzle-picker button.active{border-color:#2f806f;box-shadow:0 5px 14px #183b3120;transform:translateY(-2px)}
+.puzzle-picker img{width:100%;height:auto;aspect-ratio:3/2;display:block;object-fit:cover;border-radius:12px}
+.puzzle-picker span{display:block;margin:7px 4px 2px;font-size:14px;font-weight:800;white-space:normal}
+@media(max-width:760px){.puzzle-picker-title{text-align:left}.puzzle-picker{grid-auto-columns:72%;margin-inline:-12px;padding-inline:12px;scroll-padding-inline:12px}.puzzle-picker button{border-radius:17px}}

@@ -1470,6 +1470,7 @@ export default function Home() {
         volume={settings.volume}
         latin={false}
         premium={premium}
+        mosaicPieces={settings.mosaicPieces}
       />
     );
   if (active && !freeCategoryIds.has(active.id) && !premium) {
