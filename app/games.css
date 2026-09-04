@@ -45,3 +45,7 @@
 .puzzle-picker img{width:100%;height:auto;aspect-ratio:3/2;display:block;object-fit:cover;border-radius:12px}
 .puzzle-picker span{display:block;margin:7px 4px 2px;font-size:14px;font-weight:800;white-space:normal}
 @media(max-width:760px){.puzzle-picker-title{text-align:left}.puzzle-picker{grid-auto-columns:72%;margin-inline:-12px;padding-inline:12px;scroll-padding-inline:12px}.puzzle-picker button{border-radius:17px}}
+
+/* The puzzle itself is the surface: no separate card behind it. */
+.mosaic-board,.mosaic-board.checked-correct{padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
+.mosaic-board.checked-correct{overflow:hidden}
