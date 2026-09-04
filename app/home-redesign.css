@@ -1049,6 +1049,7 @@
   flex: 1 1 auto;
   height: auto;
   min-height: 0;
+  overflow: hidden;
   border: 0;
   border-radius: 0;
   background: transparent;
@@ -1056,14 +1057,15 @@
 }
 
 .category-tile-art img {
-  width: 82%;
-  height: 82%;
+  width: 76%;
+  height: 150px;
+  max-width: 160px;
   object-fit: contain;
 }
 
 .category-tile-copy {
   flex: 0 0 auto;
-  min-height: 47px;
+  min-height: 54px;
   justify-content: flex-end;
 }
 
@@ -1089,7 +1091,8 @@
   }
 
   .category-tile-art img {
-    width: 84%;
-    height: 84%;
+    width: 72%;
+    height: 112px;
+    max-width: 128px;
   }
 }
