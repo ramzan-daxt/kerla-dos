@@ -1157,3 +1157,9 @@
     transition: none;
   }
 }
+
+/* The page starts directly with the header; no decorative top stripe. */
+.home-shell::before,
+.category-library::before {
+  display: none;
+}
