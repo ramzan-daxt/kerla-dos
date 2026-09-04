@@ -57,6 +57,28 @@ function makePuzzleOrder(size = 9): number[] {
   return next;
 }
 
+function puzzleEdge(startX: number, startY: number, endX: number, endY: number, tab: number): string {
+  if (!tab) return `L ${endX} ${endY}`;
+  const directionX = (endX - startX) / 100;
+  const directionY = (endY - startY) / 100;
+  const normalX = directionY;
+  const normalY = -directionX;
+  const point = (along: number, outward = 0) => {
+    const x = startX + directionX * along + normalX * outward * tab;
+    const y = startY + directionY * along + normalY * outward * tab;
+    return `${Number(x.toFixed(2))} ${Number(y.toFixed(2))}`;
+  };
+  return [
+    `L ${point(42)}`,
+    `L ${point(42, 4)}`,
+    `C ${point(36, 6)} ${point(36, 15)} ${point(42, 18)}`,
+    `C ${point(47, 22)} ${point(53, 22)} ${point(58, 18)}`,
+    `C ${point(64, 15)} ${point(64, 6)} ${point(58, 4)}`,
+    `L ${point(58)}`,
+    `L ${endX} ${endY}`,
+  ].join(" ");
+}
+
 function puzzlePiecePath(piece: number, columns: number): string {
   const row = Math.floor(piece / columns);
   const column = piece % columns;
@@ -65,21 +87,13 @@ function puzzlePiecePath(piece: number, columns: number): string {
   const bottom = row === lastRow ? 0 : (row * columns + column) % 2 === 0 ? 1 : -1;
   const top = row === 0 ? 0 : -(((row - 1) * columns + column) % 2 === 0 ? 1 : -1);
   const left = column === 0 ? 0 : -((row + column - 1) % 2 === 0 ? 1 : -1);
-  const depth = 14;
-  const t = top * depth;
-  const r = right * depth;
-  const b = bottom * depth;
-  const l = left * depth;
   return [
-    "M 0 0 H 35",
-    top ? `C 39 0 38 ${t} 50 ${t} C 62 ${t} 61 0 65 0` : "H 65",
-    "H 100 V 35",
-    right ? `C 100 39 ${100 + r} 38 ${100 + r} 50 C ${100 + r} 62 100 61 100 65` : "V 65",
-    "V 100 H 65",
-    bottom ? `C 61 100 62 ${100 + b} 50 ${100 + b} C 38 ${100 + b} 39 100 35 100` : "H 35",
-    "H 0 V 65",
-    left ? `C 0 61 ${l} 62 ${l} 50 C ${l} 38 0 39 0 35` : "V 35",
-    "V 0 Z",
+    "M 0 0",
+    puzzleEdge(0, 0, 100, 0, top),
+    puzzleEdge(100, 0, 100, 100, right),
+    puzzleEdge(100, 100, 0, 100, bottom),
+    puzzleEdge(0, 100, 0, 0, left),
+    "Z",
   ].join(" ");
 }
 
