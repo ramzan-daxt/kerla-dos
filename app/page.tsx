@@ -1016,9 +1016,15 @@ export default function Home() {
     [seenWords, setSeenWords] = useState<string[]>([]),
     [cardMotion, setCardMotion] = useState<
       "idle" | "out-left" | "out-right" | "in-left" | "in-right"
-    >("idle");
+    >("idle"),
+    [cardDrag, setCardDrag] = useState(0),
+    [cardDragging, setCardDragging] = useState(false);
   const audio = useRef<HTMLAudioElement | null>(null);
-  const swipeStart = useRef<{ x: number; y: number } | null>(null);
+  const swipeStart = useRef<{
+    x: number;
+    y: number;
+    pointerId: number;
+  } | null>(null);
   const swipeHandled = useRef(false);
   const motionLocked = useRef(false);
   const cardTimers = useRef<number[]>([]);
@@ -1472,24 +1478,58 @@ export default function Home() {
                 className={`card-stage ${active.id === "alphabet" ? "alphabet-stage" : ""}`}
               >
                 <div
-                  className={`big-card ${active.id === "alphabet" ? "alphabet-card" : ""} card-motion-${cardMotion}`}
-                  style={{ "--accent": active.accent } as React.CSSProperties}
-                  onTouchStart={(event) => {
-                    const touch = event.touches[0];
-                    swipeStart.current = { x: touch.clientX, y: touch.clientY };
+                  className={`big-card ${active.id === "alphabet" ? "alphabet-card" : ""} card-motion-${cardMotion}${cardDragging ? " card-dragging" : ""}`}
+                  style={
+                    {
+                      "--accent": active.accent,
+                      ...(cardMotion === "idle" && cardDrag !== 0
+                        ? {
+                            transform: `translateX(${cardDrag}px) rotate(${cardDrag / 90}deg)`,
+                            opacity: Math.max(.82, 1 - Math.abs(cardDrag) / 700),
+                          }
+                        : {}),
+                    } as React.CSSProperties
+                  }
+                  onPointerDown={(event) => {
+                    if (!event.isPrimary || motionLocked.current) return;
+                    swipeStart.current = {
+                      x: event.clientX,
+                      y: event.clientY,
+                      pointerId: event.pointerId,
+                    };
                     swipeHandled.current = false;
+                    setCardDragging(true);
+                    event.currentTarget.setPointerCapture(event.pointerId);
                   }}
-                  onTouchEnd={(event) => {
+                  onPointerMove={(event) => {
                     const start = swipeStart.current;
-                    const touch = event.changedTouches[0];
+                    if (!start || start.pointerId !== event.pointerId) return;
+                    const deltaX = event.clientX - start.x;
+                    const deltaY = event.clientY - start.y;
+                    if (Math.abs(deltaX) > 7 && Math.abs(deltaX) > Math.abs(deltaY)) {
+                      setCardDrag(Math.max(-170, Math.min(170, deltaX)));
+                    }
+                  }}
+                  onPointerUp={(event) => {
+                    const start = swipeStart.current;
+                    if (!start || start.pointerId !== event.pointerId) return;
+                    const deltaX = event.clientX - start.x;
+                    const deltaY = event.clientY - start.y;
                     swipeStart.current = null;
-                    if (!start) return;
-                    const deltaX = touch.clientX - start.x;
-                    const deltaY = touch.clientY - start.y;
-                    if (Math.abs(deltaX) > 52 && Math.abs(deltaX) > Math.abs(deltaY) * 1.25) {
+                    setCardDragging(false);
+                    setCardDrag(0);
+                    if (
+                      Math.abs(deltaX) > 52 &&
+                      Math.abs(deltaX) > Math.abs(deltaY) * 1.25
+                    ) {
                       swipeHandled.current = true;
                       moveCard(deltaX < 0 ? 1 : -1);
                     }
+                  }}
+                  onPointerCancel={() => {
+                    swipeStart.current = null;
+                    setCardDragging(false);
+                    setCardDrag(0);
                   }}
                   onClick={() => {
                     if (swipeHandled.current) {
