@@ -1,9 +1,10 @@
 "use client";
-import ScriptText from "./script-text";
 import AppIcon from "./ui-icon";
+import type { TranslationLanguage } from "./word-translations";
 
 export type Settings = {
     script: "cyrillic" | "latin";
+    translation: TranslationLanguage;
     volume: number;
     rate: number;
     autoSpeak: boolean;
@@ -17,7 +18,7 @@ export type Settings = {
     dailyGoal: 5 | 10 | 15;
 };
 
-export const defaultSettings: Settings = { script: "cyrillic", volume: .9, rate: .72, autoSpeak: true, repeat: false, gameSounds: true, largeText: false, reduceMotion: false, difficulty: 4, shuffle: false, reviewErrors: true, dailyGoal: 10 };
+export const defaultSettings: Settings = { script: "cyrillic", translation: "off", volume: .9, rate: .72, autoSpeak: true, repeat: false, gameSounds: true, largeText: false, reduceMotion: false, difficulty: 4, shuffle: false, reviewErrors: true, dailyGoal: 10 };
 
 function Toggle({ on, change }: { on: boolean; change: (v: boolean) => void }) {
     return <button className={"toggle " + (on ? "on" : "")} onClick={() => change(!on)} aria-pressed={on}><i/></button>;
@@ -33,7 +34,7 @@ export default function SettingsPanel({ value, onChange, stars, onClose, onReset
     premium: boolean;
 }) {
     const set = <K extends keyof Settings>(key: K, next: Settings[K]) => onChange({ ...value, [key]: next });
-    return <ScriptText latin={value.script === "latin"}>
+    return <>
         <div className="settings-backdrop" onClick={onClose}>
             <section className="settings-panel" onClick={event => event.stopPropagation()}>
                 <header>
@@ -41,11 +42,8 @@ export default function SettingsPanel({ value, onChange, stars, onClose, onReset
                     <button onClick={onClose} aria-label="ДӀакъовла"><AppIcon name="close"/></button>
                 </header>
                 <div className="settings-scroll">
-                    <h3>Йоза</h3>
-                    <div className="script-choice">
-                        <button className={value.script === "cyrillic" ? "active" : ""} onClick={() => set("script", "cyrillic")}><b>Аь</b><span>Кириллица</span></button>
-                        <button className={value.script === "latin" ? "active" : ""} onClick={() => set("script", "latin")}><b>Ä</b><span>Latinca 1992</span></button>
-                    </div>
+                    <h3>Карточкан йоза</h3>
+                    <label className="select-row"><span><b>Гочдар гайта</b><small>Дош кхечу маттахь</small></span><select value={value.translation} onChange={event => set("translation", event.target.value as TranslationLanguage)}><option value="off">ДӀадаьккхина</option><option value="ru">Русский</option><option value="en">English</option><option value="de">Deutsch</option></select></label>
                     <h3>Хазар</h3>
                     <label className="range-row"><span><b className="icon-label"><AppIcon name="sound"/> Аз</b><small>{Math.round(value.volume * 100)}%</small></span><input type="range" min="0" max="1" step=".1" value={value.volume} onChange={event => set("volume", Number(event.target.value))}/></label>
                     <label className="range-row"><span><b className="icon-label"><AppIcon name="turtle"/> Хазар сихалла</b><small>{value.rate < .7 ? "Меллаша" : value.rate > 1 ? "Сиха" : "Леррина"}</small></span><input type="range" min=".5" max="1.2" step=".1" value={value.rate} onChange={event => set("rate", Number(event.target.value))}/></label>
@@ -68,5 +66,5 @@ export default function SettingsPanel({ value, onChange, stars, onClose, onReset
                 </div>
             </section>
         </div>
-    </ScriptText>;
+    </>;
 }

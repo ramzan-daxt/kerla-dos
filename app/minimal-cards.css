@@ -8,7 +8,7 @@
   box-sizing: border-box;
   width: 100%;
   max-width: 480px;
-  min-height: 520px;
+  min-height: 560px;
   padding: 24px 28px 26px;
   overflow: hidden;
   border: 1px solid #e7e5df;
@@ -41,7 +41,7 @@
 }
 
 .big-card:has(.illustrated-visual) {
-  min-height: 520px;
+  min-height: 560px;
 }
 
 .big-card:has(.illustrated-visual) .illustrated-visual,
@@ -62,10 +62,26 @@
   margin: 10px 0 0;
   color: #17241f;
   font-family: var(--font-nunito), sans-serif;
-  font-size: 36px;
+  font-size: 43px;
   font-weight: 900;
   line-height: 1.15;
   letter-spacing: -.6px;
+}
+
+.big-card .word-latin {
+  margin: 5px 0 0;
+  color: #66716c;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.big-card .word-translation {
+  margin: 7px 0 0;
+  color: var(--accent);
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.25;
 }
 
 .big-card > small {
@@ -231,7 +247,7 @@
   .alphabet-card {
     width: 100%;
     max-width: 420px;
-    min-height: 0;
+    min-height: 520px;
     padding: 18px 20px 22px;
     border-radius: 32px;
   }
@@ -247,7 +263,7 @@
   .big-card .word-favorite { left: 17px; }
 
   .big-card:has(.illustrated-visual) {
-    min-height: 0;
+    min-height: 520px;
   }
 
   .big-card:has(.illustrated-visual) .illustrated-visual,
@@ -258,8 +274,11 @@
 
   .big-card h2,
   .alphabet-card h2 {
-    font-size: 31px;
+    font-size: 38px;
   }
+
+  .big-card .word-latin { font-size: 18px; }
+  .big-card .word-translation { font-size: 16px; }
 
   .color-orb {
     width: min(58vw, 220px);

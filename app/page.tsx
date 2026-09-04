@@ -1,7 +1,8 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
 import SettingsPanel, { defaultSettings, type Settings } from "./settings";
-import ScriptText from "./script-text";
+import ScriptText, { latinize } from "./script-text";
+import { getWordTranslation } from "./word-translations";
 import HomeExtras, { type LearningItem } from "./home-extras";
 import AppIcon from "./ui-icon";
 type Word = {
@@ -1040,6 +1041,7 @@ export default function Home() {
     if (saved)
       try {
         const next = { ...defaultSettings, ...JSON.parse(saved) };
+        next.script = "cyrillic";
         if (!localStorage.getItem("kerla-autospeak-v2")) next.autoSpeak = true;
         setSettings(next);
       } catch {}
@@ -1080,8 +1082,7 @@ export default function Home() {
         .slice(0, settings.difficulty - 1),
     ].sort(() => 0.5 - Math.random());
   }, [active, target?.id, round, premium, settings.difficulty]);
-  const tx = (s: string) =>
-    settings.script === "latin" && s === "Ӏ ӏ" ? "J j" : s;
+  const tx = (s: string) => s;
   function saveSettings(v: Settings) {
     setSettings(v);
     localStorage.setItem("kerla-settings", JSON.stringify(v));
@@ -1351,7 +1352,7 @@ export default function Home() {
   );
   if (homeView === "categories")
     return (
-      <ScriptText latin={settings.script === "latin"}>
+      <ScriptText latin={false}>
         <main className="category-library">
           <header>
             <button
@@ -1417,13 +1418,13 @@ export default function Home() {
         onBack={() => setHomeView(null)}
         rate={settings.rate}
         volume={settings.volume}
-        latin={settings.script === "latin"}
+        latin={false}
         premium={premium}
       />
     );
   if (active && !freeCategoryIds.has(active.id) && !premium) {
     return (
-      <ScriptText latin={settings.script === "latin"}>
+      <ScriptText latin={false}>
         <main className="app-shell category-gate">
           <header>
             <button className="back icon-label" onClick={() => setActive(null)}>
@@ -1463,7 +1464,7 @@ export default function Home() {
     const current = active.words[index];
     const letterForms = tx(current.chechen).split(" ");
     return (
-      <ScriptText latin={settings.script === "latin"}>
+      <ScriptText latin={false}>
         <main className="app-shell">
           <header>
             <button className="back icon-label" onClick={() => setActive(null)}>
@@ -1677,6 +1678,14 @@ export default function Home() {
                       tx(current.example || current.chechen)
                     )}
                   </h2>
+                  <p className="word-latin" lang="ce-Latn">
+                    {latinize(current.example || current.chechen)}
+                  </p>
+                  {getWordTranslation(current.russian, settings.translation) && (
+                    <p className="word-translation">
+                      {getWordTranslation(current.russian, settings.translation)}
+                    </p>
+                  )}
                   <small>Дош хаза тӀетаӀайе</small>
                 </div>
                 <div className="pager">
@@ -1798,7 +1807,7 @@ export default function Home() {
     );
   }
   return (
-    <ScriptText latin={settings.script === "latin"}>
+    <ScriptText latin={false}>
       <main className="home-shell">
         <header>
           <a className="brand">
