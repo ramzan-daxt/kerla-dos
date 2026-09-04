@@ -1163,3 +1163,45 @@
 .category-library::before {
   display: none;
 }
+
+/* Keep the resume card flat at rest and give it depth only on interaction. */
+.home-shell .continue-lesson {
+  box-shadow: none;
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease,
+    border-color .18s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .home-shell .continue-lesson:hover {
+    transform: translateY(-3px);
+    border-color: #b8cfc6;
+    box-shadow: 0 10px 22px rgba(18, 58, 53, .14);
+  }
+}
+
+.home-shell .continue-lesson:active {
+  transform: translateY(1px) scale(.99);
+  box-shadow: 0 3px 8px rgba(18, 58, 53, .12);
+  transition-duration: .08s;
+}
+
+.home-shell .continue-lesson:focus-visible {
+  outline: 3px solid rgba(32, 119, 103, .28);
+  outline-offset: 3px;
+  box-shadow: 0 8px 18px rgba(18, 58, 53, .12);
+}
+
+@media (max-width: 900px) {
+  .home-shell .home-progress {
+    row-gap: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-shell .continue-lesson {
+    transition: none;
+  }
+}
