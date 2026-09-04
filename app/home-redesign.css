@@ -998,31 +998,6 @@
   border: 0;
 }
 
-/* The word collection follows the same vertical card rhythm as alphabet and numbers. */
-.home-shell .categories-feature .category-preview {
-  background: transparent;
-}
-
-@media (max-width: 760px) {
-  .home-shell .categories-feature {
-    grid-column: 1 / -1;
-    width: calc((100% - 10px) / 2);
-    min-height: 186px;
-    justify-self: center;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 9px;
-  }
-
-  .home-shell .categories-feature .category-preview {
-    width: 100%;
-    height: 90px;
-    flex: 0 0 90px;
-    padding: 6px;
-  }
-}
-
 /* Keep the resume artwork inside its mobile grid column. */
 @media (max-width: 480px) {
   .continue-lesson {
@@ -1056,5 +1031,65 @@
   .home-shell .direction-card strong {
     font-size: 18px;
     line-height: 1.15;
+  }
+}
+
+/* Word-category library: tall cards with artwork directly on the card surface. */
+.category-library-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.category-tile {
+  min-height: 0;
+  aspect-ratio: 4 / 5;
+  padding: 14px 12px 16px;
+}
+
+.category-tile-art {
+  flex: 1 1 auto;
+  height: auto;
+  min-height: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.category-tile-art img {
+  width: min(78%, 132px);
+  height: 78%;
+  object-fit: contain;
+}
+
+.category-tile-copy {
+  flex: 0 0 auto;
+  min-height: 47px;
+  justify-content: flex-end;
+}
+
+@media (max-width: 980px) {
+  .category-library-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .category-library-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .category-tile {
+    min-height: 0;
+    aspect-ratio: 4 / 5;
+    padding: 10px 8px 12px;
+  }
+
+  .category-tile-art {
+    height: auto;
+  }
+
+  .category-tile-art img {
+    width: min(82%, 116px);
+    height: 80%;
   }
 }
