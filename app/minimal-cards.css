@@ -79,7 +79,7 @@
 .big-card .word-translation {
   margin: 7px 0 0;
   color: var(--accent);
-  font-size: 17px;
+  font-size: 20px;
   font-weight: 800;
   line-height: 1.25;
 }
@@ -278,7 +278,7 @@
   }
 
   .big-card .word-latin { font-size: 18px; }
-  .big-card .word-translation { font-size: 16px; }
+  .big-card .word-translation { font-size: 18px; }
 
   .color-orb {
     width: min(58vw, 220px);
