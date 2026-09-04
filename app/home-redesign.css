@@ -993,6 +993,36 @@
   }
 }
 
+/* No outline around word-category cards. */
+.category-tile {
+  border: 0;
+}
+
+/* The word collection follows the same vertical card rhythm as alphabet and numbers. */
+.home-shell .categories-feature .category-preview {
+  background: transparent;
+}
+
+@media (max-width: 760px) {
+  .home-shell .categories-feature {
+    grid-column: 1 / -1;
+    width: calc((100% - 10px) / 2);
+    min-height: 186px;
+    justify-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 9px;
+  }
+
+  .home-shell .categories-feature .category-preview {
+    width: 100%;
+    height: 90px;
+    flex: 0 0 90px;
+    padding: 6px;
+  }
+}
+
 /* Keep the resume artwork inside its mobile grid column. */
 @media (max-width: 480px) {
   .continue-lesson {
