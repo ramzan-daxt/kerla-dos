@@ -344,8 +344,7 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
               {order.map((piece, position) => {
                 const row = Math.floor(piece / puzzleColumns);
                 const column = piece % puzzleColumns;
-                const shape = puzzlePiecePath(piece, puzzleColumns);
-                const clipId = `piece-clip-${difficulty}-${piece}-${position}`;
+                const shape = puzzlePiecePath(position, puzzleColumns);
                 const isDragging = dragging?.position === position;
                 return (
                   <button
@@ -363,19 +362,14 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
                     }}
                   >
                     <svg className="mosaic-piece" viewBox="-16 -16 132 132" preserveAspectRatio="none" aria-hidden="true">
-                      <defs>
-                        <clipPath id={clipId} clipPathUnits="userSpaceOnUse"><path d={shape} /></clipPath>
-                      </defs>
-                      <g clipPath={`url(#${clipId})`}>
-                        <image
-                          href={puzzle.image}
-                          x={-column * 100}
-                          y={-row * 100}
-                          width={puzzleColumns * 100}
-                          height="300"
-                          preserveAspectRatio="none"
-                        />
-                      </g>
+                      <image
+                        href={puzzle.image}
+                        x={-column * 100}
+                        y={-row * 100}
+                        width={puzzleColumns * 100}
+                        height="300"
+                        preserveAspectRatio="none"
+                      />
                       <path className="mosaic-piece-edge" d={shape} />
                     </svg>
                   </button>

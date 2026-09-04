@@ -25,12 +25,12 @@
 @media(max-width:760px){.mosaic-preview-dialog{padding:14px}.mosaic-preview-dialog>div{padding:10px 10px 16px;border-radius:23px}.mosaic-preview-dialog img{border-radius:15px}.mosaic-preview-close{top:18px;right:18px}.mosaic-preview-dialog strong{margin-top:12px;font-size:20px}}
 
 /* Touch-first interlocking jigsaw pieces. */
-.mosaic-board{gap:5px;padding:16px;overflow:visible;isolation:isolate;touch-action:none}
+.mosaic-board{gap:0;padding:0;overflow:visible;isolation:isolate;touch-action:none}
 .mosaic-board button{position:relative;overflow:visible;min-width:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;cursor:grab;touch-action:none;transition:transform .16s ease,filter .16s ease;user-select:none;-webkit-user-select:none}
 .mosaic-board button:active,.mosaic-board button.dragging{cursor:grabbing}
-.mosaic-board button.dragging{filter:drop-shadow(0 12px 12px #17251f55);transition:none}
-.mosaic-piece{position:absolute;inset:-16%;width:132%;height:132%;overflow:visible;pointer-events:none;filter:drop-shadow(0 1px 1px #17251f66)}
-.mosaic-piece-edge{fill:none;stroke:#fff;stroke-width:1.8;vector-effect:non-scaling-stroke}
+.mosaic-board button.dragging{opacity:.92;transition:none}
+.mosaic-piece{position:absolute;inset:-16%;width:132%;height:132%;overflow:visible;pointer-events:none;filter:none}
+.mosaic-piece-edge{fill:none;stroke:#f8f6f0;stroke-width:1.5;vector-effect:non-scaling-stroke}
 .mosaic-board.checked-correct{padding:0;gap:0;overflow:hidden}
 .mosaic-board.checked-correct .mosaic-piece{filter:none}
 .mosaic-board.checked-correct .mosaic-piece-edge{stroke:transparent}
