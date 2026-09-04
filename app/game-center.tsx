@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import type { LearningItem } from "./home-extras";
 import AppIcon from "./ui-icon";
 
@@ -15,9 +15,9 @@ const mosaicThemes = [
     title: "Нохчийн гӀишлош",
     note: "Башенаш, эвланаш, цӀенош",
     puzzles: [
-      { title: "Ламанан йурт", image: "/illustrations/alphabet/village.png" },
-      { title: "ГӀала", image: "/illustrations/alphabet/city.png" },
-      { title: "ЦӀа", image: "/illustrations/alphabet/house.png" },
+      { title: "Ламанан гӀаланаш", image: "/games/mosaic/tower-complex.jpg" },
+      { title: "Ламанан йурт", image: "/games/mosaic/mountain-village.jpg" },
+      { title: "Соьлжа-ГӀала", image: "/games/mosaic/grozny.jpg" },
     ],
   },
   {
@@ -79,10 +79,10 @@ function puzzleEdge(startX: number, startY: number, endX: number, endY: number, 
   ].join(" ");
 }
 
-function puzzlePiecePath(piece: number, columns: number): string {
+function puzzlePiecePath(piece: number, columns: number, rows: number): string {
   const row = Math.floor(piece / columns);
   const column = piece % columns;
-  const lastRow = 2;
+  const lastRow = rows - 1;
   const right = column === columns - 1 ? 0 : (row + column) % 2 === 0 ? 1 : -1;
   const bottom = row === lastRow ? 0 : (row * columns + column) % 2 === 0 ? 1 : -1;
   const top = row === 0 ? 0 : -(((row - 1) * columns + column) % 2 === 0 ? 1 : -1);
@@ -118,11 +118,21 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
   const [mosaicResult, setMosaicResult] = useState<Result>("idle");
   const [previewUses, setPreviewUses] = useState(0);
   const [previewOpen, setPreviewOpen] = useState(false);
+  const [phonePortrait, setPhonePortrait] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 760px) and (orientation: portrait)");
+    const updateLayout = () => setPhonePortrait(media.matches);
+    updateLayout();
+    media.addEventListener("change", updateLayout);
+    return () => media.removeEventListener("change", updateLayout);
+  }, []);
 
   const theme = themeIndex === null ? null : mosaicThemes[themeIndex];
   const puzzle = theme?.puzzles[puzzleIndex % theme.puzzles.length];
   const solved = order.every((value, index) => value === index);
-  const puzzleColumns = difficulty / 3;
+  const puzzleColumns = phonePortrait ? 3 : difficulty / 3;
+  const puzzleRows = difficulty / puzzleColumns;
 
   function returnOneLevel() {
     if (screen === "hub") return onBack();
@@ -216,8 +226,8 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
     if (!current || !boardRef.current) return;
     const bounds = boardRef.current.getBoundingClientRect();
     const column = Math.floor(((event.clientX - bounds.left) / bounds.width) * puzzleColumns);
-    const row = Math.floor(((event.clientY - bounds.top) / bounds.height) * 3);
-    if (column < 0 || column >= puzzleColumns || row < 0 || row >= 3) return;
+    const row = Math.floor(((event.clientY - bounds.top) / bounds.height) * puzzleRows);
+    if (column < 0 || column >= puzzleColumns || row < 0 || row >= puzzleRows) return;
     const target = row * puzzleColumns + column;
     if (target === current.position || target >= order.length) return;
     setOrder((pieces) => {
@@ -352,13 +362,17 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
           <div className="mosaic-workspace">
             <div
               ref={boardRef}
-              className={`mosaic-board ${mosaicResult === "right" ? "checked-correct" : ""}`}
-              style={{ gridTemplateColumns: `repeat(${puzzleColumns}, 1fr)` }}
+              className={`mosaic-board ${phonePortrait ? "phone-portrait" : "wide-layout"} ${mosaicResult === "right" ? "checked-correct" : ""}`}
+              style={{
+                gridTemplateColumns: `repeat(${puzzleColumns}, 1fr)`,
+                gridTemplateRows: `repeat(${puzzleRows}, 1fr)`,
+                aspectRatio: `${puzzleColumns} / ${puzzleRows}`,
+              }}
             >
               {order.map((piece, position) => {
                 const row = Math.floor(piece / puzzleColumns);
                 const column = piece % puzzleColumns;
-                const shape = puzzlePiecePath(position, puzzleColumns);
+                const shape = puzzlePiecePath(position, puzzleColumns, puzzleRows);
                 const imageClipId = `piece-image-${difficulty}-${position}`;
                 const isDragging = dragging?.position === position;
                 return (
@@ -386,8 +400,8 @@ export default function GameCenter({ items, onBack }: { items: LearningItem[]; o
                           x={-column * 100}
                           y={-row * 100}
                           width={puzzleColumns * 100}
-                          height="300"
-                          preserveAspectRatio="none"
+                          height={puzzleRows * 100}
+                          preserveAspectRatio="xMidYMid slice"
                         />
                       </g>
                       <path className="mosaic-piece-edge" d={shape} />
