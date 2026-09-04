@@ -1116,3 +1116,44 @@
     max-width: 128px;
   }
 }
+
+/* Home section cards rest flat; depth appears only during interaction. */
+.home-shell .feature-card,
+.home-shell .direction-card {
+  box-shadow: none;
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease,
+    border-color .18s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .home-shell .feature-card:hover,
+  .home-shell .direction-card:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(in srgb, var(--tile-accent, var(--direction-accent)) 32%, #ded3c1);
+    box-shadow: 0 10px 22px rgba(18, 58, 53, .14);
+  }
+}
+
+.home-shell .feature-card:active,
+.home-shell .direction-card:active {
+  transform: translateY(1px) scale(.99);
+  box-shadow: 0 3px 8px rgba(18, 58, 53, .12);
+  transition-duration: .08s;
+}
+
+.home-shell .feature-card:focus-visible,
+.home-shell .direction-card:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--tile-accent, var(--direction-accent)) 42%, transparent);
+  outline-offset: 3px;
+  box-shadow: 0 8px 18px rgba(18, 58, 53, .12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-shell .feature-card,
+  .home-shell .direction-card {
+    transition: none;
+  }
+}
