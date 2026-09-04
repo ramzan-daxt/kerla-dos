@@ -1159,14 +1159,6 @@ export default function Home() {
     setIndex(
       resumeAt !== undefined
         ? Math.min(Math.max(resumeAt, 0), cat.words.length - 1)
-        : settings.shuffle
-        ? Math.floor(
-            Math.random() *
-              Math.min(
-                premium || freeCategoryIds.has(cat.id) ? cat.words.length : 10,
-                cat.words.length,
-              ),
-          )
         : 0,
     );
     setRound(0);
