@@ -1069,6 +1069,9 @@ export default function Home() {
     document.body.classList.toggle("reduce-motion", settings.reduceMotion);
     localStorage.setItem("kerla-settings", JSON.stringify(settings));
   }, [premium, settings]);
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [active?.id, homeView]);
   const available =
     active && (premium || freeCategoryIds.has(active.id)) ? active.words : [];
   const target = available[round % (available.length || 1)];
