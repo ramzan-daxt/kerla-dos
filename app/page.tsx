@@ -1142,6 +1142,7 @@ export default function Home() {
     });
   }
   function open(cat: Category, resumeAt?: number) {
+    setHomeView(null);
     setActive(cat);
     setMode("learn");
     setIndex(

@@ -19,3 +19,12 @@ test("keeps core application assets in the static export", async () => {
     access(new URL("out/audio", projectRoot)),
   ]);
 });
+
+test("leaves the category library when a lesson is opened", async () => {
+  const source = await readFile(new URL("app/page.tsx", projectRoot), "utf8");
+
+  assert.match(
+    source,
+    /function open\(cat: Category, resumeAt\?: number\) \{\s*setHomeView\(null\);\s*setActive\(cat\);/,
+  );
+});
