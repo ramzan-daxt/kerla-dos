@@ -1056,8 +1056,8 @@
 }
 
 .category-tile-art img {
-  width: min(78%, 132px);
-  height: 78%;
+  width: 82%;
+  height: 82%;
   object-fit: contain;
 }
 
@@ -1089,7 +1089,7 @@
   }
 
   .category-tile-art img {
-    width: min(82%, 116px);
-    height: 80%;
+    width: 84%;
+    height: 84%;
   }
 }

@@ -1337,7 +1337,11 @@ export default function Home() {
                   onClick={() => open(cat)}
                 >
                   <span className="category-tile-art">
-                    <img src={cat.icon} alt="" draggable={false} />
+                    <img
+                      src={`/icons/categories/cards/${cat.id}.png`}
+                      alt=""
+                      draggable={false}
+                    />
                     {!freeCategoryIds.has(cat.id) && !premium && (
                       <i>
                         <AppIcon name="lock" />
