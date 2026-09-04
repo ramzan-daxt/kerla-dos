@@ -1035,6 +1035,21 @@
 }
 
 /* Word-category library: tall cards with artwork directly on the card surface. */
+.category-library-head {
+  margin-bottom: 26px;
+  padding-bottom: 0;
+}
+
+.category-library-head::after {
+  display: none;
+}
+
+.category-library-head h1 {
+  margin: 0;
+  font-size: clamp(26px, 4vw, 36px);
+  letter-spacing: .08em;
+}
+
 .category-library-grid {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }

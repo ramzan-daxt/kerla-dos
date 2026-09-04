@@ -1317,9 +1317,7 @@ export default function Home() {
             </div>
           </header>
           <section className="category-library-head">
-            <small>ДЕШНИЙН ТОБАНАШ</small>
-            <h1>Категореш</h1>
-            <p>ТӀетаӀайе — дешнаш Ӏамо а, ловза а.</p>
+            <h1>ДЕШНИЙН ТОБАНАШ</h1>
           </section>
           <section className="category-library-grid">
             {categories
