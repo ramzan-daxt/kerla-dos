@@ -1045,9 +1045,14 @@
 }
 
 .category-library-head h1 {
+  width: 100%;
+  max-width: none;
   margin: 0;
-  font-size: clamp(26px, 4vw, 36px);
-  letter-spacing: .08em;
+  font-size: clamp(22px, 4vw, 34px);
+  line-height: 1.1;
+  letter-spacing: .06em;
+  text-align: left;
+  white-space: nowrap;
 }
 
 .category-library-grid {
