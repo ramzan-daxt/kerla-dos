@@ -17,7 +17,7 @@ const mosaicThemes = [
     puzzles: [
       { title: "Ламанан гӀаланаш", image: "/games/mosaic/tower-complex.jpg" },
       { title: "Ламанан йурт", image: "/games/mosaic/mountain-village.jpg" },
-      { title: "Соьлжа-ГӀала", image: "/games/mosaic/grozny.jpg" },
+      { title: "ТӀай а, гӀала а", image: "/games/mosaic/stone-bridge.jpg" },
     ],
   },
   {
