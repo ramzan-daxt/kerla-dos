@@ -1,0 +1,130 @@
+/*
+ * Every learning space owns its canvas. The quiet geometric lines echo the
+ * rhythm of traditional ornament without competing with the illustrations.
+ */
+.learning-shell,
+.category-library-theme,
+.extra-shell:not(.full-tale) {
+  --scene-paper: #f5f4ef;
+  --scene-wash-a: rgba(54, 115, 96, .12);
+  --scene-wash-b: rgba(218, 171, 57, .10);
+  --scene-line: rgba(24, 74, 62, .055);
+  isolation: isolate;
+  position: relative;
+  min-height: 100vh;
+  background-color: var(--scene-paper);
+  background-image:
+    radial-gradient(circle at 12% 13%, var(--scene-wash-a) 0 8%, transparent 24%),
+    radial-gradient(circle at 90% 87%, var(--scene-wash-b) 0 7%, transparent 25%),
+    linear-gradient(135deg, var(--scene-line) 1px, transparent 1px),
+    linear-gradient(45deg, var(--scene-line) 1px, transparent 1px);
+  background-position: center, center, 0 0, 0 0;
+  background-size: auto, auto, 42px 42px, 42px 42px;
+}
+
+.learning-shell::before,
+.category-library-theme::after,
+.extra-shell:not(.full-tale)::before {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  left: 50%;
+  bottom: -122px;
+  width: min(760px, 88vw);
+  height: 245px;
+  transform: translateX(-50%);
+  border: 1px solid var(--scene-line);
+  border-radius: 50% 50% 0 0;
+  box-shadow:
+    0 -24px 0 -23px var(--scene-line),
+    0 -49px 0 -48px var(--scene-line),
+    0 -74px 0 -73px var(--scene-line);
+  pointer-events: none;
+}
+
+/* Category collection: neutral enough for many subjects, no old dotted layer. */
+.category-library-theme {
+  --scene-paper: #f3f1ea;
+  --scene-wash-a: rgba(27, 96, 79, .12);
+  --scene-wash-b: rgba(218, 167, 51, .12);
+  --scene-line: rgba(19, 77, 64, .05);
+}
+
+.category-library-theme::before {
+  content: none;
+}
+
+/* Learning categories: distinct palettes and restrained subject-like movement. */
+.category-theme-alphabet { --scene-paper:#fff7f2; --scene-wash-a:rgba(235,100,76,.15); --scene-wash-b:rgba(242,190,75,.12); --scene-line:rgba(178,70,49,.052); }
+.category-theme-numbers  { --scene-paper:#f5f4ff; --scene-wash-a:rgba(101,82,177,.15); --scene-wash-b:rgba(76,142,196,.11); --scene-line:rgba(80,65,150,.052); }
+.category-theme-family   { --scene-paper:#fff6f3; --scene-wash-a:rgba(215,102,91,.14); --scene-wash-b:rgba(230,174,77,.12); --scene-line:rgba(148,73,58,.05); }
+.category-theme-colors   { --scene-paper:#fffaf2; --scene-wash-a:rgba(240,101,82,.13); --scene-wash-b:rgba(76,160,134,.12); --scene-line:rgba(215,154,43,.06); }
+.category-theme-animals  { --scene-paper:#f4f8f1; --scene-wash-a:rgba(74,137,88,.14); --scene-wash-b:rgba(193,143,64,.12); --scene-line:rgba(51,111,70,.05); }
+.category-theme-body     { --scene-paper:#fff7f5; --scene-wash-a:rgba(212,100,103,.13); --scene-wash-b:rgba(237,181,136,.12); --scene-line:rgba(169,76,80,.05); }
+.category-theme-nature   { --scene-paper:#f0f7f3; --scene-wash-a:rgba(41,128,104,.15); --scene-wash-b:rgba(70,139,186,.11); --scene-line:rgba(31,102,82,.055); }
+.category-theme-fruit    { --scene-paper:#fff8ed; --scene-wash-a:rgba(226,109,58,.14); --scene-wash-b:rgba(113,154,69,.13); --scene-line:rgba(180,100,47,.052); }
+.category-theme-food     { --scene-paper:#fff8ee; --scene-wash-a:rgba(210,129,55,.14); --scene-wash-b:rgba(162,83,51,.10); --scene-line:rgba(159,94,42,.052); }
+.category-theme-clothes  { --scene-paper:#f7f4fb; --scene-wash-a:rgba(126,91,164,.13); --scene-wash-b:rgba(205,103,123,.10); --scene-line:rgba(105,72,142,.05); }
+.category-theme-school   { --scene-paper:#f3f7fb; --scene-wash-a:rgba(65,115,172,.14); --scene-wash-b:rgba(225,169,45,.11); --scene-line:rgba(50,96,147,.052); }
+.category-theme-home     { --scene-paper:#faf5ee; --scene-wash-a:rgba(150,104,70,.13); --scene-wash-b:rgba(204,153,76,.11); --scene-line:rgba(120,82,56,.052); }
+.category-theme-transport{ --scene-paper:#f2f7f8; --scene-wash-a:rgba(55,120,139,.14); --scene-wash-b:rgba(213,112,76,.10); --scene-line:rgba(43,96,112,.052); }
+.category-theme-time     { --scene-paper:#f5f3fa; --scene-wash-a:rgba(78,74,145,.14); --scene-wash-b:rgba(220,170,54,.11); --scene-line:rgba(63,58,125,.052); }
+
+/* The tiles preview the atmosphere waiting inside each category. */
+.category-library-theme .category-tile {
+  background: color-mix(in srgb, var(--scene-paper) 70%, white);
+}
+.category-library-theme .category-tile.category-theme-family { --scene-paper:#fff0ed; }
+.category-library-theme .category-tile.category-theme-colors { --scene-paper:#fff7e8; }
+.category-library-theme .category-tile.category-theme-animals { --scene-paper:#edf6ef; }
+.category-library-theme .category-tile.category-theme-body { --scene-paper:#fff0f0; }
+.category-library-theme .category-tile.category-theme-nature { --scene-paper:#eaf4f1; }
+.category-library-theme .category-tile.category-theme-fruit { --scene-paper:#fff4e4; }
+.category-library-theme .category-tile.category-theme-food { --scene-paper:#fff2e8; }
+.category-library-theme .category-tile.category-theme-clothes { --scene-paper:#f3effa; }
+.category-library-theme .category-tile.category-theme-school { --scene-paper:#edf3fa; }
+.category-library-theme .category-tile.category-theme-home { --scene-paper:#f7efe6; }
+.category-library-theme .category-tile.category-theme-transport { --scene-paper:#eaf3f5; }
+.category-library-theme .category-tile.category-theme-time { --scene-paper:#f0eef8; }
+
+/* Main sections use their own emotional register. */
+.extra-theme-random    { --scene-paper:#fbf7e9; --scene-wash-a:rgba(225,176,52,.15); --scene-wash-b:rgba(51,132,107,.12); --scene-line:rgba(166,125,27,.052); }
+.extra-theme-favorites { --scene-paper:#fff5f5; --scene-wash-a:rgba(220,91,106,.14); --scene-wash-b:rgba(242,178,120,.11); --scene-line:rgba(178,62,78,.048); }
+.extra-theme-stories   { --scene-paper:#f6f0e4; --scene-wash-a:rgba(153,110,53,.13); --scene-wash-b:rgba(72,114,91,.10); --scene-line:rgba(117,81,40,.052); }
+.extra-theme-games     { --scene-paper:#eef7f4; --scene-wash-a:rgba(32,124,101,.15); --scene-wash-b:rgba(234,173,49,.13); --scene-line:rgba(23,99,80,.052); }
+
+/* Keep content surfaces crisp over the new canvases. */
+.learning-shell > header,
+.learning-shell > section,
+.learning-shell > nav,
+.category-library-theme > header,
+.category-library-theme > section,
+.extra-shell:not(.full-tale) > header,
+.extra-shell:not(.full-tale) > section,
+.extra-shell:not(.full-tale) > article {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 760px) {
+  .learning-shell,
+  .category-library-theme,
+  .extra-shell:not(.full-tale) {
+    background-size: auto, auto, 34px 34px, 34px 34px;
+  }
+
+  .learning-shell::before,
+  .category-library-theme::after,
+  .extra-shell:not(.full-tale)::before {
+    bottom: -94px;
+    height: 180px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .learning-shell,
+  .category-library-theme,
+  .extra-shell:not(.full-tale) {
+    background-attachment: initial;
+  }
+}
