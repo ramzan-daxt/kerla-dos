@@ -18,21 +18,12 @@
   margin-bottom: 24px;
 }
 
-.random-heading small {
+.random-label {
   display: block;
   color: #2f806f;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 900;
   letter-spacing: 2px;
-}
-
-.random-heading h1 {
-  max-width: 720px;
-  margin: 6px 0 0;
-  color: #153e35;
-  font-size: clamp(30px, 4.2vw, 46px);
-  line-height: 1.08;
-  letter-spacing: -.035em;
 }
 
 .random-counter {
@@ -298,10 +289,6 @@
     margin-bottom: 18px;
   }
 
-  .random-heading h1 {
-    font-size: clamp(28px, 8.5vw, 36px);
-  }
-
   .random-counter {
     min-width: 76px;
     padding: 8px 10px;
@@ -366,10 +353,6 @@
 }
 
 @media (max-width: 380px) {
-  .random-heading small {
-    letter-spacing: 1.4px;
-  }
-
   .random-counter {
     display: none;
   }
@@ -433,18 +416,9 @@
     margin-bottom: 10px;
   }
 
-  .random-heading small {
-    margin-bottom: 3px;
-    font-size: 11px;
+  .random-label {
+    font-size: 13px;
     letter-spacing: 1.6px;
-  }
-
-  .random-heading h1 {
-    max-width: 330px;
-    margin: 0;
-    font-size: clamp(25px, 7.2vw, 31px);
-    line-height: 1.04;
-    letter-spacing: -.04em;
   }
 
   .random-counter {
@@ -568,12 +542,9 @@
 }
 
 @media (max-width: 359px) {
-  .random-heading small {
-    display: none;
-  }
-
-  .random-heading h1 {
-    font-size: 24px;
+  .random-label {
+    font-size: 12px;
+    letter-spacing: 1.3px;
   }
 
   .random-counter {
