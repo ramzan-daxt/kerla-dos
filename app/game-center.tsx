@@ -444,7 +444,7 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
   }
 
   return (
-    <main className="extra-shell games-shell">
+    <main className={`extra-shell games-shell extra-theme-games games-screen-${screen}`}>
       <header>
         <button className="back icon-label" onClick={returnOneLevel} aria-label="Хьалха">
           <AppIcon name="arrow-left" /> <span>Хьалха</span>
