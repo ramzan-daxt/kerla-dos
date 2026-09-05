@@ -1,6 +1,7 @@
 "use client";
 import {useEffect,useRef,useState} from"react";
 import AppIcon from "./ui-icon";
+import BookPageTurn,{type BookTurnHandle} from "./book-page-turn";
 type Block={speaker:string;text:string};type Scene={title:string;image:string;blocks:Block[]};
 const scenes:Scene[]=[
 {title:"Нацкъарш жа юккъера дӀабаьлла",image:"/stories/borz-ka/scene-01.png",blocks:[{speaker:"Кхочушверг",text:"Жа юккъера нацкъар а баьлла, уьдуш, ловзуш хилла цхьа-ши lахар. Жа гена даьлча, уьш тергалдеш lаш йолчу борзо кхерабина. Цул тlаьхьа хьун луьста йолчу дlатаlа йоьдуш хилла борз."}]},
@@ -26,13 +27,22 @@ export default function FullStory({rate,volume,onBack}:{rate:number;volume:numbe
   const [bi,setBi]=useState(0);
   const [state,setState]=useState<"idle"|"playing"|"paused">("idle");
   const [mode,setMode]=useState<"cover"|"read"|"listen"|"end">("cover");
-  const [turning,setTurning]=useState<"next"|"previous"|null>(null);
   const [rating,setRating]=useState(0);
   const cursor=useRef([0,0]);
-  const touchX=useRef<number|null>(null);
-  const scene=scenes[si];
+  const book=useRef<BookTurnHandle>(null);
+  const audioEpoch=useRef(0);
+  const beforeTurn=useRef<"idle"|"playing"|"paused">("idle");
+  const turning=useRef(false);
+  const audioState=useRef(state);
+  const deferredSpeech=useRef<[number,number]|null>(null);
+  audioState.current=state;
 
-  useEffect(()=>()=>speechSynthesis.cancel(),[]);
+  useEffect(()=>()=>{audioEpoch.current++;window.speechSynthesis?.cancel();},[]);
+  useEffect(()=>{
+    for(const page of [si-1,si+1])if(scenes[page]){
+      const image=new Image();image.src=scenes[page].image;
+    }
+  },[si]);
   useEffect(()=>{
     const saved=window.localStorage.getItem("kerla-dos-story-ratings");
     if(!saved)return;
@@ -41,56 +51,65 @@ export default function FullStory({rate,volume,onBack}:{rate:number;volume:numbe
   useEffect(()=>{
     if(mode!=="read") return;
     const onKey=(event:KeyboardEvent)=>{
-      if(event.key==="ArrowRight") turn(si+1);
-      if(event.key==="ArrowLeft") turn(si-1);
-      if(event.key==="Escape") setMode("cover");
+      if(event.key==="ArrowRight"){event.preventDefault();turn(si+1);}
+      if(event.key==="ArrowLeft"){event.preventDefault();turn(si-1);}
+      if(event.key==="Escape") leaveBook();
     };
     window.addEventListener("keydown",onKey);
     return()=>window.removeEventListener("keydown",onKey);
-  },[mode,si,turning]);
+  },[mode,si]);
 
   function speak(s:number,b:number){
+    if(turning.current){deferredSpeech.current=[s,b];return;}
     const block=scenes[s]?.blocks[b];
     if(!block){
-      if(s<scenes.length-1){setSi(s+1);setBi(0);cursor.current=[s+1,0];speak(s+1,0)}
-      else{setState("idle");setMode("end")}
+      turn(s+1);
       return;
     }
     setSi(s);setBi(b);cursor.current=[s,b];
     const u=new SpeechSynthesisUtterance(block.text);
     u.lang="ru-RU";u.rate=rate;u.volume=volume;
-    u.onend=()=>{if(cursor.current[0]===s&&cursor.current[1]===b)speak(s,b+1)};
-    u.onerror=()=>setState("idle");
+    const epoch=audioEpoch.current;
+    u.onend=()=>{if(epoch===audioEpoch.current&&cursor.current[0]===s&&cursor.current[1]===b)speak(s,b+1)};
+    u.onerror=()=>{if(epoch===audioEpoch.current)setState("idle");};
     speechSynthesis.speak(u);
   }
 
   function toggle(){
+    if(turning.current)return;
     if(state==="playing"){speechSynthesis.pause();setState("paused")}
     else if(state==="paused"){speechSynthesis.resume();setState("playing")}
-    else{speechSynthesis.cancel();setState("playing");speak(si,bi)}
+    else{audioEpoch.current++;speechSynthesis.cancel();setState("playing");speak(si,bi)}
   }
 
-  function go(n:number){
-    if(n<0||n>=scenes.length)return;
-    speechSynthesis.cancel();setState("idle");setSi(n);setBi(0);cursor.current=[n,0];
+  function beginTurn(){
+    turning.current=true;
+    beforeTurn.current=audioState.current;
+    if(audioState.current==="playing")speechSynthesis.pause();
   }
-
-  function turn(n:number){
-    if(turning||n<0)return;
-    if(n>=scenes.length){
-      setTurning("next");
-      window.setTimeout(()=>setMode("end"),360);
-      window.setTimeout(()=>setTurning(null),720);
+  function finishTurn(n:number|null){
+    turning.current=false;
+    if(n===null){
+      if(beforeTurn.current==="playing"&&!document.hidden){
+        speechSynthesis.resume();
+        const pending=deferredSpeech.current;deferredSpeech.current=null;
+        if(pending)speak(...pending);
+      }
+      else if(beforeTurn.current==="playing")setState("paused");
       return;
     }
-    const direction=n>si?"next":"previous";
-    setTurning(direction);
-    window.setTimeout(()=>go(n),360);
-    window.setTimeout(()=>setTurning(null),720);
+    deferredSpeech.current=null;audioEpoch.current++;speechSynthesis.cancel();
+    setBi(0);cursor.current=[n,0];
+    if(n===scenes.length){setState("idle");setMode("end");return;}
+    setSi(n);
+    if(beforeTurn.current==="playing"&&mode==="listen"){
+      speechSynthesis.resume();setState("playing");speak(n,0);
+    }else setState("idle");
   }
+  function turn(n:number){book.current?.turnTo(n);}
 
   function leaveBook(){
-    speechSynthesis.cancel();setState("idle");setMode("cover");
+    deferredSpeech.current=null;audioEpoch.current++;speechSynthesis.cancel();turning.current=false;setState("idle");setMode("cover");
   }
 
   function rateStory(value:number){
@@ -161,37 +180,27 @@ export default function FullStory({rate,volume,onBack}:{rate:number;volume:numbe
     </section>
   </main>;
 
-  return <main className={`extra-shell full-tale ${mode==="read"?"reading-mode":"listening-mode"}`}>
-    <button className="book-exit" onClick={leaveBook} aria-label="Обложка"><AppIcon name="arrow-left"/></button>
-    {mode==="listen"&&<span className="story-progress">{si+1} / {scenes.length}</span>}
-    <article
-      className={`tale-stage ${turning?`page-turn page-turn-${turning}`:""}`}
-      onClick={mode==="read"?(event)=>{
-        const target=event.target as HTMLElement;
-        if(target.closest("button"))return;
-        const box=event.currentTarget.getBoundingClientRect();
-        turn(event.clientX<box.left+box.width/2?si-1:si+1);
-      }:undefined}
-      onTouchStart={mode==="read"?(event)=>{touchX.current=event.touches[0].clientX}:undefined}
-      onTouchEnd={mode==="read"?(event)=>{
-        if(touchX.current===null)return;
-        const delta=event.changedTouches[0].clientX-touchX.current;
-        touchX.current=null;
-        if(Math.abs(delta)>45)turn(delta<0?si+1:si-1);
-      }:undefined}
-    >
-      <div className="tale-image"><img src={scene.image} alt=""/></div>
+  function renderPage(page:number){
+    if(page===scenes.length)return <article className="tale-stage book-last-page"><div><small>ТУЬЙРА ЧЕКХЪЯЬЛЛА</small><h1>Хаза хилий хьуна?</h1></div></article>;
+    const scene=scenes[page];
+    return <article className="tale-stage">
+      <div className="tale-image"><img src={scene.image} alt="" draggable={false}/></div>
       <div className="tale-copy">
         <small>БОРЗ А, КЪЕНА КА А</small>
         <h1>{scene.title}</h1>
-        <div className="tale-blocks">{scene.blocks.map((b,i)=><p key={i} className={`${cls[b.speaker]} ${i===bi&&state!=="idle"?"reading":""}`}><b>{b.speaker}</b><span>{b.text}</span></p>)}</div>
-        {mode==="listen"&&<div className="tale-controls">
+        <div className="tale-blocks">{scene.blocks.map((b,i)=><p key={i} className={`${cls[b.speaker]} ${page===si&&i===bi&&state!=="idle"?"reading":""}`}><b>{b.speaker}</b><span>{b.text}</span></p>)}</div>
+      </div>
+    </article>;
+  }
+  return <main className={`extra-shell full-tale ${mode==="read"?"reading-mode":"listening-mode"}`}>
+    <button className="book-exit" onClick={leaveBook} aria-label="Обложка"><AppIcon name="arrow-left"/></button>
+    {mode==="listen"&&<span className="story-progress">{si+1} / {scenes.length}</span>}
+    <BookPageTurn ref={book} index={si} lastIndex={scenes.length} renderPage={renderPage} onStart={beginTurn} onFinish={finishTurn}/>
+    {mode==="listen"&&<div className="tale-controls book-listen-controls">
           <button onClick={()=>turn(si-1)} disabled={!si} aria-label="Хьалхара"><AppIcon name="arrow-left"/></button>
           <button className="tale-play icon-label" onClick={toggle}><AppIcon name={state==="playing"?"pause":"play"}/>{state==="playing"?"Соцаде":state==="paused"?"ДӀахӀоттаде":"Туьйра хаза"}</button>
           <button onClick={()=>turn(si+1)} aria-label={si===scenes.length-1?"Чекхъяккха":"РогӀера"}><AppIcon name={si===scenes.length-1?"check":"arrow-right"}/></button>
-        </div>}
-      </div>
-    </article>
+    </div>}
     {mode==="read"&&<span className="reading-page-count" aria-live="polite">{si+1} / {scenes.length}</span>}
   </main>;
 }

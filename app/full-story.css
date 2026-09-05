@@ -405,6 +405,64 @@
 }
 
 /* End page, rating and story ranking */
+.book-turn-shell {
+  width: min(1240px, calc(100% - 36px));
+  margin: 12px auto 0;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #fff9ea;
+  border-radius: 12px;
+  box-shadow: 0 20px 45px #4b38261f, 0 4px 0 #c9b58d;
+  touch-action: pan-y pinch-zoom;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  cursor: grab;
+}
+.book-turn-shell.is-turning { cursor: grabbing; }
+.book-turn-shell .tale-stage {
+  width: 100%;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  animation: none;
+  cursor: inherit;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.book-turn-front { position: relative; z-index: 2; }
+.book-turn-under { position: absolute; inset: 0; z-index: 1; overflow: hidden; pointer-events: none; }
+.book-turn-under .tale-stage { min-height: 100%; }
+.book-fold-back {
+  position: absolute;
+  z-index: 4;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background: #faf1dc;
+}
+.book-fold-back.fold-next {
+  background: linear-gradient(90deg,#d4c3a4 0%,#f6ecd7 7%,#fffaf0 36%,#f4e9d3 85%,#c9b792 100%);
+  border-radius: 45% 0 0 45% / 1.5% 0 0 1.5%;
+  box-shadow: -8px 0 16px #49382022;
+}
+.book-fold-back.fold-previous {
+  background: linear-gradient(270deg,#d4c3a4 0%,#f6ecd7 7%,#fffaf0 36%,#f4e9d3 85%,#c9b792 100%);
+  border-radius: 0 45% 45% 0 / 0 1.5% 1.5% 0;
+  box-shadow: 8px 0 16px #49382022;
+}
+.book-fold-grain { position: absolute; inset: 0; background: linear-gradient(175deg,#fff5,transparent 48%,#b39c7620); }
+.book-fold-shadow { position: absolute; z-index: 3; top: 0; bottom: 0; width: 60px; pointer-events: none; background: linear-gradient(90deg,transparent,#48301c,transparent); }
+.book-last-page { display: grid !important; grid-template-columns: 1fr; place-items: center; text-align: center; padding: 60px 24px; }
+.book-last-page h1 { font: 700 32px/1.4 var(--font-comfortaa),sans-serif; }
+.book-listen-controls { width: min(560px,calc(100% - 24px)); margin: 18px auto 0; }
+@media(max-width:850px){
+  .book-turn-shell { width: min(650px,calc(100% - 20px)); margin-top: 2px; }
+}
+
 .tale-end-screen {
   min-height: 100vh;
   padding: 76px 24px 60px;
