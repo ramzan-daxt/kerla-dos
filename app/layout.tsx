@@ -21,6 +21,7 @@ import "./home-redesign.css";
 import "./games.css";
 import "./minimal-cards.css";
 import "./random-learning.css";
+import "./themed-backgrounds.css";
 
 const nunito = Nunito({
   variable: "--font-nunito",
