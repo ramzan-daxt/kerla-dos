@@ -14,11 +14,12 @@ export type Settings = {
     reduceMotion: boolean;
     difficulty: 2 | 3 | 4;
     mosaicPieces: 6 | 9 | 12 | 15;
+    mosaicMode: "tray" | "swap";
     reviewErrors: boolean;
     dailyGoal: 5 | 10 | 15;
 };
 
-export const defaultSettings: Settings = { script: "cyrillic", translation: "off", volume: .9, rate: .72, autoSpeak: true, repeat: false, gameSounds: true, largeText: false, reduceMotion: false, difficulty: 4, mosaicPieces: 9, reviewErrors: true, dailyGoal: 10 };
+export const defaultSettings: Settings = { script: "cyrillic", translation: "off", volume: .9, rate: .72, autoSpeak: true, repeat: false, gameSounds: true, largeText: false, reduceMotion: false, difficulty: 4, mosaicPieces: 9, mosaicMode: "tray", reviewErrors: true, dailyGoal: 10 };
 
 function Toggle({ on, change }: { on: boolean; change: (v: boolean) => void }) {
     return <button className={"toggle " + (on ? "on" : "")} onClick={() => change(!on)} aria-pressed={on}><i/></button>;
@@ -55,6 +56,7 @@ export default function SettingsPanel({ value, onChange, stars, onClose, onReset
                     <div className="setting-row"><span><b>Анимаци йац</b><small>ДӀасахьовзар дӀадаккха</small></span><Toggle on={value.reduceMotion} change={next => set("reduceMotion", next)}/></div>
                     <label className="select-row"><span><b>Ловзаран халонаш</b><small>Масийтта жоп харжар ду</small></span><select value={value.difficulty} onChange={event => set("difficulty", Number(event.target.value) as 2 | 3 | 4)}><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></label>
                     <label className="select-row"><span><b>Мозаикан дакъош</b><small>Сурт масех дакъах гулдийр ду</small></span><select value={value.mosaicPieces} onChange={event => set("mosaicPieces", Number(event.target.value) as 6 | 9 | 12 | 15)}><option value="6">6 дакъа</option><option value="9">9 дакъа</option><option value="12">12 дакъа</option><option value="15">15 дакъа</option></select></label>
+                    <label className="select-row"><span><b>Мозаика гулдаран кеп</b><small>Дакъош мичара харжар ду</small></span><select value={value.mosaicMode} onChange={event => set("mosaicMode", event.target.value as "tray" | "swap")}><option value="tray">Дакъош лахахь</option><option value="swap">Дакъош суьрта тӀехь</option></select></label>
                     <div className="setting-row"><span><b>ГӀалаташ юха Ӏамо</b><small>Хала дешнаш дуккха гайта</small></span><Toggle on={value.reviewErrors} change={next => set("reviewErrors", next)}/></div>
                     <label className="select-row"><span><b>Ден Ӏамор</b><small>Масех дош хьажа</small></span><select value={value.dailyGoal} onChange={event => set("dailyGoal", Number(event.target.value) as 5 | 10 | 15)}><option value="5">5 дош</option><option value="10">10 дош</option><option value="15">15 дош</option></select></label>
                     <h3>Дена-нанна</h3>

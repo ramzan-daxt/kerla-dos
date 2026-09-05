@@ -60,7 +60,10 @@ function makePuzzleOrder(size = 9): number[] {
   return next;
 }
 
-function makePuzzleState(size: number): PuzzleState {
+function makePuzzleState(size: number, mode: "tray" | "swap"): PuzzleState {
+  if (mode === "swap") {
+    return { board: makePuzzleOrder(size), tray: [] };
+  }
   return {
     board: Array.from({ length: size }, () => null),
     tray: makePuzzleOrder(size),
@@ -144,7 +147,7 @@ function PuzzleGraphic({ image, piece, columns, rows, clipId, slot = false }: {
   );
 }
 
-export default function GameCenter({ items, onBack, mosaicPieces }: { items: LearningItem[]; onBack: () => void; mosaicPieces: 6 | 9 | 12 | 15 }) {
+export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: { items: LearningItem[]; onBack: () => void; mosaicPieces: 6 | 9 | 12 | 15; mosaicMode: "tray" | "swap" }) {
   const wordItems = useMemo(
     () => items.filter((item) => item.image && [...item.word.replace(/\s/g, "")].length >= 2 && [...item.word.replace(/\s/g, "")].length <= 9),
     [items],
@@ -158,9 +161,9 @@ export default function GameCenter({ items, onBack, mosaicPieces }: { items: Lea
   const [chosen, setChosen] = useState<string[]>([]);
   const [wordResult, setWordResult] = useState<Result>("idle");
   const [themeIndex, setThemeIndex] = useState<number | null>(null);
-  const [puzzleIndex, setPuzzleIndex] = useState(0);
+  const [puzzleIndex, setPuzzleIndex] = useState<number | null>(null);
   const difficulty = mosaicPieces;
-  const [puzzleState, setPuzzleState] = useState<PuzzleState>(() => makePuzzleState(mosaicPieces));
+  const [puzzleState, setPuzzleState] = useState<PuzzleState>(() => makePuzzleState(mosaicPieces, mosaicMode));
   const [dragging, setDragging] = useState<PieceDrag | null>(null);
   const dragRef = useRef<PieceDrag | null>(null);
   const [selectedPiece, setSelectedPiece] = useState<PieceSelection | null>(null);
@@ -179,13 +182,13 @@ export default function GameCenter({ items, onBack, mosaicPieces }: { items: Lea
   }, []);
 
   useEffect(() => {
-    setPuzzleState(makePuzzleState(difficulty));
+    setPuzzleState(makePuzzleState(difficulty, mosaicMode));
     setSelectedPiece(null);
     setMosaicResult("idle");
-  }, [difficulty]);
+  }, [difficulty, mosaicMode]);
 
   const theme = themeIndex === null ? null : mosaicThemes[themeIndex];
-  const puzzle = theme?.puzzles[puzzleIndex % theme.puzzles.length];
+  const puzzle = theme && puzzleIndex !== null ? theme.puzzles[puzzleIndex % theme.puzzles.length] : null;
   const solved = puzzleState.board.every((value, index) => value === index);
   const puzzleColumns = phonePortrait
     ? difficulty === 6 ? 2 : 3
@@ -194,6 +197,15 @@ export default function GameCenter({ items, onBack, mosaicPieces }: { items: Lea
 
   function returnOneLevel() {
     if (screen === "hub") return onBack();
+    if (screen === "mosaic" && themeIndex !== null && puzzleIndex !== null) {
+      setPuzzleIndex(null);
+      setDragging(null);
+      dragRef.current = null;
+      setSelectedPiece(null);
+      setMosaicResult("idle");
+      setPreviewOpen(false);
+      return;
+    }
     if (screen === "mosaic" && themeIndex !== null) {
       setThemeIndex(null);
       setDragging(null);
@@ -252,8 +264,8 @@ export default function GameCenter({ items, onBack, mosaicPieces }: { items: Lea
 
   function chooseTheme(index: number) {
     setThemeIndex(index);
-    setPuzzleIndex(0);
-    setPuzzleState(makePuzzleState(difficulty));
+    setPuzzleIndex(null);
+    setPuzzleState(makePuzzleState(difficulty, mosaicMode));
     setSelectedPiece(null);
     setDragging(null);
     dragRef.current = null;
@@ -264,7 +276,7 @@ export default function GameCenter({ items, onBack, mosaicPieces }: { items: Lea
 
   function choosePuzzle(index: number) {
     setPuzzleIndex(index);
-    setPuzzleState(makePuzzleState(difficulty));
+    setPuzzleState(makePuzzleState(difficulty, mosaicMode));
     setSelectedPiece(null);
     setDragging(null);
     dragRef.current = null;
@@ -274,7 +286,7 @@ export default function GameCenter({ items, onBack, mosaicPieces }: { items: Lea
   }
 
   function resetPuzzle() {
-    setPuzzleState(makePuzzleState(difficulty));
+    setPuzzleState(makePuzzleState(difficulty, mosaicMode));
     setSelectedPiece(null);
     setDragging(null);
     dragRef.current = null;
@@ -435,18 +447,25 @@ export default function GameCenter({ items, onBack, mosaicPieces }: { items: Lea
         </section>
       )}
 
+      {screen === "mosaic" && theme && puzzleIndex === null && (
+        <section className="mosaic-themes mosaic-puzzles">
+          <small>МОЗАИКА · {theme.title}</small>
+          <h1>Сурт харжа</h1>
+          <div>
+            {theme.puzzles.map((item, index) => (
+              <button key={item.title} onClick={() => choosePuzzle(index)}>
+                <img src={item.image} alt="" />
+                <span><strong>{item.title}</strong></span>
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
+
       {screen === "mosaic" && theme && puzzle && (
         <section className="mosaic-game">
           <small>МОЗАИКА · {theme.title}</small>
           <h1>{puzzle.title}</h1>
-          <h2 className="puzzle-picker-title">Сурт харжа</h2>
-          <div className="puzzle-picker">
-            {theme.puzzles.map((item, index) => (
-              <button className={puzzleIndex === index ? "active" : ""} key={item.title} onClick={() => choosePuzzle(index)}>
-                <img src={item.image} alt="" /><span>{item.title}</span>
-              </button>
-            ))}
-          </div>
           <button
             className="mosaic-preview-button icon-label"
             disabled={previewUses >= 3}
@@ -494,40 +513,42 @@ export default function GameCenter({ items, onBack, mosaicPieces }: { items: Lea
               })}
             </div>
           </div>
-          <div className="mosaic-tray">
-            <div className="mosaic-tray-heading">
-              <strong>Суьртан дакъош</strong>
-              <span>{puzzleState.tray.length}</span>
+          {mosaicMode === "tray" && (
+            <div className="mosaic-tray">
+              <div className="mosaic-tray-heading">
+                <strong>Суьртан дакъош</strong>
+                <span>{puzzleState.tray.length}</span>
+              </div>
+              <div className="mosaic-piece-carousel" aria-label="Суьртан дакъош">
+                {puzzleState.tray.map((piece, position) => {
+                  const isDragging = dragging?.source === "tray" && dragging.piece === piece;
+                  const isSelected = selectedPiece?.source === "tray" && selectedPiece.piece === piece;
+                  return (
+                    <button
+                      key={`${puzzle.image}-tray-${difficulty}-${piece}`}
+                      className={`${isDragging ? "dragging-source" : ""} ${isSelected ? "selected-piece" : ""}`}
+                      aria-label={`${piece + 1}-гӀа дакъа`}
+                      disabled={mosaicResult === "right"}
+                      onClick={() => setSelectedPiece({ piece, source: "tray", position })}
+                      onPointerDown={(event) => startPieceDrag(event, piece, "tray", position)}
+                      onPointerMove={movePieceDrag}
+                      onPointerUp={finishPieceDrag}
+                      onPointerCancel={() => { dragRef.current = null; setDragging(null); }}
+                    >
+                      <PuzzleGraphic image={puzzle.image} piece={piece} columns={puzzleColumns} rows={puzzleRows} clipId={`tray-${difficulty}-${piece}`} />
+                    </button>
+                  );
+                })}
+                {puzzleState.tray.length === 0 && <p>Массо дакъа хӀоттийна</p>}
+              </div>
             </div>
-            <div className="mosaic-piece-carousel" aria-label="Суьртан дакъош">
-              {puzzleState.tray.map((piece, position) => {
-                const isDragging = dragging?.source === "tray" && dragging.piece === piece;
-                const isSelected = selectedPiece?.source === "tray" && selectedPiece.piece === piece;
-                return (
-                  <button
-                    key={`${puzzle.image}-tray-${difficulty}-${piece}`}
-                    className={`${isDragging ? "dragging-source" : ""} ${isSelected ? "selected-piece" : ""}`}
-                    aria-label={`${piece + 1}-гӀа дакъа`}
-                    disabled={mosaicResult === "right"}
-                    onClick={() => setSelectedPiece({ piece, source: "tray", position })}
-                    onPointerDown={(event) => startPieceDrag(event, piece, "tray", position)}
-                    onPointerMove={movePieceDrag}
-                    onPointerUp={finishPieceDrag}
-                    onPointerCancel={() => { dragRef.current = null; setDragging(null); }}
-                  >
-                    <PuzzleGraphic image={puzzle.image} piece={piece} columns={puzzleColumns} rows={puzzleRows} clipId={`tray-${difficulty}-${piece}`} />
-                  </button>
-                );
-              })}
-              {puzzleState.tray.length === 0 && <p>Массо дакъа хӀоттийна</p>}
-            </div>
-          </div>
+          )}
           <p className={`mosaic-feedback ${mosaicResult}`}>
-            {mosaicResult === "right" ? "Нийса! Сурт гулделла." : mosaicResult === "wrong" ? "Дакъош нийса дац — юха хьажа" : "Дакъа лахара схьалаца, суьрта тӀехь хӀоттаде"}
+            {mosaicResult === "right" ? "Нийса! Сурт гулделла." : mosaicResult === "wrong" ? "Дакъош нийса дац — юха хьажа" : mosaicMode === "tray" ? "Дакъа лахара схьалаца, суьрта тӀехь хӀоттаде" : "Ши дакъа харжа — царна меттигаш хийца"}
           </p>
           <div className="mosaic-actions">
             {mosaicResult === "right" ? (
-              <button className="game-main-button" onClick={() => choosePuzzle((puzzleIndex + 1) % theme.puzzles.length)}>Кхин сурт</button>
+              <button className="game-main-button" onClick={() => choosePuzzle(((puzzleIndex ?? 0) + 1) % theme.puzzles.length)}>Кхин сурт</button>
             ) : (
               <button className="game-main-button" disabled={puzzleState.tray.length > 0} onClick={() => setMosaicResult(solved ? "right" : "wrong")}>Таллам бе</button>
             )}

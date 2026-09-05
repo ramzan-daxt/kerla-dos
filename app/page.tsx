@@ -1472,6 +1472,7 @@ export default function Home() {
         latin={false}
         premium={premium}
         mosaicPieces={settings.mosaicPieces}
+        mosaicMode={settings.mosaicMode}
       />
     );
   if (active && !freeCategoryIds.has(active.id) && !premium) {
