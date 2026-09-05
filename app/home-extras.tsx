@@ -49,10 +49,7 @@ function RandomLearning({
     return (
         <section className="random-zone random-learning-zone">
             <div className="random-heading">
-                <div>
-                    <small>ХӀИНЦАЛЕРА ДОШ</small>
-                    <h1>Тайп-тайпана дешнаш Ӏамо</h1>
-                </div>
+                <strong className="random-label">ДЕШНАШ ӀАМО</strong>
                 <div className="random-counter" aria-label={`${sessionStep} / ${sessionSize}`}>
                     <strong>{sessionStep}</strong>
                     <span>/ {sessionSize}</span>
