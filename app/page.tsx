@@ -1391,7 +1391,10 @@ export default function Home() {
   );
   const learningItems: LearningItem[] = categories
     .filter(
-      (c) => c.id !== "alphabet" && (premium || freeCategoryIds.has(c.id)),
+      (c) =>
+        c.id !== "alphabet" &&
+        c.id !== "numbers" &&
+        (premium || freeCategoryIds.has(c.id)),
     )
     .flatMap((c) =>
       c.words.map((w) => ({
