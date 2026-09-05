@@ -1054,7 +1054,7 @@ export default function Home() {
     >(null),
     [favorites, setFavorites] = useState<string[]>([]),
     [lastLesson, setLastLesson] = useState<LessonPosition | null>(null),
-    [seenWords, setSeenWords] = useState<string[]>([]),
+    [learnedWords, setLearnedWords] = useState<string[]>([]),
     [cardMotion, setCardMotion] = useState<
       "idle" | "out-left" | "out-right" | "in-left" | "in-right"
     >("idle"),
@@ -1099,10 +1099,10 @@ export default function Home() {
       try {
         setLastLesson(JSON.parse(savedLesson));
       } catch {}
-    const seen = localStorage.getItem("kerla-seen-words");
-    if (seen)
+    const learned = localStorage.getItem("kerla-learned-words");
+    if (learned)
       try {
-        setSeenWords(JSON.parse(seen));
+        setLearnedWords(JSON.parse(learned));
       } catch {}
   }, []);
   useEffect(() => {
@@ -1324,6 +1324,15 @@ export default function Home() {
       setAnswer("right");
       gameTone(true);
       speak(target);
+      if (active && active.id !== "alphabet" && active.id !== "numbers") {
+        const key = `${active.id}:${target.id}`;
+        setLearnedWords((current) => {
+          if (current.includes(key)) return current;
+          const next = [...current, key];
+          localStorage.setItem("kerla-learned-words", JSON.stringify(next));
+          return next;
+        });
+      }
       const n = stars + 1;
       setStars(n);
       localStorage.setItem("kerla-stars", String(n));
@@ -1362,15 +1371,6 @@ export default function Home() {
     const position = { categoryId: active.id, index };
     setLastLesson(position);
     localStorage.setItem("kerla-last-lesson", JSON.stringify(position));
-    const word = active.words[index];
-    if (!word) return;
-    const key = `${active.id}:${word.id}`;
-    setSeenWords((current) => {
-      if (current.includes(key)) return current;
-      const next = [...current, key];
-      localStorage.setItem("kerla-seen-words", JSON.stringify(next));
-      return next;
-    });
   }, [active?.id, index]);
   useEffect(() => {
     function handleCardKeys(event: KeyboardEvent) {
@@ -1968,8 +1968,8 @@ export default function Home() {
           <div className="home-stats">
             <span>
               <AppIcon name="book" />
-              <b>{seenWords.length}</b>
-              <small>Дешнаш</small>
+              <b>{learnedWords.length}</b>
+              <small>Ӏамийна дешнаш</small>
             </span>
             <span>
               <AppIcon name="heart-filled" />
@@ -2102,7 +2102,9 @@ export default function Home() {
             onReset={() => {
               if (confirm("Кхиам дӀабаккха?")) {
                 setStars(0);
+                setLearnedWords([]);
                 localStorage.removeItem("kerla-stars");
+                localStorage.removeItem("kerla-learned-words");
               }
             }}
           />
