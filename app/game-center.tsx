@@ -396,7 +396,7 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
   }
 
   function startPieceDrag(event: ReactPointerEvent<HTMLButtonElement>, piece: number, source: PieceSource, position: number) {
-    if (mosaicResult === "right") return;
+    if (mosaicResult === "right" || !event.isPrimary || event.button !== 0) return;
     const next: PieceDrag = {
       piece,
       source,
@@ -409,6 +409,11 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
     dragRef.current = next;
     setDragging(next);
     event.currentTarget.setPointerCapture(event.pointerId);
+    try {
+      navigator.vibrate?.(15);
+    } catch {
+      // Haptics are optional; unavailable hardware must not interrupt dragging.
+    }
   }
 
   function movePieceDrag(event: ReactPointerEvent<HTMLButtonElement>) {
