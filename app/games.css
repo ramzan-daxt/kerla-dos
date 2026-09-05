@@ -75,3 +75,45 @@
   .mosaic-piece-carousel button{flex-basis:80px}
   .mosaic-drag-ghost{width:90px}
 }
+
+/* Word-builder session menu, timer and results. */
+.word-start-card,.word-summary-card{width:min(100%,590px);margin:auto;padding:24px;border:1px solid #dfd4c3;border-radius:28px;background:#fffdf8}
+.word-start-card>img,.word-summary-card>img{display:block;width:180px;height:150px;margin:0 auto 20px;object-fit:contain}
+.word-mode-options{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.word-mode-options button{min-height:88px;padding:15px;border:2px solid #e0ddd5;border-radius:18px;background:#fff;color:#24463c;text-align:left;transition:border-color .18s ease,background .18s ease,transform .18s ease}
+.word-mode-options button.active{border-color:#2f806f;background:#eaf5f0;transform:translateY(-2px)}
+.word-mode-options strong,.word-mode-options small{display:block}
+.word-mode-options strong{font-size:18px}
+.word-mode-options small{margin-top:5px;color:#748079;font-size:14px}
+.word-time-options{display:flex;justify-content:center;gap:8px;margin-top:14px;flex-wrap:wrap}
+.word-time-options button{min-width:76px;padding:10px 12px;border:1px solid #d9ddd8;border-radius:999px;background:#fff;color:#315248;font-weight:900}
+.word-time-options button.active{border-color:#e3aa2d;background:#fff0c8;color:#6c5012}
+.word-start-rules{display:flex;justify-content:center;gap:32px;margin:20px 0;color:#65756e}
+.word-start-rules span{display:flex;align-items:baseline;gap:6px;font-weight:800}
+.word-start-rules b{color:#1f6e5c;font-size:27px}
+.word-session-status{width:min(100%,560px);display:flex;align-items:center;justify-content:center;gap:10px;margin:-8px auto 14px}
+.word-session-status span,.word-session-status time{min-width:94px;padding:8px 12px;border-radius:999px;background:#edf5f1;color:#315248;font-weight:900;font-style:normal}
+.word-session-status .danger{background:#ffe2dc;color:#ae4938}
+.word-summary-score{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:4px 0 22px}
+.word-summary-score span{padding:20px;border-radius:20px;background:#edf5f1}
+.word-summary-score span.wrong{background:#fff0ec}
+.word-summary-score b,.word-summary-score small{display:block}
+.word-summary-score b{font-size:46px;color:#267461}
+.word-summary-score .wrong b{color:#d56552}
+.word-summary-score small{margin-top:3px;color:#63736c;font-weight:900}
+.review-word-button{min-width:210px;margin:11px 0 0;padding:13px 22px;border:2px solid #2f806f;border-radius:16px;background:#fff;color:#246756;font-weight:900}
+
+.game-choice-art>img{width:82%;height:82%;object-fit:contain}
+.mosaic-themes img.mosaic-theme-icon{object-fit:contain;padding:10px;background:#f3f7f3}
+.mosaic-puzzles img{object-fit:cover;padding:0}
+
+@media(max-width:760px){
+  .word-start-card,.word-summary-card{padding:17px;border-radius:22px}
+  .word-start-card>img,.word-summary-card>img{width:135px;height:112px;margin-bottom:14px}
+  .word-mode-options button{min-height:82px;padding:12px;border-radius:15px}
+  .word-mode-options strong{font-size:16px}
+  .word-session-status{gap:6px}
+  .word-session-status span,.word-session-status time{min-width:0;padding:7px 10px;font-size:13px}
+  .word-summary-score b{font-size:38px}
+  .mosaic-themes img.mosaic-theme-icon{padding:6px}
+}

@@ -6,7 +6,10 @@ import AppIcon from "./ui-icon";
 
 type GameScreen = "hub" | "word" | "mosaic";
 type Result = "idle" | "right" | "wrong";
+type WordPhase = "menu" | "playing" | "summary";
+type WordPlayMode = "untimed" | "timed";
 type LetterTile = { id: string; value: string };
+type WordOutcome = { key: string; correct: boolean };
 type PieceSource = "tray" | "board";
 type PieceDrag = { piece: number; source: PieceSource; position: number; startX: number; startY: number; clientX: number; clientY: number };
 type PieceSelection = { piece: number; source: PieceSource; position: number };
@@ -15,6 +18,7 @@ type PuzzleState = { board: Array<number | null>; tray: number[] };
 const mosaicThemes = [
   {
     id: "architecture",
+    icon: "/icons/mosaic/architecture.png",
     title: "Нохчийн гӀишлош",
     note: "Башенаш, эвланаш, цӀенош",
     puzzles: [
@@ -25,6 +29,7 @@ const mosaicThemes = [
   },
   {
     id: "fairytale-scenes",
+    icon: "/icons/mosaic/fairytale-scenes.png",
     title: "Туьйран сурташ",
     note: "Дуьззина сюжетан сурташ",
     puzzles: [
@@ -51,6 +56,27 @@ function makeTiles(word: string): LetterTile[] {
       value,
     })),
   );
+}
+
+function makeWordSession(items: LearningItem[], size = 10): number[] {
+  const categoryIds = shuffled([...new Set(items.map((item) => item.categoryId))]);
+  const groups = new Map(categoryIds.map((categoryId) => [
+    categoryId,
+    shuffled(items.map((item, index) => ({ item, index })).filter(({ item }) => item.categoryId === categoryId).map(({ index }) => index)),
+  ]));
+  const result: number[] = [];
+  while (result.length < Math.min(size, items.length)) {
+    let added = false;
+    for (const categoryId of shuffled(categoryIds)) {
+      const next = groups.get(categoryId)?.shift();
+      if (next === undefined) continue;
+      result.push(next);
+      added = true;
+      if (result.length === Math.min(size, items.length)) break;
+    }
+    if (!added) break;
+  }
+  return result;
 }
 
 function makePuzzleOrder(size = 9): number[] {
@@ -155,11 +181,20 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
   const [screen, setScreen] = useState<GameScreen>("hub");
   const [wordIndex, setWordIndex] = useState(0);
   const wordItem = wordItems[wordIndex % Math.max(1, wordItems.length)];
-  const wordCategoryQueueRef = useRef<string[]>([]);
-  const lastWordCategoryRef = useRef<string | null>(null);
   const [letters, setLetters] = useState<LetterTile[]>(() => makeTiles(wordItems[0]?.word || "дош"));
   const [chosen, setChosen] = useState<string[]>([]);
   const [wordResult, setWordResult] = useState<Result>("idle");
+  const [wordPhase, setWordPhase] = useState<WordPhase>("menu");
+  const [wordPlayMode, setWordPlayMode] = useState<WordPlayMode>("untimed");
+  const [wordTimeLimit, setWordTimeLimit] = useState<15 | 30 | 45 | 60>(30);
+  const [timeLeft, setTimeLeft] = useState(30);
+  const [mistakes, setMistakes] = useState(0);
+  const [wordSession, setWordSession] = useState<number[]>([]);
+  const [wordPosition, setWordPosition] = useState(0);
+  const [wordOutcomes, setWordOutcomes] = useState<WordOutcome[]>([]);
+  const [failedWordKeys, setFailedWordKeys] = useState<string[]>([]);
+  const advancingWordRef = useRef(false);
+  const wordAdvanceTimerRef = useRef<number | null>(null);
   const [themeIndex, setThemeIndex] = useState<number | null>(null);
   const [puzzleIndex, setPuzzleIndex] = useState<number | null>(null);
   const difficulty = mosaicPieces;
@@ -187,6 +222,25 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
     setMosaicResult("idle");
   }, [difficulty, mosaicMode]);
 
+  useEffect(() => {
+    if (screen !== "word" || wordPhase !== "playing" || wordPlayMode !== "timed" || wordResult === "right" || advancingWordRef.current) return;
+    if (timeLeft <= 0) {
+      setWordResult("wrong");
+      advancingWordRef.current = true;
+      wordAdvanceTimerRef.current = window.setTimeout(() => {
+        wordAdvanceTimerRef.current = null;
+        finishCurrentWord(false);
+      }, 700);
+      return;
+    }
+    const timer = window.setTimeout(() => setTimeLeft((current) => Math.max(0, current - 1)), 1000);
+    return () => window.clearTimeout(timer);
+  }, [screen, wordPhase, wordPlayMode, wordResult, timeLeft]);
+
+  useEffect(() => () => {
+    if (wordAdvanceTimerRef.current !== null) window.clearTimeout(wordAdvanceTimerRef.current);
+  }, []);
+
   const theme = themeIndex === null ? null : mosaicThemes[themeIndex];
   const puzzle = theme && puzzleIndex !== null ? theme.puzzles[puzzleIndex % theme.puzzles.length] : null;
   const solved = puzzleState.board.every((value, index) => value === index);
@@ -196,6 +250,11 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
   const puzzleRows = difficulty / puzzleColumns;
 
   function returnOneLevel() {
+    if (wordAdvanceTimerRef.current !== null) {
+      window.clearTimeout(wordAdvanceTimerRef.current);
+      wordAdvanceTimerRef.current = null;
+      advancingWordRef.current = false;
+    }
     if (screen === "hub") return onBack();
     if (screen === "mosaic" && themeIndex !== null && puzzleIndex !== null) {
       setPuzzleIndex(null);
@@ -217,49 +276,67 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
     setScreen("hub");
   }
 
-  function openWordGame() {
-    const nextIndex = chooseRandomWordIndex();
-    const nextItem = wordItems[nextIndex];
-    setWordIndex(nextIndex);
-    setLetters(makeTiles(nextItem?.word || "дош"));
-    setChosen([]);
-    setWordResult("idle");
+  function openWordMenu() {
     setScreen("word");
+    setWordPhase("menu");
   }
 
-  function nextWord() {
-    if (!wordItems.length) return;
-    const nextIndex = chooseRandomWordIndex();
+  function loadWord(nextIndex: number) {
     setWordIndex(nextIndex);
-    setLetters(makeTiles(wordItems[nextIndex].word));
+    setLetters(makeTiles(wordItems[nextIndex]?.word || "дош"));
     setChosen([]);
     setWordResult("idle");
+    setMistakes(0);
+    setTimeLeft(wordTimeLimit);
+    advancingWordRef.current = false;
   }
 
-  function chooseRandomWordIndex() {
-    if (!wordItems.length) return 0;
-    const allIndexes = wordItems.map((_, index) => index);
-    const categories = [...new Set(wordItems.map((item) => item.categoryId))];
-    let queue = wordCategoryQueueRef.current.filter((categoryId) => categories.includes(categoryId));
-    if (queue.length === 0) {
-      queue = shuffled(categories);
-      if (queue.length > 1 && queue[0] === lastWordCategoryRef.current) {
-        [queue[0], queue[1]] = [queue[1], queue[0]];
-      }
+  function startWordSession(reviewMistakes = false) {
+    const session = reviewMistakes
+      ? failedWordKeys.map((key) => wordItems.findIndex((item) => item.key === key)).filter((index) => index >= 0)
+      : makeWordSession(wordItems, 10);
+    if (!session.length) return;
+    if (wordAdvanceTimerRef.current !== null) window.clearTimeout(wordAdvanceTimerRef.current);
+    wordAdvanceTimerRef.current = null;
+    setWordSession(session);
+    setWordPosition(0);
+    setWordOutcomes([]);
+    setWordPhase("playing");
+    loadWord(session[0]);
+  }
+
+  function finishCurrentWord(correct: boolean) {
+    if (!wordItem || !wordSession.length) return;
+    const outcomes = [...wordOutcomes, { key: wordItem.key, correct }];
+    const nextPosition = wordPosition + 1;
+    setWordOutcomes(outcomes);
+    if (nextPosition >= wordSession.length) {
+      setFailedWordKeys(outcomes.filter((outcome) => !outcome.correct).map((outcome) => outcome.key));
+      setWordPhase("summary");
+      advancingWordRef.current = false;
+      return;
     }
-    const nextCategory = queue.shift();
-    wordCategoryQueueRef.current = queue;
-    lastWordCategoryRef.current = nextCategory || null;
-    const fromNextCategory = allIndexes.filter((index) => wordItems[index].categoryId === nextCategory);
-    const candidates = fromNextCategory.length ? fromNextCategory : allIndexes.filter((index) => index !== wordIndex);
-    const pool = candidates.length ? candidates : allIndexes;
-    return pool[Math.floor(Math.random() * pool.length)];
+    setWordPosition(nextPosition);
+    loadWord(wordSession[nextPosition]);
   }
 
   function checkWord() {
     if (!wordItem) return;
     const answer = chosen.map((id) => letters.find((letter) => letter.id === id)?.value || "").join("");
-    setWordResult(answer.toLocaleLowerCase() === wordItem.word.replace(/\s/g, "").toLocaleLowerCase() ? "right" : "wrong");
+    if (answer.toLocaleLowerCase() === wordItem.word.replace(/\s/g, "").toLocaleLowerCase()) {
+      setWordResult("right");
+      return;
+    }
+    const nextMistakes = mistakes + 1;
+    setMistakes(nextMistakes);
+    setWordResult("wrong");
+    if (nextMistakes >= 5) {
+      advancingWordRef.current = true;
+      wordAdvanceTimerRef.current = window.setTimeout(() => {
+        wordAdvanceTimerRef.current = null;
+        finishCurrentWord(false);
+      }, 700);
+    }
   }
 
   function chooseTheme(index: number) {
@@ -380,17 +457,16 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
         <section className="games-hub">
           <h1>Ловзарш</h1>
           <div className="game-choice-grid">
-            <button className="game-choice word-choice" onClick={openWordGame}>
+            <button className="game-choice word-choice" onClick={openWordMenu}>
               <span className="game-choice-art">
-                {wordItems[0]?.image && <img src={wordItems[0].image} alt="" />}
-                <b>Д О Ш</b>
+                <img src="/icons/games/word-builder.png" alt="" draggable={false} />
               </span>
               <strong>Дош гулде</strong>
               <small>Элпаш нийса хӀиттаде</small>
             </button>
             <button className="game-choice mosaic-choice" onClick={() => setScreen("mosaic")}>
-              <span className="game-choice-art mosaic-preview" aria-hidden="true">
-                {[0, 1, 2, 3].map((piece) => <i key={piece} />)}
+              <span className="game-choice-art" aria-hidden="true">
+                <img src="/icons/games/mosaic.png" alt="" draggable={false} />
               </span>
               <strong>Мозаика</strong>
               <small>Сурт дакъошках гулде</small>
@@ -399,35 +475,85 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
         </section>
       )}
 
-      {screen === "word" && wordItem && (
+      {screen === "word" && wordPhase === "menu" && (
+        <section className="word-builder word-start">
+          <small>ДОШ ГУЛДАР</small>
+          <h1>Дош гулде</h1>
+          <div className="word-start-card">
+            <img src="/icons/games/word-builder.png" alt="" draggable={false} />
+            <div className="word-mode-options" role="group" aria-label="Ловзаран кеп">
+              <button className={wordPlayMode === "untimed" ? "active" : ""} onClick={() => setWordPlayMode("untimed")}>
+                <strong>Хенах доцуш</strong>
+                <small>Сиха хила ца деза</small>
+              </button>
+              <button className={wordPlayMode === "timed" ? "active" : ""} onClick={() => setWordPlayMode("timed")}>
+                <strong>Хенца</strong>
+                <small>ХӀора дешна таймер</small>
+              </button>
+            </div>
+            {wordPlayMode === "timed" && (
+              <div className="word-time-options" role="group" aria-label="Хан харжа">
+                {[15, 30, 45, 60].map((seconds) => (
+                  <button key={seconds} className={wordTimeLimit === seconds ? "active" : ""} onClick={() => setWordTimeLimit(seconds as 15 | 30 | 45 | 60)}>{seconds} сек.</button>
+                ))}
+              </div>
+            )}
+            <div className="word-start-rules"><span><b>10</b> дош</span><span><b>5</b> гӀалат</span></div>
+            <button className="game-main-button" disabled={!wordItems.length} onClick={() => startWordSession(false)}>Ловза</button>
+          </div>
+        </section>
+      )}
+
+      {screen === "word" && wordPhase === "playing" && wordItem && (
         <section className="word-builder">
           <small>ДОШ ГУЛДАР</small>
           <h1>Дош гулде</h1>
+          <div className="word-session-status">
+            <span><b>{wordPosition + 1}</b> / {wordSession.length}</span>
+            <span className={mistakes >= 4 ? "danger" : ""}>{5 - mistakes} гӀалат</span>
+            {wordPlayMode === "timed" && <time className={timeLeft <= 5 ? "danger" : ""}>{timeLeft} сек.</time>}
+          </div>
           <div className="builder-card">
             <img src={wordItem.image} alt="" draggable={false} />
             <div className="answer-slots" aria-label="Жоп">
               {[...wordItem.word.replace(/\s/g, "")].map((_, index) => {
                 const tile = letters.find((letter) => letter.id === chosen[index]);
-                return <button key={index} onClick={() => setChosen((current) => current.slice(0, index))}>{tile?.value || ""}</button>;
+                return <button key={index} disabled={wordResult === "right" || advancingWordRef.current} onClick={() => { setChosen((current) => current.slice(0, index)); setWordResult("idle"); }}>{tile?.value || ""}</button>;
               })}
             </div>
             <div className="letter-bank">
               {letters.map((letter) => (
                 <button
                   key={letter.id}
-                  disabled={chosen.includes(letter.id)}
-                  onClick={() => { setChosen((current) => [...current, letter.id]); setWordResult("idle"); }}
+                  disabled={chosen.includes(letter.id) || wordResult === "right" || advancingWordRef.current}
+                  onClick={() => { setChosen((current) => [...current, letter.id]); if (mistakes < 5) setWordResult("idle"); }}
                 >{letter.value}</button>
               ))}
             </div>
             <p className={`builder-feedback ${wordResult}`}>
-              {wordResult === "right" ? `Нийса! ${wordItem.word}` : wordResult === "wrong" ? "Юха хьажа" : "Элпаш тӀетаӀайе"}
+              {wordResult === "right" ? `Нийса! ${wordItem.word}` : wordResult === "wrong" && advancingWordRef.current ? `Жоп: ${wordItem.word}` : wordResult === "wrong" ? `Юха хьажа · ${5 - mistakes} гӀалат` : "Элпаш тӀетаӀайе"}
             </p>
             {wordResult === "right" ? (
-              <button className="game-main-button" onClick={nextWord}>Кхин дош</button>
+              <button className="game-main-button" onClick={() => finishCurrentWord(true)}>{wordPosition + 1 >= wordSession.length ? "ЖамӀаш" : "Кхин дош"}</button>
             ) : (
-              <button className="game-main-button" disabled={chosen.length !== letters.length} onClick={checkWord}>Таллам бе</button>
+              <button className="game-main-button" disabled={chosen.length !== letters.length || mistakes >= 5 || advancingWordRef.current} onClick={checkWord}>Таллам бе</button>
             )}
+          </div>
+        </section>
+      )}
+
+      {screen === "word" && wordPhase === "summary" && (
+        <section className="word-builder word-summary">
+          <small>ЛОВЗАР ЧЕКХДАЬЛЛА</small>
+          <h1>ЖамӀаш</h1>
+          <div className="word-summary-card">
+            <img src="/icons/games/word-builder.png" alt="" draggable={false} />
+            <div className="word-summary-score">
+              <span className="right"><b>{wordOutcomes.filter((outcome) => outcome.correct).length}</b><small>нийса</small></span>
+              <span className="wrong"><b>{wordOutcomes.filter((outcome) => !outcome.correct).length}</b><small>нийса дац</small></span>
+            </div>
+            <button className="game-main-button" onClick={() => startWordSession(false)}>Юха ловза</button>
+            {failedWordKeys.length > 0 && <button className="review-word-button" onClick={() => startWordSession(true)}>ГӀалаташ юха Ӏамо</button>}
           </div>
         </section>
       )}
@@ -439,7 +565,7 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
           <div>
             {mosaicThemes.map((item, index) => (
               <button key={item.id} onClick={() => chooseTheme(index)}>
-                <img src={item.puzzles[0].image} alt="" />
+                <img className="mosaic-theme-icon" src={item.icon} alt="" draggable={false} />
                 <span><strong>{item.title}</strong><small>{item.note}</small></span>
               </button>
             ))}
