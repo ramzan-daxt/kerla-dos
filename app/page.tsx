@@ -2043,7 +2043,7 @@ export default function Home() {
                   draggable={false}
                 />
               </span>
-              <strong>Тайп-тайпана дешнаш Ӏамо</strong>
+              <strong>Дешнаш Ӏамо</strong>
               <small>Ца хаьржина дош гайта</small>
             </button>
             <button
