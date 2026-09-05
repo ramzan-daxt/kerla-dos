@@ -1967,18 +1967,24 @@ export default function Home() {
           </button>
           <div className="home-stats">
             <span>
-              <AppIcon name="book" />
-              <b>{learnedWords.length}</b>
+              <span className="stat-value">
+                <AppIcon name="book" />
+                <b>{learnedWords.length}</b>
+              </span>
               <small>Ӏамийна дешнаш</small>
             </span>
             <span>
-              <AppIcon name="heart-filled" />
-              <b>{favorites.length}</b>
+              <span className="stat-value">
+                <AppIcon name="heart-filled" />
+                <b>{favorites.length}</b>
+              </span>
               <small>Схьакъастина</small>
             </span>
             <span>
-              <AppIcon name="star" />
-              <b>{stars}</b>
+              <span className="stat-value">
+                <AppIcon name="star" />
+                <b>{stars}</b>
+              </span>
               <small>Седарчий</small>
             </span>
           </div>

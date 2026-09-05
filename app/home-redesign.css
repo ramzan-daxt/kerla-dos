@@ -307,13 +307,21 @@
   min-width: 0;
   padding: 13px 8px 11px;
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: minmax(0, 1fr);
   place-content: center;
+  justify-items: center;
   align-items: center;
   column-gap: 6px;
   text-align: center;
 }
 
+.home-stats .stat-value {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.home-stats .stat-value svg { flex-shrink: 0; }
 .home-stats > span + span { border-left: 1px solid #eee7dc; }
 .home-stats svg { width: 18px; height: 18px; color: #d9a526; }
 .home-stats b { font-size: 20px; line-height: 1; color: #30453d; }
