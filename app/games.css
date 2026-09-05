@@ -25,27 +25,53 @@
 @media(max-width:760px){.mosaic-preview-dialog{padding:14px}.mosaic-preview-dialog>div{padding:10px 10px 16px;border-radius:23px}.mosaic-preview-dialog img{border-radius:15px}.mosaic-preview-close{top:18px;right:18px}.mosaic-preview-dialog strong{margin-top:12px;font-size:20px}}
 
 /* Touch-first interlocking jigsaw pieces. */
+.mosaic-workspace{display:grid;grid-template-columns:minmax(0,480px);justify-content:center}
 .mosaic-board{gap:0;padding:0;overflow:visible;isolation:isolate;touch-action:none}
-.mosaic-board button{position:relative;overflow:visible;min-width:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;cursor:grab;touch-action:none;transition:transform .16s ease,filter .16s ease;user-select:none;-webkit-user-select:none}
-.mosaic-board button:active,.mosaic-board button.dragging{cursor:grabbing}
-.mosaic-board button.dragging{opacity:.92;transition:none}
+.mosaic-board button{position:relative;overflow:visible;min-width:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;cursor:pointer;touch-action:none;transition:opacity .16s ease,filter .16s ease;user-select:none;-webkit-user-select:none}
+.mosaic-board button.filled{cursor:grab}
+.mosaic-board button.filled:active{cursor:grabbing}
+.mosaic-board button.dragging-source,.mosaic-piece-carousel button.dragging-source{opacity:.2}
+.mosaic-board button.selected-piece,.mosaic-piece-carousel button.selected-piece{filter:drop-shadow(0 0 5px #e5ad27)}
 .mosaic-piece{position:absolute;inset:-16%;width:132%;height:132%;overflow:visible;pointer-events:none;filter:none}
 .mosaic-piece-edge{fill:none;stroke:#f8f6f0;stroke-width:1.5;vector-effect:non-scaling-stroke}
+.mosaic-slot-edge{fill:#edf2ef;stroke:#9eb4aa;stroke-width:1.2;stroke-dasharray:4 3;vector-effect:non-scaling-stroke}
 .mosaic-board.checked-correct{padding:0;gap:0;overflow:hidden}
 .mosaic-board.checked-correct .mosaic-piece{filter:none}
 .mosaic-board.checked-correct .mosaic-piece-edge{stroke:transparent}
+.mosaic-board.checked-correct .mosaic-slot-edge{stroke:transparent}
 .mosaic-board.checked-correct button{overflow:visible}
 
-/* The image selector is a real swipeable carousel; puzzle size lives in Settings. */
+/* Image choice stays compact; the actual piece carousel is below the board. */
 .puzzle-picker-title{margin:0 0 10px;font-size:16px;color:#64756e;text-align:left}
-.puzzle-picker{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(150px,31%);justify-content:start;gap:12px;margin:0 0 20px;padding:3px 3px 12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:3px;overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-.puzzle-picker::-webkit-scrollbar{display:none}
-.puzzle-picker button{width:100%;min-width:0;padding:7px;border:2px solid transparent;border-radius:18px;background:#fff;color:inherit;scroll-snap-align:start;transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease}
+.puzzle-picker{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 20px;padding:0;overflow:visible}
+.puzzle-picker button{width:100%;min-width:0;padding:7px;border:2px solid transparent;border-radius:14px;background:#fff;color:inherit;transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease}
 .puzzle-picker button.active{border-color:#2f806f;box-shadow:0 5px 14px #183b3120;transform:translateY(-2px)}
 .puzzle-picker img{width:100%;height:auto;aspect-ratio:3/2;display:block;object-fit:cover;border-radius:12px}
 .puzzle-picker span{display:block;margin:7px 4px 2px;font-size:14px;font-weight:800;white-space:normal}
-@media(max-width:760px){.puzzle-picker-title{text-align:left}.puzzle-picker{grid-auto-columns:72%;margin-inline:-12px;padding-inline:12px;scroll-padding-inline:12px}.puzzle-picker button{border-radius:17px}}
+
+.mosaic-tray{width:min(100%,640px);margin:20px auto 0;text-align:left}
+.mosaic-tray-heading{display:flex;align-items:center;justify-content:space-between;margin:0 4px 8px;color:#315248}
+.mosaic-tray-heading strong{font-size:16px}
+.mosaic-tray-heading span{min-width:30px;padding:4px 8px;border-radius:999px;background:#e5eee9;text-align:center;font-weight:900}
+.mosaic-piece-carousel{display:flex;gap:14px;min-height:126px;padding:14px 16px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-padding-inline:16px;overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;border-block:1px solid #d8e2dc;background:#f7faf8}
+.mosaic-piece-carousel::-webkit-scrollbar{display:none}
+.mosaic-piece-carousel button{position:relative;flex:0 0 92px;aspect-ratio:1;overflow:visible;padding:0;border:0;background:transparent;scroll-snap-align:start;touch-action:pan-x;cursor:grab;transition:opacity .16s ease,filter .16s ease}
+.mosaic-piece-carousel button:active{cursor:grabbing}
+.mosaic-piece-carousel p{align-self:center;width:100%;margin:0;color:#65766e;text-align:center;font-weight:800}
+.mosaic-drag-ghost{position:fixed;z-index:300;width:104px;aspect-ratio:1;pointer-events:none;transform:translate(-50%,-50%) scale(1.08);filter:drop-shadow(0 9px 9px #173c322b)}
+.mosaic-drag-ghost .mosaic-piece{position:absolute}
 
 /* The puzzle itself is the surface: no separate card behind it. */
 .mosaic-board,.mosaic-board.checked-correct{padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
 .mosaic-board.checked-correct{overflow:hidden}
+
+@media(max-width:760px){
+  .puzzle-picker-title{text-align:left}
+  .puzzle-picker{gap:7px}
+  .puzzle-picker button{padding:5px;border-radius:12px}
+  .puzzle-picker span{font-size:11px}
+  .mosaic-tray{margin-top:16px}
+  .mosaic-piece-carousel{min-height:112px;margin-inline:-12px;padding-inline:18px;scroll-padding-inline:18px}
+  .mosaic-piece-carousel button{flex-basis:80px}
+  .mosaic-drag-ghost{width:90px}
+}
