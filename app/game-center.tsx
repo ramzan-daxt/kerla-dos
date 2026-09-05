@@ -152,6 +152,8 @@ export default function GameCenter({ items, onBack, mosaicPieces }: { items: Lea
   const [screen, setScreen] = useState<GameScreen>("hub");
   const [wordIndex, setWordIndex] = useState(0);
   const wordItem = wordItems[wordIndex % Math.max(1, wordItems.length)];
+  const wordCategoryQueueRef = useRef<string[]>([]);
+  const lastWordCategoryRef = useRef<string | null>(null);
   const [letters, setLetters] = useState<LetterTile[]>(() => makeTiles(wordItems[0]?.word || "дош"));
   const [chosen, setChosen] = useState<string[]>([]);
   const [wordResult, setWordResult] = useState<Result>("idle");
@@ -204,7 +206,7 @@ export default function GameCenter({ items, onBack, mosaicPieces }: { items: Lea
   }
 
   function openWordGame() {
-    const nextIndex = chooseRandomWordIndex(wordItem?.category);
+    const nextIndex = chooseRandomWordIndex();
     const nextItem = wordItems[nextIndex];
     setWordIndex(nextIndex);
     setLetters(makeTiles(nextItem?.word || "дош"));
@@ -215,20 +217,29 @@ export default function GameCenter({ items, onBack, mosaicPieces }: { items: Lea
 
   function nextWord() {
     if (!wordItems.length) return;
-    const nextIndex = chooseRandomWordIndex(wordItem?.category);
+    const nextIndex = chooseRandomWordIndex();
     setWordIndex(nextIndex);
     setLetters(makeTiles(wordItems[nextIndex].word));
     setChosen([]);
     setWordResult("idle");
   }
 
-  function chooseRandomWordIndex(excludedCategory?: string) {
+  function chooseRandomWordIndex() {
     if (!wordItems.length) return 0;
     const allIndexes = wordItems.map((_, index) => index);
-    const otherCategories = [...new Set(wordItems.map((item) => item.category).filter((category) => category !== excludedCategory))];
-    const nextCategory = otherCategories[Math.floor(Math.random() * otherCategories.length)];
-    const fromOtherCategory = allIndexes.filter((index) => wordItems[index].category === nextCategory);
-    const candidates = fromOtherCategory.length ? fromOtherCategory : allIndexes.filter((index) => index !== wordIndex);
+    const categories = [...new Set(wordItems.map((item) => item.categoryId))];
+    let queue = wordCategoryQueueRef.current.filter((categoryId) => categories.includes(categoryId));
+    if (queue.length === 0) {
+      queue = shuffled(categories);
+      if (queue.length > 1 && queue[0] === lastWordCategoryRef.current) {
+        [queue[0], queue[1]] = [queue[1], queue[0]];
+      }
+    }
+    const nextCategory = queue.shift();
+    wordCategoryQueueRef.current = queue;
+    lastWordCategoryRef.current = nextCategory || null;
+    const fromNextCategory = allIndexes.filter((index) => wordItems[index].categoryId === nextCategory);
+    const candidates = fromNextCategory.length ? fromNextCategory : allIndexes.filter((index) => index !== wordIndex);
     const pool = candidates.length ? candidates : allIndexes;
     return pool[Math.floor(Math.random() * pool.length)];
   }

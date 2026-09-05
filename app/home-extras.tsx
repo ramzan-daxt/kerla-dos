@@ -8,6 +8,7 @@ export type LearningItem = {
     key: string;
     word: string;
     visual: string;
+    categoryId: string;
     category: string;
     color?: string;
     image?: string;

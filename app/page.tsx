@@ -1378,6 +1378,7 @@ export default function Home() {
         key: `${c.id}:${w.id}`,
         word: tx(w.chechen),
         visual: w.visual,
+        categoryId: c.id,
         category: tx(c.title),
         color: w.color,
         image: w.image,
