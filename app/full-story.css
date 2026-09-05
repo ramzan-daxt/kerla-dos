@@ -613,6 +613,82 @@
 .ending-story-grid span { color: #9a742e; font-size: 13px; font-weight: 800; }
 .ending-story-grid small { color: #978b7c; }
 
+/* Tablet spreads follow the landscape artwork's proportions, not a fixed 720px page. */
+@media (min-width: 768px) {
+  .reading-mode, .listening-mode { padding-top: 64px; }
+  .book-turn-shell { width: min(1160px, calc(100% - 72px)); }
+  .book-turn-shell .tale-stage {
+    display: grid;
+    grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
+    min-height: clamp(440px, 64svh, 620px);
+    align-items: stretch;
+  }
+  .book-turn-shell .tale-stage::before { display: block; left: 52.83%; }
+  .book-turn-shell .tale-image {
+    min-width: 0;
+    min-height: 0;
+    padding: clamp(18px, 2.4vw, 30px);
+    display: grid;
+    place-items: center;
+  }
+  .book-turn-shell .tale-image img {
+    width: 100%;
+    height: auto;
+    max-height: none;
+    object-fit: contain;
+  }
+  .book-turn-shell .tale-copy {
+    padding: clamp(28px, 3vw, 42px) clamp(24px, 3vw, 40px);
+    justify-content: center;
+  }
+  .book-turn-shell .tale-copy h1 {
+    font-size: clamp(23px, 2.4vw, 30px);
+    margin: 10px 0 20px;
+  }
+  .book-turn-shell .tale-blocks { flex: 0 1 auto; overflow: visible; }
+  .book-turn-shell .tale-blocks p span { font-size: clamp(18px, 1.6vw, 20px); line-height: 1.65; }
+  .book-turn-shell .book-last-page { grid-template-columns: 1fr; }
+  .book-turn-shell .book-last-page::before { display: none; }
+  .tale-cover-screen { padding: 76px 36px 48px; }
+  .tale-cover {
+    width: min(1120px, calc(100vw - 72px));
+    min-height: 0;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    align-items: center;
+    background: #fff7e4;
+    box-shadow: 8px 10px 0 #b69d7150, 0 20px 45px #49382020;
+  }
+  .tale-cover > img {
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 1600 / 1066;
+    object-fit: contain;
+  }
+  .tale-cover-copy {
+    align-self: stretch;
+    min-width: 0;
+    padding: clamp(28px, 3.5vw, 48px) clamp(22px, 3vw, 40px);
+    border-top: 0;
+    border-left: 1px solid #d8c7a7;
+  }
+  .tale-cover-copy h1 { font-size: clamp(26px, 3vw, 40px); margin: 16px 0 22px; }
+  .tale-cover-actions { margin-top: 30px; }
+}
+
+@media (min-width: 768px) and (max-width: 1100px) and (orientation: portrait) {
+  .book-turn-shell { width: min(760px, calc(100% - 64px)); }
+  .book-turn-shell .tale-stage { grid-template-columns: 1fr; min-height: 0; }
+  .book-turn-shell .tale-stage::before { display: none; }
+  .book-turn-shell .tale-image { padding: 24px 28px 12px; }
+  .book-turn-shell .tale-image img { max-height: 34svh; }
+  .book-turn-shell .tale-copy { padding: 24px 40px 36px; }
+  .tale-cover { width: min(680px, calc(100vw - 72px)); grid-template-columns: 1fr; }
+  .tale-cover > img { max-height: 36svh; }
+  .tale-cover-copy { border-left: 0; border-top: 1px solid #d8c7a7; padding: 28px 36px 34px; }
+}
+
 @media (max-width: 700px) {
   .tale-end-screen { padding: 72px 13px 32px; }
   .ending-message { padding: 38px 16px 34px; }
