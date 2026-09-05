@@ -1404,7 +1404,7 @@ export default function Home() {
   if (homeView === "categories")
     return (
       <ScriptText latin={false}>
-        <main className="category-library">
+        <main className="category-library category-library-theme">
           <header>
             <button
               className="back icon-label"
@@ -1428,7 +1428,7 @@ export default function Home() {
               .map((cat) => (
                 <button
                   className={
-                    "category-tile " +
+                    `category-tile category-theme-${cat.id} ` +
                     (!freeCategoryIds.has(cat.id) && !premium
                       ? "paid-topic"
                       : "")
@@ -1478,7 +1478,7 @@ export default function Home() {
   if (active && !freeCategoryIds.has(active.id) && !premium) {
     return (
       <ScriptText latin={false}>
-        <main className="app-shell category-gate">
+        <main className={`app-shell category-gate learning-shell category-theme-${active.id}`}>
           <header>
             <button className="back icon-label" onClick={() => closeLesson(true)}>
               <AppIcon name="arrow-left" /> <span>Дешнийн тобанаш</span>
@@ -1518,7 +1518,7 @@ export default function Home() {
     const letterForms = tx(current.chechen).split(" ");
     return (
       <ScriptText latin={false}>
-        <main className="app-shell">
+        <main className={`app-shell learning-shell category-theme-${active.id}`}>
           <header>
             <button
               className="back icon-label"
