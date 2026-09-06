@@ -5,7 +5,7 @@ import ScriptText, { latinize } from "./script-text";
 import { getWordTranslation } from "./word-translations";
 import HomeExtras, { type LearningItem } from "./home-extras";
 import AppIcon from "./ui-icon";
-import { normalizeChechen } from "./chechen-orthography.mjs";
+import { normalizeChechen, cardWord } from "./chechen-orthography.mjs";
 type Word = {
   id: string;
   chechen: string;
@@ -1772,15 +1772,15 @@ export default function Home() {
                   <h2>
                     {active.id === "alphabet" ? (
                       <AlphabetWord
-                        word={tx(current.example || current.chechen)}
+                        word={cardWord(tx(current.example || current.chechen))}
                         letter={letterForms[1] || letterForms[0]?.toLowerCase()}
                       />
                     ) : (
-                      tx(current.example || current.chechen)
+                      cardWord(tx(current.example || current.chechen))
                     )}
                   </h2>
                   <p className="word-latin" lang="ce-Latn">
-                    {latinize(current.example || current.chechen)}
+                    {cardWord(latinize(current.example || current.chechen))}
                   </p>
                   {getWordTranslation(current.russian, settings.translation) && (
                     <p className="word-translation">

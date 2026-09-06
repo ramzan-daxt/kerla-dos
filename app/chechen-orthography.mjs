@@ -12,3 +12,8 @@ export function normalizeChechen(text) {
     })[letter]);
   });
 }
+
+/** Word-card presentation only; preserve the source, translations and letter pairs. */
+export function cardWord(text) {
+  return text.replace(/^([\s«“"']*)(\p{L})/u, (_, prefix, letter) => prefix + letter.toLowerCase());
+}
