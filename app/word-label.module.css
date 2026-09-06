@@ -1,15 +1,27 @@
 .label {
   display: inline-flex;
-  align-items: baseline;
-  gap: 0.12em;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.18em;
   max-width: 100%;
 }
 
+.word { min-width: 0; max-width: 100%; flex-shrink: 0; overflow-wrap: anywhere; }
+
 .marker {
-  position: relative;
-  top: -0.85em;
   flex: none;
-  font-size: 0.32em;
-  font-weight: 500;
-  line-height: 1;
+  margin-top: 0.2em;
+  padding: 6px 9px;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: normal;
+  text-transform: none;
 }
+.marker[data-class="ву"] { background: #2563bf; }
+.marker[data-class="йу"] { background: #ba4938; }
+.marker[data-class="ду"] { background: #22764c; }
+.marker[data-class="бу"] { background: #7546b5; }

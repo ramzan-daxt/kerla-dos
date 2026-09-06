@@ -6,6 +6,7 @@ import { getWordTranslation } from "./word-translations";
 import HomeExtras, { type LearningItem } from "./home-extras";
 import AppIcon from "./ui-icon";
 import WordLabel from "./word-label";
+import { getWordClass } from "./word-classes";
 import { normalizeChechen, cardWord } from "./chechen-orthography.mjs";
 type Word = {
   id: string;
@@ -852,6 +853,10 @@ const categoryIcons: Record<string, string> = {
 };
 categories.forEach((category) => {
   category.icon = categoryIcons[category.id] || category.icon;
+  category.words.forEach(word => {
+    word.classMarker = ["numbers", "colors"].includes(category.id)
+      ? undefined : getWordClass(word.example || word.chechen);
+  });
 });
 const alphabetCategory = categories.find((c) => c.id === "alphabet")!;
 const freeCategoryIds = new Set([
@@ -1774,10 +1779,12 @@ export default function Home() {
                   )}
                   <h2>
                     {active.id === "alphabet" ? (
+                      <WordLabel word={cardWord(tx(current.example || current.chechen))} classMarker={current.classMarker}>
                       <AlphabetWord
                         word={cardWord(tx(current.example || current.chechen))}
                         letter={letterForms[1] || letterForms[0]?.toLowerCase()}
                       />
+                      </WordLabel>
                     ) : (
                       <WordLabel word={cardWord(tx(current.example || current.chechen))} classMarker={current.classMarker}/>
                     )}

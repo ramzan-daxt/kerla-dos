@@ -7,12 +7,14 @@ import { normalizeChechen } from '../app/chechen-orthography.mjs';
 
 const source = readFileSync(new URL('../app/page.tsx', import.meta.url), 'utf8');
 const start = source.indexOf('const categories:');
-const end = source.indexOf('const categoryIcons:');
+const end = source.indexOf('const alphabetCategory =');
+const classExports = {};
+vm.runInNewContext(ts.transpile(readFileSync(new URL('../app/word-classes.ts', import.meta.url), 'utf8'), {module: 1}), {exports: classExports});
 assert.ok(start >= 0 && end > start);
 const categories = JSON.parse(vm.runInNewContext(ts.transpile(
   source.slice(start, end) + '\nJSON.stringify(categories)',
   { target: ts.ScriptTarget.ES2020 }
-), { normalizeChechen }));
+), { normalizeChechen, getWordClass: classExports.getWordClass }));
 const expected = {
   'fruit:apricot': 'Шаптал', 'fruit:peach': 'ГӀаммагӀа',
   'fruit:cherry': 'Балл', 'fruit:pomegranate': 'Нар',
@@ -28,13 +30,15 @@ const expected = {
 };
 const words = new Map(categories.flatMap(c => c.words.map(w => [`${c.id}:${w.id}`, w])));
 
-test('tomato correction and only approved father class marker are shared safely', () => {
+test('tomato correction and reviewed class markers are shared safely', () => {
   assert.equal(words.get('fruit:tomato-vegetable').chechen, 'Бадар');
   assert.equal(words.get('fruit:tomato-vegetable').russian, 'Помидор');
   assert.equal(words.get('fruit:tomato-vegetable').audioSrc, undefined);
   assert.equal(words.get('family:father').chechen, 'Да');
   assert.equal(words.get('family:father').classMarker, 'ву');
-  assert.deepEqual([...words].filter(([, w]) => w.classMarker).map(([key]) => key), ['family:father']);
+  for (const category of categories) for (const word of category.words) {
+    assert.equal(word.classMarker, ['numbers', 'colors'].includes(category.id) ? undefined : classExports.getWordClass(word.example || word.chechen));
+  }
 });
 
 test('all corrected words reach the shared category data with stable IDs', () => {

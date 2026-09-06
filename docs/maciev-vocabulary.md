@@ -4,7 +4,7 @@
 
 Помидор → бадар, supplied by the owner (not a new dictionary verification).
 Russian/English/German translations, image and stable IDs are unchanged. No recorded tomato audio exists; browser speech remains unverified.
-The owner approved [ву] only for да (father). Store it as separate classMarker metadata for learning cards, never as part of the word, transcription, game letters or audio lookup. Do not infer markers for other words.
+Initially the owner approved [ву] for да (father), then approved four colored class badges across existing words. Store classMarker separately from the word, transcription, game letters and audio lookup. Other markers now require reviewed dictionary evidence; see word-classes.md and app/word-classes.ts.
 
 ## Owner corrections, 2026-09-06
 
@@ -56,3 +56,7 @@ Owner correction: retain минот = минута. The initial change to мин
 Not automatically changed: historical/modern usage differences (жайна, тептар, цӀа, гӀабали), uncertain color names, kinship contractions, and unconfirmed modern borrowings. Машина/машин and хьалха/рано remain pending linguistic review. Absence from this dictionary is not proof that a modern word is invalid.
 
 Audio: no recorded files exist for these 22 corrected live entries, and none receives a recording from another word. Browser speech fallback is still ru-RU and is not validated Chechen pronunciation. New verified recordings remain necessary; changing a card label does not validate its spoken output.
+# Классы слов
+
+Оформление и сверка классов карточек: [полный список и сомнения](word-classes.md).
+Страницы словарных статей: `app/word-classes.ts`. Не определять класс по русскому роду.
