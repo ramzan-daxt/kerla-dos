@@ -10,9 +10,11 @@ recorded audio, IDs or saved progress keys. Existing alphabet labels Йа / Йу
 Йуь already use this spelling; do not add/remove alphabet entries implicitly.
 This is the project's content convention, not a claim about official standards.
 
-Display Chechen vocabulary words and their Latin transcription with a lowercase
-initial on learning cards, including random and favorite cards (use cardWord).
+Display Chechen vocabulary words and their Latin transcription entirely lowercase
+on learning cards, including random and favorite cards (use cardWord).
 Keep alphabet letter pairs, UI headings, stories and translations unchanged.
+Display letter tiles and selected answer letters uppercase in Дош гулде.
+Never lowercase German translations: preserve their grammatical noun capitals.
 
 The user requires responsive visual QA for changes anywhere in this application.
 Before declaring a visual change finished:

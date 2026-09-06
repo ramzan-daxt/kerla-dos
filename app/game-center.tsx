@@ -523,7 +523,7 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
             <div className="answer-slots" aria-label="Жоп">
               {[...wordItem.word.replace(/\s/g, "")].map((_, index) => {
                 const tile = letters.find((letter) => letter.id === chosen[index]);
-                return <button key={index} disabled={wordResult === "right" || advancingWordRef.current} onClick={() => { setChosen((current) => current.slice(0, index)); setWordResult("idle"); }}>{tile?.value || ""}</button>;
+                return <button key={index} disabled={wordResult === "right" || advancingWordRef.current} onClick={() => { setChosen((current) => current.slice(0, index)); setWordResult("idle"); }}>{tile?.value.toUpperCase() || ""}</button>;
               })}
             </div>
             <div className="letter-bank">
@@ -532,7 +532,7 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
                   key={letter.id}
                   disabled={chosen.includes(letter.id) || wordResult === "right" || advancingWordRef.current}
                   onClick={() => { setChosen((current) => [...current, letter.id]); if (mistakes < 5) setWordResult("idle"); }}
-                >{letter.value}</button>
+                >{letter.value.toUpperCase()}</button>
               ))}
             </div>
             <p className={`builder-feedback ${wordResult}`}>

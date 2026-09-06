@@ -15,5 +15,5 @@ export function normalizeChechen(text) {
 
 /** Word-card presentation only; preserve the source, translations and letter pairs. */
 export function cardWord(text) {
-  return text.replace(/^([\s«“"']*)(\p{L})/u, (_, prefix, letter) => prefix + letter.toLowerCase());
+  return text.toLowerCase();
 }

@@ -8,3 +8,9 @@ test("word cards start with a lowercase letter in both scripts", () => {
     assert.equal(cardWord(cardWord(source)), expected);
   }
 });
+
+test("card words are entirely lowercase, including compound words and transcription", () => {
+  assert.equal(cardWord("НАНА"), "нана");
+  assert.equal(cardWord("Доьзал А, Адамаш А"), "доьзал а, адамаш а");
+  assert.equal(cardWord("VaŞa"), "vaşa");
+});
