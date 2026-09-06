@@ -29,13 +29,13 @@ The owner's я→йа, ю→йу spelling convention is retained.
 | ВорхӀийтта | ВуьрхӀитта | 579 |
 | БархӀийтта | БерхӀитта | 579 |
 | Ткъоьсна | Ткъаесна | 579 |
-| Минот | Минут | 291 |
 
 The Russian referent, translations, IDs, illustrations and progress keys are unchanged. The shared category dataset feeds learning cards, favorites, random lessons and games. Corn and potato entries are corrected both before and after their relocation to fruit/vegetables.
 
 Owner exception: retain уьстагӀ = овца in animal and alphabet cards, despite the dictionary's narrower meaning. The owner distinguishes ка = баран; no new card was requested.
 
+Owner correction: retain минот = минута. The initial change to минут (PDF p. 291) was reverted; a dictionary spelling difference alone does not establish that the owner's form is incorrect. There are now 21 applied vocabulary corrections.
+
 Not automatically changed: historical/modern usage differences (жайна, тептар, цӀа, гӀабали), uncertain color names, kinship contractions, and unconfirmed modern borrowings. Машина/машин and хьалха/рано remain pending linguistic review. Absence from this dictionary is not proof that a modern word is invalid.
 
 Audio: no recorded files exist for these 22 corrected live entries, and none receives a recording from another word. Browser speech fallback is still ru-RU and is not validated Chechen pronunciation. New verified recordings remain necessary; changing a card label does not validate its spoken output.
-

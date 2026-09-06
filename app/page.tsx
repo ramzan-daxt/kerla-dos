@@ -692,7 +692,7 @@ categories.push(
       { id: "month", chechen: "Бутт", russian: "Месяц", visual: "🌙" },
       { id: "week", chechen: "КӀира", russian: "Неделя", visual: "📆" },
       { id: "hour", chechen: "Сахьт", russian: "Час", visual: "🕐" },
-      { id: "minute", chechen: "Минут", russian: "Минута", visual: "⏱️" },
+      { id: "minute", chechen: "Минот", russian: "Минута", visual: "⏱️" },
       { id: "early", chechen: "Хьалха", russian: "Рано", visual: "🌄" },
       { id: "late", chechen: "ТӀаьхьа", russian: "Поздно", visual: "🌃" },
     ],

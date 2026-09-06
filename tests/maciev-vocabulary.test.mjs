@@ -24,7 +24,7 @@ const expected = {
   'nature:sky': 'Стигал', 'nature:cloud': 'Марха',
   'nature:forest': 'Хьун', 'numbers:sixteen': 'Йалхитта',
   'numbers:seventeen': 'ВуьрхӀитта', 'numbers:eighteen': 'БерхӀитта',
-  'numbers:nineteen': 'Ткъаесна', 'time:minute': 'Минут',
+  'numbers:nineteen': 'Ткъаесна', 'time:minute': 'Минот',
 };
 const words = new Map(categories.flatMap(c => c.words.map(w => [`${c.id}:${w.id}`, w])));
 
@@ -52,7 +52,7 @@ test('corrections are not assigned stale recordings by stable card IDs', () => {
 });
 
 test('obsolete corrected forms do not survive in vocabulary examples or words', () => {
-  const obsolete = /^(Куьрк|Вишни|Наш|ЦӀенна|Пезагаш|Эчигаш|Перчаткаш|ХӀорш|Стигла|Морх|Хьуьн|Харбуз|ХьажкӀа|Йалхийтта|ВорхӀийтта|БархӀийтта|Ткъоьсна|Минот)$/iu;
+  const obsolete = /^(Куьрк|Вишни|Наш|ЦӀенна|Пезагаш|Эчигаш|Перчаткаш|ХӀорш|Стигла|Морх|Хьуьн|Харбуз|ХьажкӀа|Йалхийтта|ВорхӀийтта|БархӀийтта|Ткъоьсна)$/iu;
   for (const [key, word] of words) {
     assert.doesNotMatch(word.example || word.chechen, obsolete, key);
   }
