@@ -43,6 +43,27 @@ test('owner-approved sheep meaning and historical modern usage are preserved', (
   assert.equal(words.get('home:house').chechen, 'ЦӀа');
 });
 
+test('manual owner corrections reach cards without changing translations or IDs', () => {
+  const approved = {
+    'family:grandfather': ['Ден да', 'Дедушка по отцу'],
+    'family:grandmother': ['Ден нана', 'Бабушка по отцу'],
+    'clothes:dress': ['ГӀабали', 'Платье'],
+    'clothes:jacket': ['Куртиг', 'Куртка'],
+    'clothes:skirt': ['Йупка', 'Юбка'],
+    'school:school-building': ['Ишкола', 'Школа'],
+    'school:ruler': ['Сизар', 'Линейка'],
+    'school:backpack': ['БугӀул', 'Рюкзак'],
+    'home:table': ['Шун', 'Стол'],
+    'time:minute': ['Минот', 'Минута'],
+  };
+  for (const [key, [ce, ru]] of Object.entries(approved)) {
+    assert.equal(words.get(key).chechen, ce, key);
+    assert.equal(words.get(key).russian, ru, key);
+  }
+  assert.equal(categories.find(c => c.id === 'school').title, 'Ишкола');
+  assert.equal(words.get('alphabet:letter-11').example, 'шун');
+});
+
 test('corrections are not assigned stale recordings by stable card IDs', () => {
   for (const key of Object.keys(expected)) {
     assert.equal(words.get(key).audioSrc, undefined, key);

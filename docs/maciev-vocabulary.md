@@ -1,5 +1,16 @@
 # Vocabulary corrections — Matsiev
 
+## Owner corrections, 2026-09-06
+
+These forms were supplied/confirmed by the owner, not newly attributed to Matsiev:
+ден да, ден нана, гӀабали, куртиг (куртка), йупка (юбка), ишкола (школа),
+сизар (линейка), бугӀул (рюкзак), шун (стол), минот (минута).
+Use the Chechen palochka Ӏ for the owner's typed Latin l in гlабали / бугlул.
+гӀабали and минот were already present and are retained.
+The school category label uses ишкола too. Translation values and card IDs stay unchanged.
+Existing grandfather/grandmother audio assets are retained, not re-recorded or
+linguistically revalidated by this text correction.
+
 Source: A. G. Matsiev, Chechen–Russian Dictionary (1961), electronic PDF edition:
 https://ps95.ru/wp-content/uploads/2018/07/Maciev_A.G_Chechensko-russkiy_slovar.pdf
 

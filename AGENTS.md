@@ -7,6 +7,8 @@ electronic PDF page in docs/maciev-vocabulary.md. Do not invent translations or
 assume that Russian-looking loans are wrong. Preserve explicit owner exceptions:
 уьстагӀ = овца (ка = баран), минот = минута (do not replace with минут).
 Flag historical/modern discrepancies for review.
+Preserve the owner's corrections listed in docs/maciev-vocabulary.md, including
+ден да, ден нана, гӀабали, куртиг, йупка, ишкола, сизар, бугӀул, шун, минот.
 When changing a word, check every shared occurrence and its recording; unchanged
 card IDs do not prove that old audio still matches the new label.
 
