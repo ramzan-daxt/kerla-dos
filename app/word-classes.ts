@@ -163,10 +163,20 @@ export const classEvidence = `
 `.trim();
 
 const normalize = (word: string) => word.toLowerCase().replace(/[ӏIl]/g, "Ӏ").replace(/я/g, "йа").replace(/ю/g, "йу").trim();
+// Explicit owner corrections, 2026-09-07. Not attributed to dictionary pages.
+export const ownerClasses: Record<string, string> = {
+  "ден да": "ву", "ден нана": "йу", "ненада": "ву", "ненан нана": "йу",
+  "ден ваша": "ву", "ден йиша": "йу", "шича": "ву/йу",
+  "цӀоькъа-лом": "ду", "бадарж": "йу", "дуга": "ду", "куьртиг": "йу", "йупка": "йу",
+  "хьехархо": "ву", "дешархо": "ву", "ишкола": "йу", "сизар": "йу", "бугӀул": "бу",
+  "догӀа": "ду", "ишкап": "йу", "стогар": "бу", "машен": "йу", "цӀерпошт": "йу",
+  "кема": "ду", "вилиспет": "йу", "хӀордкема": "ду", "мотоцикл": "йу", "автобус": "йу",
+  "чатаз": "йу", "йоккха машен": "йу", "ракета": "йу", "минот": "йу", "йаздархо": "ву", "шаьлдар": "йу",
+};
 const markers = new Map(classEvidence.split("\n").map(line => {
   const [word, marker] = line.split("|");
   return [normalize(word), marker];
 }));
 export function getWordClass(word: string): string | undefined {
-  return markers.get(normalize(word));
+  return ownerClasses[normalize(word)] ?? markers.get(normalize(word));
 }

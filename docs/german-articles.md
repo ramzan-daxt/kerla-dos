@@ -5,8 +5,8 @@ nominative. Articles are part of the shared translation data, not derived from
 Chechen class badges. German noun capitalization and existing singular/plural
 choices are preserved. Colors, numerals and adverbs are unchanged.
 
-Special cases: Утро = der Morgen, Завтра = Morgen (adverb); Ключи = die Schlüssel
-(plural); Двоюродный брат или сестра = der Cousin oder die Cousine;
+Special cases: Утро = der Morgen, Завтра = Morgen (adverb); Ключ = der Schlüssel
+(singular, updated by owner); Двоюродный брат или сестра = der Cousin oder die Cousine;
 Воздух; атмосфера = die Luft; die Atmosphäre.
 
 Variant genders checked against Duden:

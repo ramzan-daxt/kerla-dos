@@ -1,5 +1,12 @@
 # Visual changes
 
+Latest owner corrections (2026-09-07) take precedence over older spellings:
+бадарж, куьртиг, йупка, догӀа (key, singular), ишкап, стогар, шаьлдар,
+машен, цӀерпошт, кема (airplane), хӀордкема (ship), вилиспет, чатаз,
+йоккха машен. Taxi and scooter are removed from the vocabulary pool.
+Class approvals are in app/word-classes.ts ownerClasses; шича has ву/йу.
+Do not present these explicit owner choices as newly verified Matsiev entries.
+
 ## Vocabulary sources
 
 Verify new Chechen vocabulary against Matsiev and record the entry, meaning and

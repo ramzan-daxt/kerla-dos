@@ -1,5 +1,22 @@
 # Vocabulary corrections — Matsiev
 
+## Latest owner overrides, 2026-09-07 (supersede earlier entries below)
+
+бадар → бадарж; куртиг → куьртиг; йупка retained under owner orthography.
+Ключи → ключ, догӀа (English Key, German der Schlüssel); stable key ID retained.
+шкаф → ишкап; лампа → стогар; холодильник → шаьлдар; машина → машен;
+поезд → цӀерпошт; самолёт → кема; корабль → хӀордкема; велосипед → вилиспет;
+трактор → чатаз; йоккха машина → йоккха машен. Taxi and scooter removed from
+the active vocabulary (recoverable in Git; no media or stored progress deleted).
+
+All supplied class choices are recorded separately in `ownerClasses` in
+app/word-classes.ts. In particular шича shows both ву/йу; хьехархо, дешархо,
+йаздархо use owner-selected ву. These are owner approvals, not new dictionary claims.
+See word-classes.md for the refreshed inventory.
+
+Renamed words have no assigned recordings. Existing family and animal recordings
+are retained because their spoken labels did not change. No new audio was generated.
+
 ## Owner corrections, 2026-09-07
 
 Помидор → бадар, supplied by the owner (not a new dictionary verification).

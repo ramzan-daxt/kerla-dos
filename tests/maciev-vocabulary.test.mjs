@@ -31,7 +31,7 @@ const expected = {
 const words = new Map(categories.flatMap(c => c.words.map(w => [`${c.id}:${w.id}`, w])));
 
 test('tomato correction and reviewed class markers are shared safely', () => {
-  assert.equal(words.get('fruit:tomato-vegetable').chechen, 'Бадар');
+  assert.equal(words.get('fruit:tomato-vegetable').chechen, 'Бадарж');
   assert.equal(words.get('fruit:tomato-vegetable').russian, 'Помидор');
   assert.equal(words.get('fruit:tomato-vegetable').audioSrc, undefined);
   assert.equal(words.get('family:father').chechen, 'Да');
@@ -42,7 +42,7 @@ test('tomato correction and reviewed class markers are shared safely', () => {
 });
 
 test('all corrected words reach the shared category data with stable IDs', () => {
-  assert.equal(words.size, 275);
+  assert.equal(words.size, 273);
   for (const [key, value] of Object.entries(expected)) {
     assert.equal(words.get(key)?.chechen, value, key);
   }
@@ -61,7 +61,7 @@ test('manual owner corrections reach cards without changing translations or IDs'
     'family:grandfather': ['Ден да', 'Дедушка по отцу'],
     'family:grandmother': ['Ден нана', 'Бабушка по отцу'],
     'clothes:dress': ['ГӀабали', 'Платье'],
-    'clothes:jacket': ['Куртиг', 'Куртка'],
+    'clothes:jacket': ['Куьртиг', 'Куртка'],
     'clothes:skirt': ['Йупка', 'Юбка'],
     'school:school-building': ['Ишкола', 'Школа'],
     'school:ruler': ['Сизар', 'Линейка'],
