@@ -82,11 +82,25 @@
   color: #443c34;
 }
 
+.tale-blocks p.wolf,
+.tale-blocks p.ram,
+.tale-blocks p.fox {
+  padding-left: 34px;
+}
+
+.tale-blocks p.wolf.reading,
+.tale-blocks p.ram.reading,
+.tale-blocks p.fox.reading {
+  padding-left: 44px;
+}
+
 .tale-blocks p.wolf::before,
 .tale-blocks p.ram::before,
 .tale-blocks p.fox::before {
   font-family: var(--font-nunito), sans-serif;
 }
+
+.tale-blocks p.reading::before { left: 12px; }
 
 @media (max-width: 850px) {
   .tale-image {
@@ -613,47 +627,60 @@
 .ending-story-grid span { color: #9a742e; font-size: 13px; font-weight: 800; }
 .ending-story-grid small { color: #978b7c; }
 
-/* Tablet spreads follow the landscape artwork's proportions, not a fixed 720px page. */
+/* One illustrated page on larger screens, with artwork and text on the same paper. */
 @media (min-width: 768px) {
-  .reading-mode, .listening-mode { padding-top: 64px; }
-  .book-turn-shell { width: min(1160px, calc(100% - 72px)); }
+  .reading-mode, .listening-mode {
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;
+    box-sizing: border-box;
+    padding: 56px 0 32px;
+  }
+  .reading-mode .book-turn-shell,
+  .listening-mode .book-turn-shell { flex: none; margin-top: auto; }
+  .reading-mode .reading-page-count,
+  .listening-mode .book-listen-controls { flex: none; margin-bottom: auto; }
+  .book-turn-shell { width: min(800px, calc(100% - 64px)); }
   .book-turn-shell .tale-stage {
     display: grid;
-    grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
-    min-height: clamp(440px, 64svh, 620px);
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
     align-items: stretch;
   }
-  .book-turn-shell .tale-stage::before { display: block; left: 52.83%; }
+  .book-turn-shell .tale-stage::before { display: none; }
   .book-turn-shell .tale-image {
     min-width: 0;
     min-height: 0;
-    padding: clamp(18px, 2.4vw, 30px);
+    padding: 28px 32px 0;
+    background: #fff9ea;
     display: grid;
     place-items: center;
   }
   .book-turn-shell .tale-image img {
-    width: 100%;
+    width: auto;
+    max-width: 100%;
     height: auto;
-    max-height: none;
+    max-height: clamp(300px, 52svh, 560px);
     object-fit: contain;
   }
   .book-turn-shell .tale-copy {
-    padding: clamp(28px, 3vw, 42px) clamp(24px, 3vw, 40px);
-    justify-content: center;
+    padding: 24px clamp(32px, 5vw, 64px) 24px;
+    background: #fff9ea;
   }
   .book-turn-shell .tale-copy h1 {
     font-size: clamp(23px, 2.4vw, 30px);
     margin: 10px 0 20px;
   }
-  .book-turn-shell .tale-blocks { flex: 0 1 auto; overflow: visible; }
+  .book-turn-shell .tale-blocks { flex: 0 1 auto; overflow: visible; padding-bottom: 0; }
+  .book-turn-shell .tale-blocks p:last-child { margin-bottom: 0; }
   .book-turn-shell .tale-blocks p span { font-size: clamp(18px, 1.6vw, 20px); line-height: 1.65; }
   .book-turn-shell .book-last-page { grid-template-columns: 1fr; }
   .book-turn-shell .book-last-page::before { display: none; }
   .tale-cover-screen { padding: 76px 36px 48px; }
   .tale-cover {
-    width: min(1120px, calc(100vw - 72px));
+    width: min(800px, calc(100vw - 64px));
     min-height: 0;
-    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
     align-items: center;
     background: #fff7e4;
     box-shadow: 8px 10px 0 #b69d7150, 0 20px 45px #49382020;
@@ -665,28 +692,27 @@
     min-height: 0;
     aspect-ratio: 1600 / 1066;
     object-fit: contain;
+    max-height: 42svh;
+    padding: 24px 24px 0;
   }
   .tale-cover-copy {
     align-self: stretch;
     min-width: 0;
-    padding: clamp(28px, 3.5vw, 48px) clamp(22px, 3vw, 40px);
+    padding: 24px 36px 32px;
     border-top: 0;
-    border-left: 1px solid #d8c7a7;
+    border-left: 0;
   }
   .tale-cover-copy h1 { font-size: clamp(26px, 3vw, 40px); margin: 16px 0 22px; }
-  .tale-cover-actions { margin-top: 30px; }
+  .tale-cover-actions { width: min(400px,100%); margin: 24px auto 0; }
 }
 
 @media (min-width: 768px) and (max-width: 1100px) and (orientation: portrait) {
   .book-turn-shell { width: min(760px, calc(100% - 64px)); }
   .book-turn-shell .tale-stage { grid-template-columns: 1fr; min-height: 0; }
   .book-turn-shell .tale-stage::before { display: none; }
-  .book-turn-shell .tale-image { padding: 24px 28px 12px; }
-  .book-turn-shell .tale-image img { max-height: 34svh; }
-  .book-turn-shell .tale-copy { padding: 24px 40px 36px; }
   .tale-cover { width: min(680px, calc(100vw - 72px)); grid-template-columns: 1fr; }
   .tale-cover > img { max-height: 36svh; }
-  .tale-cover-copy { border-left: 0; border-top: 1px solid #d8c7a7; padding: 28px 36px 34px; }
+  .tale-cover-copy { border: 0; padding: 28px 36px 34px; }
 }
 
 @media (max-width: 700px) {

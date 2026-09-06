@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import type { CSSProperties } from "react";
-import { Comfortaa, Nunito } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import "./lesson.css";
 import "./game.css";
@@ -22,18 +22,10 @@ import "./games.css";
 import "./minimal-cards.css";
 import "./random-learning.css";
 import "./themed-backgrounds.css";
+import "./illustrated-story.css";
 
-const nunito = Nunito({
-  variable: "--font-nunito",
-  subsets: ["latin", "cyrillic"],
-  weight: ["400", "600", "700", "800", "900"],
-});
-
-const comfortaa = Comfortaa({
-  variable: "--font-comfortaa",
-  subsets: ["latin", "cyrillic"],
-  weight: ["500", "600", "700"],
-});
+const interfaceFont = localFont({src:"./fonts/Onest.ttf", variable:"--font-interface", weight:"100 900", display:"swap"});
+const storyFont = localFont({src:"./fonts/Rubik.ttf", variable:"--font-story", weight:"300 900", display:"swap"});
 
 export const metadata: Metadata = {
   title: "KERLA DOŞ — нохчийн мотт берашна",
@@ -59,10 +51,10 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body
-        className={`${nunito.variable} ${comfortaa.variable} antialiased`}
+        className={`${interfaceFont.variable} ${storyFont.variable} antialiased`}
         style={{
-          "--font-nunito": nunito.style.fontFamily,
-          "--font-comfortaa": comfortaa.style.fontFamily,
+          "--font-nunito": interfaceFont.style.fontFamily,
+          "--font-comfortaa": interfaceFont.style.fontFamily,
         } as CSSProperties}
       >
         <div className="phone-portrait-gate" role="status" aria-label="Телефон нисса хӀоттабе">

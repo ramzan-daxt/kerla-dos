@@ -31,7 +31,7 @@ const mosaicThemes = [
     id: "fairytale-scenes",
     icon: "/icons/mosaic/fairytale-scenes.png",
     title: "Туьйран сурташ",
-    note: "Дуьззина сюжетан сурташ",
+    note: "Дуьззина сйужетан сурташ",
     puzzles: [
       { title: "Ловзуш Ӏахарш", image: "/stories/borz-ka/scene-01.png" },
       { title: "Борз а, цхьогал а", image: "/stories/borz-ka/scene-06.png" },
@@ -536,7 +536,7 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
               ))}
             </div>
             <p className={`builder-feedback ${wordResult}`}>
-              {wordResult === "right" ? `Нийса! ${wordItem.word}` : wordResult === "wrong" && advancingWordRef.current ? `Жоп: ${wordItem.word}` : wordResult === "wrong" ? `Юха хьажа · ${5 - mistakes} гӀалат` : "Элпаш тӀетаӀайе"}
+              {wordResult === "right" ? `Нийса! ${wordItem.word}` : wordResult === "wrong" && advancingWordRef.current ? `Жоп: ${wordItem.word}` : wordResult === "wrong" ? `Йуха хьажа · ${5 - mistakes} гӀалат` : "Элпаш тӀетаӀайе"}
             </p>
             {wordResult === "right" ? (
               <button className="game-main-button" onClick={() => finishCurrentWord(true)}>{wordPosition + 1 >= wordSession.length ? "ЖамӀаш" : "Кхин дош"}</button>
@@ -557,8 +557,8 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
               <span className="right"><b>{wordOutcomes.filter((outcome) => outcome.correct).length}</b><small>нийса</small></span>
               <span className="wrong"><b>{wordOutcomes.filter((outcome) => !outcome.correct).length}</b><small>нийса дац</small></span>
             </div>
-            <button className="game-main-button" onClick={() => startWordSession(false)}>Юха ловза</button>
-            {failedWordKeys.length > 0 && <button className="review-word-button" onClick={() => startWordSession(true)}>ГӀалаташ юха Ӏамо</button>}
+            <button className="game-main-button" onClick={() => startWordSession(false)}>Йуха ловза</button>
+            {failedWordKeys.length > 0 && <button className="review-word-button" onClick={() => startWordSession(true)}>ГӀалаташ йуха Ӏамо</button>}
           </div>
         </section>
       )}
@@ -675,7 +675,7 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
             </div>
           )}
           <p className={`mosaic-feedback ${mosaicResult}`}>
-            {mosaicResult === "right" ? "Нийса! Сурт гулделла." : mosaicResult === "wrong" ? "Дакъош нийса дац — юха хьажа" : mosaicMode === "tray" ? "Дакъа лахара схьалаца, суьрта тӀехь хӀоттаде" : "Ши дакъа харжа — царна меттигаш хийца"}
+            {mosaicResult === "right" ? "Нийса! Сурт гулделла." : mosaicResult === "wrong" ? "Дакъош нийса дац — йуха хьажа" : mosaicMode === "tray" ? "Дакъа лахара схьалаца, суьрта тӀехь хӀоттаде" : "Ши дакъа харжа — царна меттигаш хийца"}
           </p>
           <div className="mosaic-actions">
             {mosaicResult === "right" ? (
@@ -684,7 +684,7 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
               <button className="game-main-button" disabled={puzzleState.tray.length > 0} onClick={() => setMosaicResult(solved ? "right" : "wrong")}>Таллам бе</button>
             )}
             <button className="shuffle-puzzle icon-label" onClick={resetPuzzle}>
-              <AppIcon name="refresh" /> Юха кегаде
+              <AppIcon name="refresh" /> Йуха кегаде
             </button>
           </div>
           {dragging && (
@@ -700,7 +700,7 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
                 </button>
                 <img src={puzzle.image} alt={puzzle.title} />
                 <strong>{puzzle.title}</strong>
-                <small>{3 - previewUses} юха хьажа йиш ю</small>
+                <small>{3 - previewUses} йуха хьажа йиш йу</small>
               </div>
             </div>
           )}

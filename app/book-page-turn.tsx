@@ -4,22 +4,25 @@ import {forwardRef,useImperativeHandle,useRef,useState,useEffect,type ReactNode,
 export type BookTurnHandle={turnTo:(page:number)=>void};
 type Turn={target:number;direction:1|-1;progress:number};
 type Gesture={id:number;x:number;y:number;width:number;dragged:boolean};
-type Props={index:number;lastIndex:number;renderPage:(index:number)=>ReactNode;onStart:()=>void;onFinish:(target:number|null)=>void};
+type Props={index:number;lastIndex:number;renderPage:(index:number)=>ReactNode;onStart:()=>void;onFinish:(target:number|null)=>void;onCenterTap?:()=>void};
 
 // Both page faces stay mounted until release completes. No text swap mid-turn.
-export default forwardRef<BookTurnHandle,Props>(function BookPageTurn({index,lastIndex,renderPage,onStart,onFinish},ref){
+export default forwardRef<BookTurnHandle,Props>(function BookPageTurn({index,lastIndex,renderPage,onStart,onFinish,onCenterTap},ref){
   const [turn,setTurn]=useState<Turn|null>(null);
   const current=useRef<Turn|null>(null);
   const gesture=useRef<Gesture|null>(null);
   const frame=useRef<number|null>(null);
   const settling=useRef(false);
+  const holding=useRef(false);
   const callbacks=useRef({onStart,onFinish});
   callbacks.current={onStart,onFinish};
   function update(value:Turn|null){current.current=value;setTurn(value);}
+  function startHold(){if(!holding.current){holding.current=true;callbacks.current.onStart();}}
+  function releaseHold(){if(holding.current){holding.current=false;callbacks.current.onFinish(null);}}
   function begin(target:number){
     if(current.current||target<0||target>lastIndex||target===index)return false;
     update({target,direction:target>index?1:-1,progress:0});
-    callbacks.current.onStart();
+    startHold();
     return true;
   }
   function finish(commit:boolean){
@@ -27,6 +30,7 @@ export default forwardRef<BookTurnHandle,Props>(function BookPageTurn({index,las
     if(!active)return;
     frame.current=null;settling.current=false;gesture.current=null;
     update(null);
+    holding.current=false;
     callbacks.current.onFinish(commit?active.target:null);
   }
   function settle(commit:boolean){
@@ -51,7 +55,7 @@ export default forwardRef<BookTurnHandle,Props>(function BookPageTurn({index,las
   useEffect(()=>()=>{if(frame.current!==null)cancelAnimationFrame(frame.current);},[]);
   useEffect(()=>{
     const cancel=()=>{
-      if(!current.current)return;
+      if(!current.current){gesture.current=null;releaseHold();return;}
       if(frame.current!==null)cancelAnimationFrame(frame.current);
       finish(false);
     };
@@ -66,13 +70,14 @@ export default forwardRef<BookTurnHandle,Props>(function BookPageTurn({index,las
     if((event.target as HTMLElement).closest("button,a,input"))return;
     const rect=event.currentTarget.getBoundingClientRect();
     gesture.current={id:event.pointerId,x:event.clientX,y:event.clientY,width:rect.width,dragged:false};
+    startHold();
     event.currentTarget.setPointerCapture(event.pointerId);
   }
   function move(event:PointerEvent<HTMLDivElement>){
     const g=gesture.current;if(!g||g.id!==event.pointerId||settling.current)return;
     const dx=event.clientX-g.x,dy=event.clientY-g.y;
     if(!g.dragged){
-      if(Math.abs(dy)>10&&Math.abs(dy)>Math.abs(dx)){gesture.current=null;return;}
+      if(Math.abs(dy)>10&&Math.abs(dy)>Math.abs(dx)){gesture.current=null;releaseHold();return;}
       if(Math.abs(dx)<8)return;
       g.dragged=true;
       if(!begin(index+(dx<0?1:-1)))return;
@@ -84,11 +89,13 @@ export default forwardRef<BookTurnHandle,Props>(function BookPageTurn({index,las
     const g=gesture.current;if(!g||g.id!==event.pointerId)return;
     gesture.current=null;
     if(current.current){settle(current.current.progress>=.35);return;}
-    if(g.dragged)return;
+    if(g.dragged){releaseHold();return;}
     const rect=event.currentTarget.getBoundingClientRect();
-    if(begin(index+(event.clientX<rect.left+rect.width/2?-1:1)))settle(true);
+    const relative=(event.clientX-rect.left)/rect.width;
+    if(relative>.23&&relative<.77&&onCenterTap){releaseHold();onCenterTap();return;}
+    if(begin(index+(event.clientX<rect.left+rect.width/2?-1:1)))settle(true);else releaseHold();
   }
-  function cancel(){gesture.current=null;if(current.current&&!settling.current)settle(false);}
+  function cancel(){gesture.current=null;if(current.current&&!settling.current)settle(false);else if(!current.current)releaseHold();}
   const p=turn?.progress??0;
   const forward=turn?.direction!==-1;
   const crease=forward?100*(1-p):100*p;

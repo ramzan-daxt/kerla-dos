@@ -1,0 +1,71 @@
+/* Story typography is independent of interface typography. */
+.full-tale { font-family: var(--font-story), sans-serif; }
+.full-tale .tale-cover-copy h1,
+.full-tale .tale-ending h1 { font-family: var(--font-story), sans-serif; font-weight: 500; }
+.full-tale.illustrated-reader {
+  box-sizing: border-box; min-height: 100svh;
+  padding: max(58px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom));
+  display: flex; flex-direction: column; justify-content: center; gap: 10px;
+}
+.illustrated-reader .book-turn-shell {
+  width: min(560px, calc((100svh - 108px) * .72), 100%);
+  margin: 0 auto; border-radius: 4px; box-shadow: 0 8px 30px #44341b14;
+  container-type: inline-size; flex: none;
+}
+.illustrated-reader.listening-mode .book-turn-shell {
+  width: min(560px, calc((100svh - 176px) * .72), 100%);
+}
+.illustrated-page {
+  position: relative; isolation: isolate; overflow: hidden;
+  display: flex; flex-direction: column;
+  padding-top: var(--art-space, 85cqw);
+  font: 400 clamp(18px, 3.3cqw, 21px)/1.4 var(--font-story), sans-serif; color: #302b23;
+}
+.story-art {
+  position: absolute; top: 0; left: 0; display: block; width: 100%; height: 100%; min-height: 200cqw;
+  object-fit: cover; object-position: top; border-radius: inherit;
+}
+.text-top { padding-top: 0; padding-bottom: var(--art-space, 85cqw); }
+.text-top .story-art { top: auto; bottom: 0; object-position: bottom; }
+.scene-1 { --art-space: 90cqw; }
+.scene-2 { --art-space: 80cqw; }
+.scene-3 { --art-space: 78cqw; }
+.scene-4 { --art-space: 80cqw; }
+.scene-5 { --art-space: 85cqw; }
+.scene-6 { --art-space: 90cqw; }
+.scene-7 { --art-space: 72cqw; }
+.scene-8 { --art-space: 78cqw; }
+/* Remove spare sky, not the characters, on this longer page. */
+.scene-8 .story-art { top: -19cqw; }
+.scene-9 { --art-space: 80cqw; }
+.scene-10 { --art-space: 94cqw; }
+.scene-11 { --art-space: 85cqw; }
+.story-brush {
+  position: relative; z-index: 1; width: 98%; margin: 0 1%; padding: 0;
+  box-sizing: border-box; text-align: left;
+  border: 32px solid transparent;
+  border-image: url('/stories/ui/ivory-brush.png') 200 280 fill / 32px / 0 stretch;
+}
+.story-brush.top { margin-top: 2%; }
+.story-brush.bottom { margin-bottom: 2%; }
+.story-brush p { margin: 0; font: inherit; text-wrap: pretty; }
+.story-brush p + p { margin-top: .55em; }
+.story-speech { color: #302b23; }
+.story-author { color: #595044; }
+.story-brush p.is-speaking .story-speech,
+.story-brush p.is-speaking .story-author { color: #176348; }
+.illustrated-reader .reading-page-count {
+  margin: 0 auto; padding: 0; font: 500 14px/24px var(--font-interface), sans-serif; background: none;
+}
+.illustrated-reader .book-listen-controls { margin: 0 auto; flex: none; }
+.illustrated-reader .book-last-page { aspect-ratio: 3/4; min-height: 0; }
+.illustrated-reader.controls-hidden { gap: 0; }
+@media (max-width: 600px) {
+  .full-tale.illustrated-reader {
+    padding: max(58px, env(safe-area-inset-top)) 8px max(12px, env(safe-area-inset-bottom)); gap: 8px;
+  }
+  .illustrated-reader .book-turn-shell,
+  .illustrated-reader.listening-mode .book-turn-shell { width: 100%; }
+  .illustrated-reader .book-last-page { aspect-ratio: 1 / 2; }
+  .illustrated-page { font-size: 18px; }
+}

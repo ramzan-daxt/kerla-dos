@@ -5,6 +5,7 @@ import ScriptText, { latinize } from "./script-text";
 import { getWordTranslation } from "./word-translations";
 import HomeExtras, { type LearningItem } from "./home-extras";
 import AppIcon from "./ui-icon";
+import { normalizeChechen } from "./chechen-orthography.mjs";
 type Word = {
   id: string;
   chechen: string;
@@ -91,7 +92,7 @@ const categories: Category[] = [
       { id: "three", chechen: "Кхоъ", russian: "Три", visual: "3" },
       { id: "four", chechen: "Диъ", russian: "Четыре", visual: "4" },
       { id: "five", chechen: "Пхиъ", russian: "Пять", visual: "5" },
-      { id: "six", chechen: "Ялх", russian: "Шесть", visual: "6" },
+      { id: "six", chechen: "Йалх", russian: "Шесть", visual: "6" },
       { id: "seven", chechen: "ВорхӀ", russian: "Семь", visual: "7" },
       { id: "eight", chechen: "БархӀ", russian: "Восемь", visual: "8" },
       { id: "nine", chechen: "Исс", russian: "Девять", visual: "9" },
@@ -270,7 +271,7 @@ const categories: Category[] = [
       { id: "foot", chechen: "Ког", russian: "Нога", visual: "🦶" },
       { id: "finger", chechen: "ПӀелг", russian: "Палец", visual: "☝️" },
       { id: "hair", chechen: "Месаш", russian: "Волосы", visual: "💇" },
-      { id: "face", chechen: "Юьхь", russian: "Лицо", visual: "😊" },
+      { id: "face", chechen: "Йуьхь", russian: "Лицо", visual: "😊" },
       { id: "heart", chechen: "Дог", russian: "Сердце", visual: "❤️" },
       { id: "belly", chechen: "Гай", russian: "Живот", visual: "🧍" },
       { id: "back", chechen: "Букъ", russian: "Спина", visual: "🔙" },
@@ -342,7 +343,7 @@ categories.push(
   },
   {
     id: "food",
-    title: "ЯахӀума",
+    title: "ЙаахӀума",
     russian: "Еда",
     icon: "🍞",
     accent: "#bd7b3d",
@@ -379,7 +380,7 @@ categories.push(
       { id: "scarf", chechen: "Йовлакх", russian: "Платок", visual: "🧣" },
       { id: "coat", chechen: "Пальто", russian: "Пальто", visual: "🧥" },
       { id: "jacket", chechen: "Куртка", russian: "Куртка", visual: "🧥" },
-      { id: "skirt", chechen: "Юбка", russian: "Юбка", visual: "👗" },
+      { id: "skirt", chechen: "Йубка", russian: "Юбка", visual: "👗" },
       { id: "gloves", chechen: "Перчаткаш", russian: "Перчатки", visual: "🧤" },
       { id: "boots", chechen: "Эчигаш", russian: "Сапоги", visual: "🥾" },
     ],
@@ -408,7 +409,7 @@ categories.push(
       { id: "board", chechen: "Доска", russian: "Доска", visual: "🟩" },
       { id: "ruler", chechen: "Линейка", russian: "Линейка", visual: "📏" },
       { id: "scissors", chechen: "ХӀорш", russian: "Ножницы", visual: "✂️" },
-      { id: "backpack", chechen: "Рюкзак", russian: "Рюкзак", visual: "🎒" },
+      { id: "backpack", chechen: "Рйукзак", russian: "Рюкзак", visual: "🎒" },
       { id: "paint", chechen: "Басарш", russian: "Краски", visual: "🎨" },
     ],
   },
@@ -438,7 +439,7 @@ categories
   ?.words.push(
     {
       id: "sixteen",
-      chechen: "Ялхийтта",
+      chechen: "Йалхийтта",
       russian: "Шестнадцать",
       visual: "16",
     },
@@ -493,7 +494,7 @@ categories
     },
     {
       id: "twenty-six",
-      chechen: "Ткъе ялх",
+      chechen: "Ткъе йалх",
       russian: "Двадцать шесть",
       visual: "26",
     },
@@ -805,6 +806,14 @@ categories.push({
   })),
 });
 const recordedAudioByWord = new Map<string, string>();
+// Normalize before matching recordings, building games or rendering any words.
+categories.forEach(category => {
+  category.title = normalizeChechen(category.title);
+  category.words.forEach(word => {
+    word.chechen = normalizeChechen(word.chechen);
+    if (word.example) word.example = normalizeChechen(word.example);
+  });
+});
 const recordedCategoryIds = new Set(["family", "colors", "animals"]);
 categories.forEach((category) => {
   if (!recordedCategoryIds.has(category.id)) return;
@@ -1138,7 +1147,7 @@ export default function Home() {
         .slice(0, settings.difficulty - 1),
     ].sort(() => 0.5 - Math.random());
   }, [active, target?.id, round, premium, settings.difficulty]);
-  const tx = (s: string) => s;
+  const tx = (s: string) => normalizeChechen(s);
   function saveSettings(v: Settings) {
     setSettings(v);
     localStorage.setItem("kerla-settings", JSON.stringify(v));
@@ -1565,7 +1574,7 @@ export default function Home() {
                 if (!muted) stopAudio();
                 setMuted(!muted);
               }}
-              aria-label={muted ? "Аз дӀайолаяйта" : "Аз дӀайаккха"}
+              aria-label={muted ? "Аз дӀайолайайта" : "Аз дӀайаккха"}
             >
               <AppIcon name={muted ? "mute" : "sound"} />
             </button>
@@ -1840,7 +1849,7 @@ export default function Home() {
                     Нийса! <AppIcon name="star" />
                   </span>
                 ) : answer === "wrong" ? (
-                  "Нийса дац. Юха хьажа!"
+                  "Нийса дац. Йуха хьажа!"
                 ) : (
                   "Хаза, суьрта тӀетаӀайе"
                 )}
@@ -1907,7 +1916,7 @@ export default function Home() {
             <button
               className="sound"
               onClick={() => setMuted(!muted)}
-              aria-label={muted ? "Аз дӀайолаяйта" : "Аз дӀайаккха"}
+              aria-label={muted ? "Аз дӀайолайайта" : "Аз дӀайаккха"}
             >
               <AppIcon name={muted ? "mute" : "sound"} />
             </button>
@@ -2069,7 +2078,7 @@ export default function Home() {
               <strong>Схьакъастина</strong>
               <small>
                 {favorites.length
-                  ? `${favorites.length} дош юха Ӏамо`
+                  ? `${favorites.length} дош йуха Ӏамо`
                   : "Дешнаш лардийла"}
               </small>
             </button>
