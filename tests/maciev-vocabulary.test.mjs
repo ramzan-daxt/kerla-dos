@@ -28,6 +28,15 @@ const expected = {
 };
 const words = new Map(categories.flatMap(c => c.words.map(w => [`${c.id}:${w.id}`, w])));
 
+test('tomato correction and only approved father class marker are shared safely', () => {
+  assert.equal(words.get('fruit:tomato-vegetable').chechen, 'Бадар');
+  assert.equal(words.get('fruit:tomato-vegetable').russian, 'Помидор');
+  assert.equal(words.get('fruit:tomato-vegetable').audioSrc, undefined);
+  assert.equal(words.get('family:father').chechen, 'Да');
+  assert.equal(words.get('family:father').classMarker, 'ву');
+  assert.deepEqual([...words].filter(([, w]) => w.classMarker).map(([key]) => key), ['family:father']);
+});
+
 test('all corrected words reach the shared category data with stable IDs', () => {
   assert.equal(words.size, 275);
   for (const [key, value] of Object.entries(expected)) {

@@ -5,6 +5,7 @@ import ScriptText, { latinize } from "./script-text";
 import { getWordTranslation } from "./word-translations";
 import HomeExtras, { type LearningItem } from "./home-extras";
 import AppIcon from "./ui-icon";
+import WordLabel from "./word-label";
 import { normalizeChechen, cardWord } from "./chechen-orthography.mjs";
 type Word = {
   id: string;
@@ -15,6 +16,7 @@ type Word = {
   example?: string;
   image?: string;
   audioSrc?: string;
+  classMarker?: string;
 };
 type Category = {
   id: string;
@@ -33,7 +35,7 @@ const categories: Category[] = [
     icon: "👨‍👩‍👧",
     accent: "#f27d5f",
     words: [
-      { id: "father", chechen: "Да", russian: "Отец", visual: "👨" },
+      { id: "father", chechen: "Да", russian: "Отец", visual: "👨", classMarker: "ву" },
       { id: "mother", chechen: "Нана", russian: "Мама", visual: "👩" },
       { id: "brother", chechen: "Ваша", russian: "Брат", visual: "👦" },
       { id: "sister", chechen: "Йиша", russian: "Сестра", visual: "👧" },
@@ -359,7 +361,7 @@ categories.push(
       { id: "corn", chechen: "ХьаьжкӀа", russian: "Кукуруза", visual: "🌽" },
       { id: "cucumber", chechen: "Наьрс", russian: "Огурец", visual: "🥒" },
       { id: "potato", chechen: "Картолг", russian: "Картофель", visual: "🥔" },
-      { id: "tomato", chechen: "Помидор", russian: "Помидор", visual: "🍅" },
+      { id: "tomato", chechen: "Бадар", russian: "Помидор", visual: "🍅" },
       { id: "rice", chechen: "Дуга", russian: "Рис", visual: "🍚" },
       { id: "soup", chechen: "Чорпа", russian: "Суп", visual: "🥣" },
     ],
@@ -584,7 +586,7 @@ if (fruitAndVegetables) {
     },
     {
       id: "tomato-vegetable",
-      chechen: "Помидор",
+      chechen: "Бадар",
       russian: "Помидор",
       visual: "🍅",
     },
@@ -1417,6 +1419,7 @@ export default function Home() {
         color: w.color,
         image: w.image,
         audioSrc: w.audioSrc,
+        classMarker: w.classMarker,
       })),
     );
   function toggleFavorite(key: string) {
@@ -1776,7 +1779,7 @@ export default function Home() {
                         letter={letterForms[1] || letterForms[0]?.toLowerCase()}
                       />
                     ) : (
-                      cardWord(tx(current.example || current.chechen))
+                      <WordLabel word={cardWord(tx(current.example || current.chechen))} classMarker={current.classMarker}/>
                     )}
                   </h2>
                   <p className="word-latin" lang="ce-Latn">

@@ -1,5 +1,11 @@
 # Vocabulary corrections — Matsiev
 
+## Owner corrections, 2026-09-07
+
+Помидор → бадар, supplied by the owner (not a new dictionary verification).
+Russian/English/German translations, image and stable IDs are unchanged. No recorded tomato audio exists; browser speech remains unverified.
+The owner approved [ву] only for да (father). Store it as separate classMarker metadata for learning cards, never as part of the word, transcription, game letters or audio lookup. Do not infer markers for other words.
+
 ## Owner corrections, 2026-09-06
 
 These forms were supplied/confirmed by the owner, not newly attributed to Matsiev:
