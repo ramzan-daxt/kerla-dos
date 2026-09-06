@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import type { LearningItem } from "./home-extras";
 import AppIcon from "./ui-icon";
+import { removeAnswerTile } from "./word-selection.mjs";
 
 type GameScreen = "hub" | "word" | "mosaic";
 type Result = "idle" | "right" | "wrong";
@@ -523,7 +524,7 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
             <div className="answer-slots" aria-label="Жоп">
               {[...wordItem.word.replace(/\s/g, "")].map((_, index) => {
                 const tile = letters.find((letter) => letter.id === chosen[index]);
-                return <button key={index} disabled={wordResult === "right" || advancingWordRef.current} onClick={() => { setChosen((current) => current.slice(0, index)); setWordResult("idle"); }}>{tile?.value.toUpperCase() || ""}</button>;
+                return <button key={tile?.id || `empty-${index}`} disabled={!tile || wordResult === "right" || advancingWordRef.current} onClick={() => { setChosen((current) => removeAnswerTile(current, tile?.id)); setWordResult("idle"); }}>{tile?.value.toUpperCase() || ""}</button>;
               })}
             </div>
             <div className="letter-bank">
@@ -531,7 +532,7 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
                 <button
                   key={letter.id}
                   disabled={chosen.includes(letter.id) || wordResult === "right" || advancingWordRef.current}
-                  onClick={() => { setChosen((current) => [...current, letter.id]); if (mistakes < 5) setWordResult("idle"); }}
+                  onClick={() => { setChosen((current) => current.includes(letter.id) ? current : [...current, letter.id]); if (mistakes < 5) setWordResult("idle"); }}
                 >{letter.value.toUpperCase()}</button>
               ))}
             </div>
