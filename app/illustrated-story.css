@@ -5,12 +5,15 @@
 .full-tale.illustrated-reader {
   box-sizing: border-box; min-height: 100svh;
   padding: max(58px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom));
-  display: flex; flex-direction: column; justify-content: center; gap: 10px;
+  display: flex; flex-direction: column; justify-content: flex-start; gap: 10px;
+  overflow-anchor: none;
 }
 .illustrated-reader .book-turn-shell {
   width: min(560px, calc((100svh - 108px) * .72), 100%);
   margin: 0 auto; border-radius: 4px; box-shadow: 0 8px 30px #44341b14;
   container-type: inline-size; flex: none;
+  /* A held page owns one-finger gestures; keep two-finger zoom available. */
+  touch-action: pinch-zoom;
 }
 .illustrated-reader.listening-mode .book-turn-shell {
   width: min(560px, calc((100svh - 176px) * .72), 100%);

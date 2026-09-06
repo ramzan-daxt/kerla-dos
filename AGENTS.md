@@ -20,4 +20,4 @@ Before declaring a visual change finished:
 - Do not hide layout bugs by clipping meaningful text, cropping characters, shrinking reading text, or adding artificial fields around images.
 - Disclose any responsive interaction tradeoff (for example text scrolling). Do not call a compromise fully approved.
 - Preserve existing assets; do not regenerate illustrations to fix CSS layout.
-- Keep changes local until publication is authorized.
+- After verified fixes, commit and push them to GitHub by default, as authorized by the owner. Report push failures; never force-push. Follow a later explicit local-only request when given.
