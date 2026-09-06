@@ -27,6 +27,9 @@ on learning cards, including random and favorite cards (use cardWord).
 Keep alphabet letter pairs, UI headings, stories and translations unchanged.
 Display letter tiles and selected answer letters uppercase in Дош гулде.
 Never lowercase German translations: preserve their grammatical noun capitals.
+Include a German noun's nominative definite article (der/die/das), using die for
+plural translations. Preserve articles on each alternative noun. Do not derive
+German articles from Chechen classes or add them to numerals, colors or adverbs.
 
 The user requires responsive visual QA for changes anywhere in this application.
 Before declaring a visual change finished:
