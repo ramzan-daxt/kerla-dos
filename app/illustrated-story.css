@@ -51,13 +51,13 @@
 }
 .story-brush.top { margin-top: 2%; }
 .story-brush.bottom { margin-bottom: 2%; }
-/* Center the shared reading column, not the individual dialogue lines. */
+/* Each paragraph is centered independently; its lines remain left-aligned. */
 .story-brush-copy {
   position: relative;
   inline-size: fit-content; max-inline-size: min(100%, 34ch);
   margin-inline: auto; text-align: left;
 }
-.story-brush p { margin: 0; font: inherit; text-wrap: balance; }
+.story-brush p { position: relative; margin: 0; font: inherit; text-wrap: balance; }
 .story-brush p + p { margin-top: .55em; }
 .story-speech { color: #302b23; }
 .story-author { color: #595044; }
