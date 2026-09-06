@@ -1,6 +1,7 @@
 "use client";
 import {useEffect,useRef,useState} from"react";
 import AppIcon from "./ui-icon";
+import StoryBrushCopy from "./story-brush-copy";
 import {storyTextParts} from "./story-typography.mjs";
 import BookPageTurn,{type BookTurnHandle} from "./book-page-turn";
 type Block={speaker:string;text:string};type Scene={title:string;image:string;blocks:Block[]};
@@ -200,7 +201,9 @@ export default function FullStory({rate,volume,onBack}:{rate:number;volume:numbe
     return <article className={`illustrated-page scene-${page+1} text-${compositions[page]}`} aria-label={`${page+1} / ${scenes.length}`}>
       <img className="story-art" src={scene.image.replace(".png","-portrait.webp")} alt="" draggable={false}/>
       <div className={`story-brush ${compositions[page]}`}>
+        <StoryBrushCopy>
         {scene.blocks.map((block,index)=><p key={index} className={`${block.speaker==="Кхочушверг"?"story-narration":"story-dialogue"} ${page===si&&index===bi&&state!=="idle"?"is-speaking":""}`}>{dialogue(block)}</p>)}
+        </StoryBrushCopy>
       </div>
     </article>;
   }
