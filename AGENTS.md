@@ -1,5 +1,14 @@
 # Visual changes
 
+## Vocabulary sources
+
+Verify new Chechen vocabulary against Matsiev and record the entry, meaning and
+electronic PDF page in docs/maciev-vocabulary.md. Do not invent translations or
+assume that Russian-looking loans are wrong. Preserve explicit owner exceptions:
+уьстагӀ = овца (ка = баран). Flag historical/modern discrepancies for review.
+When changing a word, check every shared occurrence and its recording; unchanged
+card IDs do not prove that old audio still matches the new label.
+
 ## Chechen spelling
 
 Use the owner's spelling rule in all Chechen words, stories and UI text:
