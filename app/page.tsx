@@ -885,7 +885,7 @@ const illustratedWords: Record<string, string> = {
   "family:daughter-in-law": "/illustrations/family/daughter-in-law.png",
   "family:son-in-law": "/illustrations/family/son-in-law.png",
   "family:bride": "/illustrations/family/bride.png",
-  "family:cousin": "/illustrations/family/cousin.png",
+  "family:cousin": "/illustrations/family/cousins.png",
   "family:ancestors": "/illustrations/family/ancestors-v2.png",
   "colors:red": "/illustrations/colors/red.png",
   "colors:blue": "/illustrations/colors/blue.png",
