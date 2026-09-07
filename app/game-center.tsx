@@ -465,14 +465,12 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
                 <img src="/icons/games/word-builder.png" alt="" draggable={false} />
               </span>
               <strong>Дош гулде</strong>
-              <small>Элпаш нийса хӀиттаде</small>
             </button>
             <button className="game-choice mosaic-choice" onClick={() => setScreen("mosaic")}>
               <span className="game-choice-art" aria-hidden="true">
                 <img src="/icons/games/mosaic.png" alt="" draggable={false} />
               </span>
               <strong>Мозаика</strong>
-              <small>Сурт дакъошках гулде</small>
             </button>
           </div>
         </section>
@@ -534,7 +532,7 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
               ))}
             </div>
             <p className={`builder-feedback ${wordResult}`}>
-              {wordResult === "right" ? `Нийса! ${wordItem.word}` : wordResult === "wrong" && advancingWordRef.current ? `Жоп: ${wordItem.word}` : wordResult === "wrong" ? `Йуха хьажа · ${5 - mistakes} гӀалат` : "Элпаш тӀетаӀайе"}
+              {wordResult === "right" ? `Нийса! ${wordItem.word}` : wordResult === "wrong" && advancingWordRef.current ? `Жоп: ${wordItem.word}` : wordResult === "wrong" ? `Йуха хьажа · ${5 - mistakes} гӀалат` : null}
             </p>
             {wordResult === "right" ? (
               <button className="game-main-button" onClick={() => finishCurrentWord(true)}>{wordPosition + 1 >= wordSession.length ? "ЖамӀаш" : "Кхин дош"}</button>
@@ -673,7 +671,7 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
             </div>
           )}
           <p className={`mosaic-feedback ${mosaicResult}`}>
-            {mosaicResult === "right" ? "Нийса! Сурт гулделла." : mosaicResult === "wrong" ? "Дакъош нийса дац — йуха хьажа" : mosaicMode === "tray" ? "Дакъа лахара схьалаца, суьрта тӀехь хӀоттаде" : "Ши дакъа харжа — царна меттигаш хийца"}
+            {mosaicResult === "right" ? "Нийса! Сурт гулделла." : mosaicResult === "wrong" ? "Дакъош нийса дац — йуха хьажа" : null}
           </p>
           <div className="mosaic-actions">
             {mosaicResult === "right" ? (

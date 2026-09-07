@@ -1,5 +1,10 @@
 # Visual changes
 
+Child-facing play and learning screens should not show prose instructions such as
+"tap the picture", "tap letters", or "drag a piece". Keep vocabulary, story text,
+button labels, results, parent settings and accessible control names. Prefer the
+existing visual, audio and supported haptic feedback over reading-dependent tips.
+
 Owner clarification (2026-09-07): налха, class бу = сливочное масло (Butter / die Butter).
 Даьтта refers to oils such as sunflower or olive oil, not this butter card.
 

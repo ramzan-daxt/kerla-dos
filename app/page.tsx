@@ -1820,7 +1820,6 @@ export default function Home() {
                       {getWordTranslation(current.russian, settings.translation)}
                     </p>
                   )}
-                  <small>Дош хаза тӀетаӀайе</small>
                 </div>
                 <div className="pager">
                   <span>
@@ -1887,7 +1886,7 @@ export default function Home() {
                 ) : answer === "wrong" ? (
                   "Нийса дац. Йуха хьажа!"
                 ) : (
-                  "Хаза, суьрта тӀетаӀайе"
+                  null
                 )}
               </div>
               {answer === "right" ? (
