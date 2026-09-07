@@ -1405,11 +1405,9 @@ export default function Home() {
     },
     [],
   );
-  const learningItems: LearningItem[] = categories
+  const availableItems: LearningItem[] = categories
     .filter(
       (c) =>
-        c.id !== "alphabet" &&
-        c.id !== "numbers" &&
         (premium || freeCategoryIds.has(c.id)),
     )
     .flatMap((c) =>
@@ -1425,6 +1423,8 @@ export default function Home() {
         classMarker: w.classMarker,
       })),
     );
+  const learningItems = availableItems.filter(item => item.categoryId !== "alphabet" && item.categoryId !== "numbers");
+  const visibleFavorites = availableItems.filter(item => favorites.includes(item.key)).map(item => item.key);
   function toggleFavorite(key: string) {
     setFavorites((current) => {
       const next = current.includes(key)
@@ -1503,8 +1503,8 @@ export default function Home() {
     return (
       <HomeExtras
         view={homeView}
-        items={learningItems}
-        favorites={favorites}
+        items={homeView === "favorites" ? availableItems : learningItems}
+        favorites={visibleFavorites}
         onFavorite={toggleFavorite}
         onBack={() => setHomeView(null)}
         rate={settings.rate}
@@ -1999,7 +1999,7 @@ export default function Home() {
             <span>
               <span className="stat-value">
                 <AppIcon name="heart-filled" />
-                <b>{favorites.length}</b>
+                <b>{visibleFavorites.length}</b>
               </span>
               <small>Схьакъастина</small>
             </span>
@@ -2091,8 +2091,8 @@ export default function Home() {
               </span>
               <strong>Схьакъастина</strong>
               <small>
-                {favorites.length
-                  ? `${favorites.length} дош йуха Ӏамо`
+                {visibleFavorites.length
+                  ? `${visibleFavorites.length} дош йуха Ӏамо`
                   : "Дешнаш лардийла"}
               </small>
             </button>
