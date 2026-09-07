@@ -6,6 +6,7 @@ import { getWordTranslation } from "./word-translations";
 import HomeExtras, { type LearningItem } from "./home-extras";
 import AppIcon from "./ui-icon";
 import WordLabel from "./word-label";
+import { audioTapFeedback } from "./audio-tap-feedback";
 import { getWordClass } from "./word-classes";
 import { normalizeChechen, cardWord } from "./chechen-orthography.mjs";
 type Word = {
@@ -1703,11 +1704,13 @@ export default function Home() {
                     if (motionPhase.current === "out") finishCardExit();
                     else if (motionPhase.current === "in") finishCardEnter();
                   }}
-                  onClick={() => {
+                  onClick={(event) => {
                     if (swipeHandled.current) {
                       swipeHandled.current = false;
                       return;
                     }
+                    if (motionLocked.current) return;
+                    audioTapFeedback(event.currentTarget);
                     active.id === "alphabet"
                       ? speakAlphabetPart(current, "letter")
                       : speak(current);
