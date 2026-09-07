@@ -657,6 +657,8 @@ categories.push(
         visual: "🚲",
       },
       { id: "ship", chechen: "ХӀордкема", russian: "Корабль", visual: "🚢" },
+      { id: "ferry", chechen: "Бурам", russian: "Паром", visual: "⛴️" },
+      { id: "boat", chechen: "Мара", russian: "Лодка", visual: "🚣" },
       {
         id: "motorcycle",
         chechen: "Мотоцикл",

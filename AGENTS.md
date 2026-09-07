@@ -1,5 +1,10 @@
 # Visual changes
 
+Owner additions (2026-09-08): бурам · ду = паром (Ferry / die Fähre);
+мара · ду = лодка (Boat / das Boot). These are owner-supplied entries,
+not newly verified Matsiev evidence. Dedicated recordings/artwork are pending;
+current cards use transport emoji, as do the other transport entries.
+
 Child-facing play and learning screens should not show prose instructions such as
 "tap the picture", "tap letters", or "drag a piece". Keep vocabulary, story text,
 button labels, results, parent settings and accessible control names. Prefer the

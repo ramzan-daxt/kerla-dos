@@ -165,6 +165,7 @@ export const classEvidence = `
 const normalize = (word: string) => word.toLowerCase().replace(/[ӏIl]/g, "Ӏ").replace(/я/g, "йа").replace(/ю/g, "йу").trim();
 // Explicit owner corrections, 2026-09-07. Not attributed to dictionary pages.
 export const ownerClasses: Record<string, string> = {
+  "бурам": "ду", "мара": "ду",
   "налха": "бу",
   "ден да": "ву", "ден нана": "йу", "ненада": "ву", "ненан нана": "йу",
   "ден ваша": "ву", "ден йиша": "йу", "шича": "ву/йу",

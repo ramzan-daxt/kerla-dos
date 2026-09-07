@@ -42,7 +42,7 @@ test('tomato correction and reviewed class markers are shared safely', () => {
 });
 
 test('all corrected words reach the shared category data with stable IDs', () => {
-  assert.equal(words.size, 273);
+  assert.equal(words.size, 275);
   for (const [key, value] of Object.entries(expected)) {
     assert.equal(words.get(key)?.chechen, value, key);
   }

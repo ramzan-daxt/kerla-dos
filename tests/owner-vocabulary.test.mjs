@@ -16,6 +16,7 @@ const expected = {
   'transport:car':['Машен','йу'], 'transport:train':['ЦӀерпошт','йу'], 'transport:plane':['Кема','ду'],
   'transport:bicycle':['Вилиспет','йу'], 'transport:ship':['ХӀордкема','ду'], 'transport:tractor':['Чатаз','йу'],
   'transport:truck':['Йоккха машен','йу'],
+  'transport:ferry':['Бурам','ду'], 'transport:boat':['Мара','ду'],
 };
 test('owner word replacements and their classes reach shared game and card data',()=>{
   for (const [key,[word,marker]] of Object.entries(expected)) {
@@ -38,8 +39,8 @@ test('key is singular in every translation and keeps its stable ID',()=>{
   assert.equal(translations.getWordTranslation('Ключ','de'),'der Schlüssel');
 });
 test('removed vehicles cannot enter categories, random games or favorites',()=>{
-  assert.equal(words.length,273);
-  assert.equal(categories.find(c=>c.id==='transport').words.length,12);
+  assert.equal(words.length,275);
+  assert.equal(categories.find(c=>c.id==='transport').words.length,14);
   assert.ok(!words.some(w=>['transport:taxi','transport:scooter'].includes(w.key)));
   for(const word of ['Такси','Самокат']) for(const lang of ['en','de']) assert.equal(translations.getWordTranslation(word,lang),'');
 });
