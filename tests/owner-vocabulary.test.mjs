@@ -10,6 +10,7 @@ const source = fs.readFileSync('app/page.tsx','utf8');
 const categories = vm.runInNewContext(ts.transpile(source.slice(source.indexOf('const categories:'),source.indexOf('const alphabetCategory ='))+';categories'),{normalizeChechen,getWordClass:classes.getWordClass});
 const words = categories.flatMap(c=>c.words.map(w=>({...w,key:`${c.id}:${w.id}`})));
 const expected = {
+  'food:butter':['Налха','бу'],
   'fruit:tomato-vegetable':['Бадарж','йу'], 'clothes:jacket':['Куьртиг','йу'], 'clothes:skirt':['Йупка','йу'],
   'home:key':['ДогӀа','ду'], 'home:closet':['Ишкап','йу'], 'home:lamp':['Стогар','бу'], 'home:fridge':['Шаьлдар','йу'],
   'transport:car':['Машен','йу'], 'transport:train':['ЦӀерпошт','йу'], 'transport:plane':['Кема','ду'],

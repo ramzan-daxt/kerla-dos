@@ -1,5 +1,8 @@
 # Visual changes
 
+Owner clarification (2026-09-07): налха, class бу = сливочное масло (Butter / die Butter).
+Даьтта refers to oils such as sunflower or olive oil, not this butter card.
+
 Latest owner corrections (2026-09-07) take precedence over older spellings:
 бадарж, куьртиг, йупка, догӀа (key, singular), ишкап, стогар, шаьлдар,
 машен, цӀерпошт, кема (airplane), хӀордкема (ship), вилиспет, чатаз,

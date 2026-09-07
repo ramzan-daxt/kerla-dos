@@ -355,7 +355,7 @@ categories.push(
       { id: "milk", chechen: "Шура", russian: "Молоко", visual: "🥛" },
       { id: "cheese", chechen: "Нехча", russian: "Сыр", visual: "🧀" },
       { id: "meat", chechen: "Жижиг", russian: "Мясо", visual: "🥩" },
-      { id: "butter", chechen: "Даьтта", russian: "Масло", visual: "🧈" },
+      { id: "butter", chechen: "Налха", russian: "Сливочное масло", visual: "🧈" },
       { id: "honey", chechen: "Моз", russian: "Мёд", visual: "🍯" },
       { id: "salt", chechen: "Туьха", russian: "Соль", visual: "🧂" },
       { id: "water-food", chechen: "Хи", russian: "Вода", visual: "💧" },
