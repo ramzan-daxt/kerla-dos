@@ -842,7 +842,7 @@ const categoryIcons: Record<string, string> = {
   body: "/icons/categories/body.png",
   nature: "/icons/categories/nature.png",
   fruit: "/icons/categories/fruit.png",
-  food: "/icons/categories/food.png",
+  food: "/icons/categories/food-national.png",
   clothes: "/icons/categories/clothes.png",
   school: "/icons/categories/school.png",
   home: "/icons/categories/home.png",
@@ -1479,7 +1479,7 @@ export default function Home() {
                 >
                   <span className="category-tile-art">
                     <img
-                      src={`/icons/categories/cards/${cat.id}.png`}
+                      src={cat.id === "food" ? categoryIcons.food : `/icons/categories/cards/${cat.id}.png`}
                       alt=""
                       draggable={false}
                     />
