@@ -1647,6 +1647,9 @@ export default function Home() {
                   }
                   onPointerDown={(event) => {
                     if (!event.isPrimary || motionLocked.current) return;
+                    // Buttons must retain their pointer/click target instead of
+                    // being captured by the card's swipe gesture.
+                    if ((event.target as Element).closest("button")) return;
                     swipeStart.current = {
                       x: event.clientX,
                       y: event.clientY,
@@ -1712,6 +1715,7 @@ export default function Home() {
                     <button
                       className="word-favorite"
                       aria-label="Схьакъастина"
+                      aria-pressed={favorites.includes(`${active.id}:${current.id}`)}
                       onClick={(e) => {
                         e.stopPropagation();
                         toggleFavorite(`${active.id}:${current.id}`);
