@@ -842,7 +842,7 @@ const categoryIcons: Record<string, string> = {
   body: "/icons/categories/body.png",
   nature: "/icons/categories/nature.png",
   fruit: "/icons/categories/fruit.png",
-  food: "/icons/categories/food-national.png",
+  food: "/icons/categories/food-national-v2.png",
   clothes: "/icons/categories/clothes.png",
   school: "/icons/categories/school.png",
   home: "/icons/categories/home.png",
