@@ -9,6 +9,7 @@ import WordLabel from "./word-label";
 import { audioTapFeedback } from "./audio-tap-feedback";
 import { favoriteFeedback } from "./favorite-feedback";
 import { createAudioPool } from "./audio-pool.mjs";
+import LessonActions from "./lesson-actions";
 import { getWordClass } from "./word-classes";
 import { normalizeChechen, cardWord } from "./chechen-orthography.mjs";
 type Word = {
@@ -1874,7 +1875,8 @@ export default function Home() {
                   </button>
                 ))}
               </div>
-              <div className={"feedback " + answer}>
+              <LessonActions>
+              <div className={"feedback " + answer} role="status" aria-live="polite">
                 {answer === "right" ? (
                   <span className="icon-label">
                     Нийса! <AppIcon name="star" />
@@ -1901,6 +1903,7 @@ export default function Home() {
                   Таллам бе
                 </button>
               )}
+              </LessonActions>
             </section>
           )}
           {paywall && (
