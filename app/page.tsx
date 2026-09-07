@@ -987,6 +987,16 @@ const illustratedWords: Record<string, string> = {
   "fruit:tomato-vegetable": "/illustrations/fruit/tomato-vegetable.png",
   "fruit:pepper": "/illustrations/fruit/pepper.png",
   "fruit:onion": "/illustrations/fruit/onion.png",
+  "food:bread": "/illustrations/food/bread-v1.png",
+  "food:milk": "/illustrations/food/milk-v1.png",
+  "food:cheese": "/illustrations/food/cheese-v1.png",
+  "food:meat": "/illustrations/food/meat-v1.png",
+  "food:butter": "/illustrations/food/butter-v1.png",
+  "food:honey": "/illustrations/food/honey-v1.png",
+  "food:salt": "/illustrations/food/salt-v1.png",
+  "food:water-food": "/illustrations/food/water-food-v1.png",
+  "food:rice": "/illustrations/food/rice-v1.png",
+  "food:soup": "/illustrations/food/soup-v1.png",
 };
 categories.forEach((category) =>
   category.words.forEach((word) => {
