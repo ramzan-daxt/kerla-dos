@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useRef, useState } from "react";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import ScriptText, { latinize } from "./script-text";
 import { cardWord } from "./chechen-orthography.mjs";
 import FullStory from "./full-story";
@@ -146,10 +146,24 @@ export default function HomeExtras({ view, items, favorites, onFavorite, onBack,
 }) {
     const [random, setRandom] = useState(() => Math.floor(Math.random() * Math.max(1, items.length))), [story, setStory] = useState<(typeof tales)[number] | null>(null), [storyAudioState, setStoryAudioState] = useState<"idle" | "playing" | "paused">("idle"), [sessionSize, setSessionSize] = useState(10), [sessionStep, setSessionStep] = useState(1), [favoriteIndex, setFavoriteIndex] = useState(0);
     const wordAudio = useRef<HTMLAudioElement | null>(null);
+    const wordAudioRequest = useRef(0);
     const item = items[random % Math.max(1, items.length)];
     const saved = useMemo(() => items.filter(x => favorites.includes(x.key)), [items, favorites]);
     const favoriteItem = saved.length ? saved[favoriteIndex % saved.length] : null;
+    function stopWordAudio() {
+        wordAudioRequest.current += 1;
+        const clip = wordAudio.current;
+        wordAudio.current = null;
+        if (clip) {
+            clip.pause();
+            clip.removeAttribute("src");
+            clip.load();
+        }
+        if ("speechSynthesis" in window) speechSynthesis.cancel();
+    }
+    useLayoutEffect(() => () => stopWordAudio(), [view, item?.key, favoriteItem?.key]);
     function nextRandom() {
+        stopWordAudio();
         if (sessionStep >= sessionSize)
             setSessionStep(1);
         else
@@ -171,11 +185,10 @@ export default function HomeExtras({ view, items, favorites, onFavorite, onBack,
         setRandom(Math.floor(Math.random() * Math.max(1, items.length)));
     }
     function say(text: string, audioSrc?: string) {
-        wordAudio.current?.pause();
-        if ("speechSynthesis" in window)
-            speechSynthesis.cancel();
+        stopWordAudio();
+        const request = wordAudioRequest.current;
         const fallback = () => {
-            if (!("speechSynthesis" in window))
+            if (request !== wordAudioRequest.current || !("speechSynthesis" in window))
                 return;
             const u = new SpeechSynthesisUtterance(text);
             u.lang = "ru-RU";

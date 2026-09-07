@@ -1162,6 +1162,10 @@ export default function Home() {
   function stopAudio() {
     audioRequest.current += 1;
     audio.current?.pause();
+    if (audio.current) {
+      audio.current.removeAttribute("src");
+      audio.current.load();
+    }
     if ("speechSynthesis" in window) speechSynthesis.cancel();
   }
   function playAudio(src: string, text: string) {
@@ -1290,6 +1294,7 @@ export default function Home() {
   }
   function moveCard(direction: -1 | 1) {
     if (!active || motionLocked.current) return;
+    stopAudio();
     clearCardTimers();
     if (
       settings.reduceMotion ||
