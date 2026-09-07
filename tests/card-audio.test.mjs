@@ -5,7 +5,7 @@ import vm from 'node:vm';
 
 const extras = fs.readFileSync('app/home-extras.tsx', 'utf8');
 const page = fs.readFileSync('app/page.tsx', 'utf8');
-test('leaving a card invalidates pending audio and releases its source', () => {
+test('leaving a card invalidates pending audio but retains its prepared source', () => {
   const calls = [];
   const wordAudioRequest = { current: 4 };
   const wordAudio = { current: {
@@ -20,7 +20,7 @@ test('leaving a card invalidates pending audio and releases its source', () => {
   });
   assert.equal(wordAudioRequest.current, 5);
   assert.equal(wordAudio.current, null);
-  assert.deepEqual(calls, ['pause', 'src', 'load', 'cancel']);
+  assert.deepEqual(calls, ['pause', 'cancel']);
   assert.ok(extras.includes('request !== wordAudioRequest.current'));
   assert.ok(extras.includes('useLayoutEffect(() => () => stopWordAudio(), [view, item?.key, favoriteItem?.key])'));
 });

@@ -8,6 +8,7 @@ import AppIcon from "./ui-icon";
 import WordLabel from "./word-label";
 import { audioTapFeedback } from "./audio-tap-feedback";
 import { favoriteFeedback } from "./favorite-feedback";
+import { createAudioPool } from "./audio-pool.mjs";
 export type LearningItem = {
     key: string;
     word: string;
@@ -151,7 +152,9 @@ export default function HomeExtras({ view, items, favorites, onFavorite, onBack,
 }) {
     const [random, setRandom] = useState(() => Math.floor(Math.random() * Math.max(1, items.length))), [story, setStory] = useState<(typeof tales)[number] | null>(null), [storyAudioState, setStoryAudioState] = useState<"idle" | "playing" | "paused">("idle"), [sessionSize, setSessionSize] = useState(10), [sessionStep, setSessionStep] = useState(1), [favoriteIndex, setFavoriteIndex] = useState(0);
     const wordAudio = useRef<HTMLAudioElement | null>(null);
+    const audioPool = useRef(createAudioPool());
     const wordAudioRequest = useRef(0);
+    const nextRandomIndex = useRef(0);
     const item = items[random % Math.max(1, items.length)];
     const saved = useMemo(() => items.filter(x => favorites.includes(x.key)), [items, favorites]);
     const favoriteItem = saved.length ? saved[favoriteIndex % saved.length] : null;
@@ -161,26 +164,30 @@ export default function HomeExtras({ view, items, favorites, onFavorite, onBack,
         wordAudio.current = null;
         if (clip) {
             clip.pause();
-            clip.removeAttribute("src");
-            clip.load();
         }
         if ("speechSynthesis" in window) speechSynthesis.cancel();
     }
     useLayoutEffect(() => () => stopWordAudio(), [view, item?.key, favoriteItem?.key]);
+    useLayoutEffect(() => {
+        const list = view === "favorites" ? saved : view === "random" ? items : [];
+        const index = view === "favorites" ? favoriteIndex : random;
+        if (view === "random" && list.length) {
+            const currentIndex = index % list.length;
+            const offset = list.length > 1 ? 1 + Math.floor(Math.random() * (list.length - 1)) : 0;
+            nextRandomIndex.current = (currentIndex + offset) % list.length;
+            audioPool.current.prepare([item?.audioSrc, list[nextRandomIndex.current]?.audioSrc]);
+        } else {
+            audioPool.current.prepare(list.length ? [-1, 0, 1].map(offset => list[(index + offset + list.length) % list.length]?.audioSrc) : []);
+        }
+    }, [view, item?.key, favoriteItem?.key]);
+    useLayoutEffect(() => () => audioPool.current.clear(), []);
     function nextRandom() {
         stopWordAudio();
         if (sessionStep >= sessionSize)
             setSessionStep(1);
         else
             setSessionStep(x => x + 1);
-        setRandom(current => {
-            if (items.length < 2)
-                return 0;
-            let next = current;
-            while (next === current)
-                next = Math.floor(Math.random() * items.length);
-            return next;
-        });
+        setRandom(nextRandomIndex.current);
     }
     function chooseSessionSize(size: number) {
         if (!premium && size > 10)
@@ -205,7 +212,8 @@ export default function HomeExtras({ view, items, favorites, onFavorite, onBack,
             fallback();
             return;
         }
-        const clip = new Audio(audioSrc);
+        const clip = audioPool.current.get(audioSrc);
+        clip.currentTime = 0;
         clip.volume = volume;
         wordAudio.current = clip;
         clip.play().catch(fallback);

@@ -8,7 +8,7 @@
 }
 
 .word { min-width: 0; max-width: 100%; flex-shrink: 0; overflow-wrap: anywhere; }
-.markers { display: inline-flex; align-items: center; gap: 4px; flex: none; margin-top: 0.2em; }
+.markers { display: inline-flex; align-items: center; gap: 4px; flex: none; margin-top: 0; transform: translateY(-0.2em); }
 
 .marker {
   flex: none;

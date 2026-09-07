@@ -8,6 +8,7 @@ import AppIcon from "./ui-icon";
 import WordLabel from "./word-label";
 import { audioTapFeedback } from "./audio-tap-feedback";
 import { favoriteFeedback } from "./favorite-feedback";
+import { createAudioPool } from "./audio-pool.mjs";
 import { getWordClass } from "./word-classes";
 import { normalizeChechen, cardWord } from "./chechen-orthography.mjs";
 type Word = {
@@ -1080,6 +1081,7 @@ export default function Home() {
     [cardExitOrigin, setCardExitOrigin] = useState(0),
     [cardDragging, setCardDragging] = useState(false);
   const audio = useRef<HTMLAudioElement | null>(null);
+  const audioPool = useRef(createAudioPool());
   const swipeStart = useRef<{
     x: number;
     y: number;
@@ -1164,18 +1166,14 @@ export default function Home() {
   function stopAudio() {
     audioRequest.current += 1;
     audio.current?.pause();
-    if (audio.current) {
-      audio.current.removeAttribute("src");
-      audio.current.load();
-    }
     if ("speechSynthesis" in window) speechSynthesis.cancel();
   }
   function playAudio(src: string, text: string) {
     const request = ++audioRequest.current;
     if ("speechSynthesis" in window) speechSynthesis.cancel();
-    const clip = audio.current || new Audio();
+    audio.current?.pause();
+    const clip = audioPool.current.get(src);
     clip.pause();
-    clip.src = src;
     clip.currentTime = 0;
     clip.volume = settings.volume;
     audio.current = clip;
@@ -1390,6 +1388,14 @@ export default function Home() {
     indexRef.current = index;
   }, [index]);
   useEffect(() => {
+    if (!active) { audioPool.current.clear(); return; }
+    const sources = [-1, 0, 1].map(offset => {
+      const word = active.words[(index + offset + active.words.length) % active.words.length];
+      return active.id === "alphabet" ? `/audio/alphabet/${word.id}-letter.mp3` : word.audioSrc || `/audio/${active.id}/${word.id}.wav`;
+    });
+    audioPool.current.prepare(sources);
+  }, [active?.id, index]);
+  useEffect(() => {
     if (!active) return;
     const position = { categoryId: active.id, index };
     setLastLesson(position);
@@ -1407,6 +1413,7 @@ export default function Home() {
   useEffect(
     () => () => {
       stopAudio();
+      audioPool.current.clear();
       cardTimers.current.forEach((timer) => window.clearTimeout(timer));
       cardTimers.current = [];
     },
