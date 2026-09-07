@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import type { LearningItem } from "./home-extras";
 import AppIcon from "./ui-icon";
-import { removeAnswerTile } from "./word-selection.mjs";
+import { addAnswerTile, removeAnswerTile } from "./word-selection.mjs";
 
 type GameScreen = "hub" | "word" | "mosaic";
 type Result = "idle" | "right" | "wrong";
@@ -532,7 +532,7 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
                 <button
                   key={letter.id}
                   disabled={chosen.includes(letter.id) || wordResult === "right" || advancingWordRef.current}
-                  onClick={() => { setChosen((current) => current.includes(letter.id) ? current : [...current, letter.id]); if (mistakes < 5) setWordResult("idle"); }}
+                  onClick={() => { setChosen((current) => addAnswerTile(current, letter.id)); if (mistakes < 5) setWordResult("idle"); }}
                 >{letter.value.toUpperCase()}</button>
               ))}
             </div>
@@ -542,7 +542,7 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
             {wordResult === "right" ? (
               <button className="game-main-button" onClick={() => finishCurrentWord(true)}>{wordPosition + 1 >= wordSession.length ? "ЖамӀаш" : "Кхин дош"}</button>
             ) : (
-              <button className="game-main-button" disabled={chosen.length !== letters.length || mistakes >= 5 || advancingWordRef.current} onClick={checkWord}>Таллам бе</button>
+              <button className="game-main-button" disabled={chosen.length !== letters.length || chosen.some((id) => !id) || mistakes >= 5 || advancingWordRef.current} onClick={checkWord}>Таллам бе</button>
             )}
           </div>
         </section>
