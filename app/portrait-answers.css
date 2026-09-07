@@ -23,6 +23,9 @@
   margin: 0 auto;
   padding: 12px 18px;
 }
+.lesson-action-dock .feedback:empty {
+  display: none;
+}
 /* Portrait phone answers use the available height for uncropped artwork. */
 @media (min-width: 761px) and (orientation: landscape) and (max-height: 900px) {
   .game-area .listen-task {
@@ -42,7 +45,7 @@
 
 @media (max-width: 760px) and (orientation: portrait) {
   .game-area .answer-grid.picture-only {
-    --answer-height: clamp(145px, calc((100svh - 410px) / 2), 230px);
+    --answer-height: var(--available-answer-height, clamp(100px, calc((100svh - 490px) / 2), 230px));
     width: min(100%, calc(var(--answer-height) * 1.5 + 12px));
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
