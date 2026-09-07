@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointer
 import type { LearningItem } from "./home-extras";
 import AppIcon from "./ui-icon";
 import { addAnswerTile, removeAnswerTile } from "./word-selection.mjs";
+import { tapHaptic } from "./haptics.mjs";
 
 type GameScreen = "hub" | "word" | "mosaic";
 type Result = "idle" | "right" | "wrong";
@@ -410,11 +411,7 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
     dragRef.current = next;
     setDragging(next);
     event.currentTarget.setPointerCapture(event.pointerId);
-    try {
-      navigator.vibrate?.(15);
-    } catch {
-      // Haptics are optional; unavailable hardware must not interrupt dragging.
-    }
+    tapHaptic();
   }
 
   function movePieceDrag(event: ReactPointerEvent<HTMLButtonElement>) {
@@ -524,7 +521,7 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
             <div className="answer-slots" aria-label="Жоп">
               {[...wordItem.word.replace(/\s/g, "")].map((_, index) => {
                 const tile = letters.find((letter) => letter.id === chosen[index]);
-                return <button key={tile?.id || `empty-${index}`} disabled={!tile || wordResult === "right" || advancingWordRef.current} onClick={() => { setChosen((current) => removeAnswerTile(current, tile?.id)); setWordResult("idle"); }}>{tile?.value.toUpperCase() || ""}</button>;
+                return <button key={tile?.id || `empty-${index}`} disabled={!tile || wordResult === "right" || advancingWordRef.current} onClick={() => { tapHaptic(); setChosen((current) => removeAnswerTile(current, tile?.id)); setWordResult("idle"); }}>{tile?.value.toUpperCase() || ""}</button>;
               })}
             </div>
             <div className="letter-bank">
@@ -532,7 +529,7 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
                 <button
                   key={letter.id}
                   disabled={chosen.includes(letter.id) || wordResult === "right" || advancingWordRef.current}
-                  onClick={() => { setChosen((current) => addAnswerTile(current, letter.id)); if (mistakes < 5) setWordResult("idle"); }}
+                  onClick={() => { tapHaptic(); setChosen((current) => addAnswerTile(current, letter.id)); if (mistakes < 5) setWordResult("idle"); }}
                 >{letter.value.toUpperCase()}</button>
               ))}
             </div>
