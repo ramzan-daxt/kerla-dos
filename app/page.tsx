@@ -10,6 +10,7 @@ import { audioTapFeedback } from "./audio-tap-feedback";
 import { favoriteFeedback } from "./favorite-feedback";
 import { createAudioPool } from "./audio-pool.mjs";
 import LessonActions from "./lesson-actions";
+import CategoryPattern from "./category-pattern";
 import { getWordClass } from "./word-classes";
 import { normalizeChechen, cardWord } from "./chechen-orthography.mjs";
 type Word = {
@@ -1534,6 +1535,7 @@ export default function Home() {
     return (
       <ScriptText latin={false}>
         <main className={`app-shell category-gate learning-shell category-theme-${active.id}`}>
+          <CategoryPattern icon={categoryIcons[active.id]} />
           <header>
             <button className="back icon-label" onClick={() => closeLesson(true)}>
               <AppIcon name="arrow-left" /> <span>Дешнийн тобанаш</span>
@@ -1574,6 +1576,7 @@ export default function Home() {
     return (
       <ScriptText latin={false}>
         <main className={`app-shell learning-shell category-theme-${active.id}`}>
+          <CategoryPattern icon={categoryIcons[active.id]} />
           <header>
             <button
               className="back icon-label"

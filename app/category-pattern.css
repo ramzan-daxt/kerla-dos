@@ -1,0 +1,40 @@
+/* Pattern lives only on category pages, never on cards or story illustrations. */
+.learning-shell {
+  background-image: none;
+}
+.learning-shell::before {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  transform: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: url('/backgrounds/chechen-ornament-v1.png') repeat;
+  background-size: 560px 560px;
+  opacity: .09;
+  mix-blend-mode: multiply;
+  z-index: 0;
+}
+.category-pattern {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  grid-auto-rows: 230px;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  opacity: .07;
+  filter: grayscale(1);
+  mix-blend-mode: multiply;
+}
+.category-pattern > span { display: flex; align-items: flex-start; justify-content: flex-start; padding: 70px 16px 0; }
+.category-pattern > span:nth-child(even) { justify-content: flex-end; padding-top: 160px; }
+.category-pattern img { width: 45px; height: 45px; object-fit: contain; transform: rotate(-12deg); }
+.category-pattern > span:nth-child(3n) img { transform: rotate(15deg); }
+@media (max-width: 760px) {
+  .learning-shell::before { inset: 0; height: auto; background-size: 440px 440px; }
+}
