@@ -7,6 +7,7 @@ import HomeExtras, { type LearningItem } from "./home-extras";
 import AppIcon from "./ui-icon";
 import WordLabel from "./word-label";
 import { audioTapFeedback } from "./audio-tap-feedback";
+import { favoriteFeedback } from "./favorite-feedback";
 import { getWordClass } from "./word-classes";
 import { normalizeChechen, cardWord } from "./chechen-orthography.mjs";
 type Word = {
@@ -1726,6 +1727,7 @@ export default function Home() {
                       aria-pressed={favorites.includes(`${active.id}:${current.id}`)}
                       onClick={(e) => {
                         e.stopPropagation();
+                        favoriteFeedback(e.currentTarget, !favorites.includes(`${active.id}:${current.id}`));
                         toggleFavorite(`${active.id}:${current.id}`);
                       }}
                     >
