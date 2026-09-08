@@ -1,5 +1,10 @@
 # Visual changes
 
+Owner update (2026-09-08): дешархо and хьехархо each represent male and female
+people, with both ву and йу badges. Keep the same word IDs and recordings.
+Use paired student/teacher illustrations and masculine/feminine Russian and
+German labels; English Teacher/Student remain gender-neutral.
+
 Owner additions (2026-09-08): бурам · ду = паром (Ferry / die Fähre);
 мара · ду = лодка (Boat / das Boot). These are owner-supplied entries,
 not newly verified Matsiev evidence. Dedicated recordings/artwork are pending;

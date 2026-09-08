@@ -6,6 +6,10 @@ import ts from 'typescript';
 const exports = {};
 vm.runInNewContext(ts.transpile(fs.readFileSync('app/word-classes.ts', 'utf8'), {module: 1}), {exports});
 const {getWordClass, classEvidence} = exports;
+test('school people support both owner-approved classes', () => {
+  assert.equal(getWordClass('дешархо'), 'ву/йу');
+  assert.equal(getWordClass('хьехархо'), 'ву/йу');
+});
 test('reviewed noun classes preserve Chechen classes rather than Russian genders', () => {
   for (const [word, marker] of [['да','ву'],['нана','йу'],['бер','ду'],['уьстагӀ','бу'],['нускал','ду'],['борз','йу'],['балл','йу']]) assert.equal(getWordClass(word), marker);
 });

@@ -404,8 +404,8 @@ categories.push(
       { id: "notebook", chechen: "Тептар", russian: "Тетрадь", visual: "📓" },
       { id: "pencil", chechen: "Къолам", russian: "Карандаш", visual: "✏️" },
       { id: "pen", chechen: "Ручка", russian: "Ручка", visual: "🖊️" },
-      { id: "teacher", chechen: "Хьехархо", russian: "Учитель", visual: "🧑‍🏫" },
-      { id: "student", chechen: "Дешархо", russian: "Ученик", visual: "🧑‍🎓" },
+      { id: "teacher", chechen: "Хьехархо", russian: "Учитель / учительница", visual: "🧑‍🏫" },
+      { id: "student", chechen: "Дешархо", russian: "Ученик / ученица", visual: "🧑‍🎓" },
       {
         id: "school-building",
         chechen: "Ишкола",
@@ -874,8 +874,8 @@ const freeCategoryIds = new Set([
 const illustratedWords: Record<string, string> = {
   'school:backpack': '/illustrations/school/backpack-v1.png',
   'school:paint': '/illustrations/school/paint-v1.png',
-  'school:teacher': '/illustrations/school/teacher-v1.png',
-  'school:student': '/illustrations/school/student-v1.png',
+  'school:teacher': '/illustrations/school/teacher-pair-v2.png',
+  'school:student': '/illustrations/school/student-pair-v2.png',
   'school:school-building': '/illustrations/school/school-building-v1.png',
   'school:class': '/illustrations/school/class-v1.png',
   'school:desk': '/illustrations/school/desk-v1.png',
