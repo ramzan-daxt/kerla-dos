@@ -3,6 +3,7 @@ import {useEffect, useRef, useState} from "react";
 import AppIcon from "./ui-icon";
 import BookPageTurn, {type BookTurnHandle} from "./book-page-turn";
 import {adamParagraphs, adamSources, adamTitle, adamSubtitle} from "./adam-story.mjs";
+import {adamArt} from "./adam-art.mjs";
 
 function AdamBook({onBack}:{onBack:()=>void}) {
   const [page,setPage]=useState(0);
@@ -19,7 +20,7 @@ function AdamBook({onBack}:{onBack:()=>void}) {
   },[page,onBack]);
   useEffect(()=>{
     for(const next of [page-1,page+1]) if(next>0&&next<=adamParagraphs.length){
-      const image=new Image();image.src=`/stories/adam/page-${next}.png`;
+      const image=new Image();image.src=adamArt[next-1].image;
     }
   },[page]);
   function renderPage(index:number){
@@ -30,8 +31,8 @@ function AdamBook({onBack}:{onBack:()=>void}) {
       <h2>Хьосташ</h2>
       <ol>{adamSources.map(source=><li key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.label}</a></li>)}</ol>
     </article>;
-    return <article className="adam-page" aria-label={`${index} / 8`}>
-      <img src={`/stories/adam/page-${index}.png`} alt="" draggable={false}/>
+    return <article className={`adam-page adam-narrative copy-${adamArt[index-1].edge}`} aria-label={`${index} / 8`}>
+      <img src={adamArt[index-1].image} alt="" draggable={false}/>
       <div className="adam-wash"><div className="adam-copy">{adamParagraphs[index-1].map(text=><p key={text}>{text}</p>)}</div></div>
     </article>;
   }

@@ -2,6 +2,15 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {existsSync,readFileSync} from 'node:fs';
 import {adamParagraphs,adamSources,adamTitle} from '../app/adam-story.mjs';
+import {adamArt} from '../app/adam-art.mjs';
+test('each revised scene has its own art and an explicit copy edge',()=>{
+  assert.equal(adamArt.length,adamParagraphs.length);
+  assert.equal(new Set(adamArt.map(item=>item.image)).size,8);
+  assert.deepEqual(new Set(adamArt.map(item=>item.edge)),new Set(['top','bottom']));
+  for(const art of adamArt){
+    assert.ok(existsSync(new URL(`../public${art.image}`,import.meta.url)));
+  }
+});
 test('Adam book has eight owner-approved pages and complete source coverage',()=>{
   assert.equal(adamParagraphs.length,8);
   assert.equal(adamTitle,'Адам пайхмарах лаьцна дийцар');

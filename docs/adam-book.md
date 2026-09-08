@@ -43,3 +43,16 @@ The existing brush asset is reused, with one contained wash per narrative page.
 Reader reuses held-page turning, arrow navigation and reduced-motion support.
 Reading library exposes Туьйранаш, Дийцараш, Сира; old story files are preserved
 but no longer exposed by the library, as requested by the owner.
+
+## Revised art direction
+
+Owner requested stronger contrast between illustrations, not eight variations
+of a river valley. Version 2 uses ochre earth, an upward sky view, a top-down
+soil close-up, dense foliage, a close tree, amber branches, macro raindrops,
+and an airy clearing. Same nature-only restrictions; these are decorative
+accompaniments, not added events. The species of the prohibited tree remains
+unspecified. No narrative or source text is changed.
+
+Versioned assets and copy placement are paired in app/adam-art.mjs. Pages
+2, 4, 5 and 7 place their single wash at the bottom; the rest at the top.
+The cover and original assets are preserved. Generation used built-in ImageGen.
