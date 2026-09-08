@@ -1,5 +1,16 @@
 # Adam digital book — 2026-09-08
 
+## Requested addition: arrogance and deception
+
+Owner requested adding Iblis's arrogance and intention to mislead on 2026-09-08.
+Original paragraphs remain verbatim. Page 3 adds his claim to be better than
+Adam and refusal to obey Allah (Quran 7:12–13); page 6 adds his intention to
+lead people away from the straight path (7:16–17). This does not attribute
+arrogance to Adam or claim a single exhaustive motive for the temptation.
+The new Chechen wording is an editorial draft pending the owner's linguistic
+review, not an owner-supplied or certified translation. The source is listed
+on the final page. Eight illustrations and the repentance ending are preserved.
+
 Text in app/adam-story.mjs is the owner's exact approved eight-page retelling.
 It is not presented as a verbatim Quran translation. Sources are on the final
 page only. No recording exists; no Russian-language synthetic voice is used.
