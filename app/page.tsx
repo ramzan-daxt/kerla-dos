@@ -2169,7 +2169,7 @@ export default function Home() {
                   draggable={false}
                 />
               </span>
-              <strong>Туьйранаш</strong>
+              <strong>Деша</strong>
               <small>Хаза а, деша а</small>
             </button>
           </div>

@@ -143,7 +143,7 @@ export default function FullStory({rate,volume,onBack}:{rate:number;volume:numbe
   const currentRank=ranking.findIndex(item=>item.id==="borz-ka")+1;
 
   if(mode==="cover") return <main className="extra-shell full-tale tale-cover-screen">
-    <button className="book-exit" onClick={onBack} aria-label="Туьйранаш"><AppIcon name="arrow-left"/></button>
+    <button className="book-exit" onClick={onBack} aria-label="Деша"><AppIcon name="arrow-left"/></button>
     <article className="tale-cover">
       <img src="/stories/borz-ka/cover.png" alt="Борз а, къена ка а"/>
       <div className="tale-cover-copy">
