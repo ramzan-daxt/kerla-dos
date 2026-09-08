@@ -1,5 +1,10 @@
 # Visual changes
 
+Owner update (2026-09-08): ручка = йазолг; доска = ишколан у.
+Йупка is temporarily excluded from the shared vocabulary (cards and games).
+Preserve its assets/progress for a possible return. New school-word classes
+are not yet owner-confirmed; do not infer them from the replaced labels.
+
 Owner update (2026-09-08): дешархо and хьехархо each represent male and female
 people, with both ву and йу badges. Keep the same word IDs and recordings.
 Use paired student/teacher illustrations and masculine/feminine Russian and

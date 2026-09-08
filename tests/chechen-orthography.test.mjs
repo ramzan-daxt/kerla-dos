@@ -17,7 +17,7 @@ test('all current Chechen word and category fields use the chosen spelling', () 
   for(const match of source.matchAll(/(?:chechen|title):\s*"([^"]*)"/g)) assert.doesNotMatch(match[1],/[ЯяЮю]/);
   assert.match(source,/chechen: "Йалх", russian: "Шесть"/);
   assert.match(source,/chechen: "Йуьхь", russian: "Лицо"/);
-  assert.match(source,/russian: "Юбка"/);
+  assert.match(source,/russian: "Учитель \/ учительница"/);
   assert.match(source,/russian: "Рюкзак"/);
 });
 test('story and Chechen interface text do not regress to the old spelling', () => {

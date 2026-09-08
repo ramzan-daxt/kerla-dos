@@ -388,7 +388,7 @@ categories.push(
       { id: "scarf", chechen: "Йовлакх", russian: "Платок", visual: "🧣" },
       { id: "coat", chechen: "Пальто", russian: "Пальто", visual: "🧥" },
       { id: "jacket", chechen: "Куьртиг", russian: "Куртка", visual: "🧥" },
-      { id: "skirt", chechen: "Йупка", russian: "Юбка", visual: "👗" },
+      // Owner temporarily excluded skirt; keep its assets and saved progress intact.
       { id: "gloves", chechen: "Каранаш", russian: "Перчатки", visual: "🧤" },
       { id: "boots", chechen: "Эткаш", russian: "Сапоги", visual: "🥾" },
     ],
@@ -403,7 +403,7 @@ categories.push(
       { id: "book", chechen: "Жайна", russian: "Книга", visual: "📕" },
       { id: "notebook", chechen: "Тептар", russian: "Тетрадь", visual: "📓" },
       { id: "pencil", chechen: "Къолам", russian: "Карандаш", visual: "✏️" },
-      { id: "pen", chechen: "Ручка", russian: "Ручка", visual: "🖊️" },
+      { id: "pen", chechen: "Йазолг", russian: "Ручка", visual: "🖊️" },
       { id: "teacher", chechen: "Хьехархо", russian: "Учитель / учительница", visual: "🧑‍🏫" },
       { id: "student", chechen: "Дешархо", russian: "Ученик / ученица", visual: "🧑‍🎓" },
       {
@@ -414,7 +414,7 @@ categories.push(
       },
       { id: "class", chechen: "Класс", russian: "Класс", visual: "🚪" },
       { id: "desk", chechen: "Парта", russian: "Парта", visual: "🪑" },
-      { id: "board", chechen: "Доска", russian: "Доска", visual: "🟩" },
+      { id: "board", chechen: "Ишколан у", russian: "Доска", visual: "🟩" },
       { id: "ruler", chechen: "Сизар", russian: "Линейка", visual: "📏" },
       { id: "scissors", chechen: "Тукар", russian: "Ножницы", visual: "✂️" },
       { id: "backpack", chechen: "БугӀул", russian: "Рюкзак", visual: "🎒" },

@@ -42,7 +42,7 @@ test('tomato correction and reviewed class markers are shared safely', () => {
 });
 
 test('all corrected words reach the shared category data with stable IDs', () => {
-  assert.equal(words.size, 275);
+  assert.equal(words.size, 274);
   for (const [key, value] of Object.entries(expected)) {
     assert.equal(words.get(key)?.chechen, value, key);
   }
@@ -62,7 +62,8 @@ test('manual owner corrections reach cards without changing translations or IDs'
     'family:grandmother': ['Ден нана', 'Бабушка по отцу'],
     'clothes:dress': ['ГӀабали', 'Платье'],
     'clothes:jacket': ['Куьртиг', 'Куртка'],
-    'clothes:skirt': ['Йупка', 'Юбка'],
+    'school:pen': ['Йазолг', 'Ручка'],
+    'school:board': ['Ишколан у', 'Доска'],
     'school:school-building': ['Ишкола', 'Школа'],
     'school:ruler': ['Сизар', 'Линейка'],
     'school:backpack': ['БугӀул', 'Рюкзак'],

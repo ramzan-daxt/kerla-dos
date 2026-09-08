@@ -11,7 +11,7 @@ const categories = vm.runInNewContext(ts.transpile(source.slice(source.indexOf('
 const words = categories.flatMap(c=>c.words.map(w=>({...w,key:`${c.id}:${w.id}`})));
 const expected = {
   'food:butter':['Налха','бу'],
-  'fruit:tomato-vegetable':['Бадарж','йу'], 'clothes:jacket':['Куьртиг','йу'], 'clothes:skirt':['Йупка','йу'],
+  'fruit:tomato-vegetable':['Бадарж','йу'], 'clothes:jacket':['Куьртиг','йу'],
   'home:key':['ДогӀа','ду'], 'home:closet':['Ишкап','йу'], 'home:lamp':['Стогар','бу'], 'home:fridge':['Шаьлдар','йу'],
   'transport:car':['Машен','йу'], 'transport:train':['ЦӀерпошт','йу'], 'transport:plane':['Кема','ду'],
   'transport:bicycle':['Вилиспет','йу'], 'transport:ship':['ХӀордкема','ду'], 'transport:tractor':['Чатаз','йу'],
@@ -27,6 +27,7 @@ test('owner word replacements and their classes reach shared game and card data'
 });
 test('all owner class approvals are applied wherever their words occur',()=>{
   for(const [word,marker] of Object.entries(classes.ownerClasses)) {
+    if(word==='йупка') continue; // Temporarily excluded by the owner.
     const matches=words.filter(w=>(w.example||w.chechen).toLowerCase().replace(/ӏ/g,'Ӏ')===word);
     assert.ok(matches.length,word);
     for(const card of matches) assert.equal(card.classMarker,marker,card.key);
@@ -39,8 +40,17 @@ test('key is singular in every translation and keeps its stable ID',()=>{
   assert.equal(translations.getWordTranslation('Ключ','de'),'der Schlüssel');
 });
 test('removed vehicles cannot enter categories, random games or favorites',()=>{
-  assert.equal(words.length,275);
+  assert.equal(words.length,274);
   assert.equal(categories.find(c=>c.id==='transport').words.length,14);
   assert.ok(!words.some(w=>['transport:taxi','transport:scooter'].includes(w.key)));
   for(const word of ['Такси','Самокат']) for(const lang of ['en','de']) assert.equal(translations.getWordTranslation(word,lang),'');
+});
+test('latest school corrections and temporary skirt exclusion reach shared cards',()=>{
+  for(const [key,label] of [['school:pen','Йазолг'],['school:board','Ишколан у']]) {
+    const card=words.find(w=>w.key===key);
+    assert.equal(card.chechen,label);
+    assert.equal(card.audioSrc,undefined);
+  }
+  assert.ok(!words.some(w=>w.key==='clothes:skirt'));
+  assert.equal(categories.find(c=>c.id==='clothes').words.length,11);
 });
