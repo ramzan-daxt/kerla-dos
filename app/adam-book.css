@@ -17,11 +17,11 @@
 .adam-page{position:relative;aspect-ratio:2/3;isolation:isolate;background:#f9f6e8;min-width:0}
 .adam-page>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:-1}
 .adam-wash{position:relative;top:18px;width:94%;margin:0 auto;border:22px solid transparent;border-image:url('/stories/ui/ivory-brush.png') 200 280 fill / 22px / 0 stretch;color:#293a2d}
-.adam-copy{max-width:32ch;margin:0 auto;font:400 clamp(18px,4.3cqw,25px)/1.42 var(--font-story),sans-serif;text-align:left}
-.adam-copy p{margin:0;text-wrap:pretty}.adam-copy p+p{margin-top:.65em}
+.adam-copy{width:100%;max-width:32ch;margin:auto;font:400 clamp(18px,4.3cqw,25px)/1.42 var(--font-story),sans-serif;text-align:center}
+.adam-copy p{margin:0;text-wrap:balance}.adam-copy p+p{margin-top:.65em}
 /* Art direction is per page: keep the complete wash inside the painted sheet. */
 .adam-narrative{display:flex;flex-direction:column;padding-block:clamp(12px,3cqw,18px);min-height:150cqw}
-.adam-narrative .adam-wash{top:0;flex:none}
+.adam-narrative .adam-wash{top:0;flex:none;display:grid;place-items:center;padding:8px 6px}
 .adam-narrative.copy-top .adam-wash{margin-bottom:auto}
 .adam-narrative.copy-bottom .adam-wash{margin-top:auto}
 .adam-navigation{display:flex;align-items:center;justify-content:center;gap:24px;flex:none;min-height:46px;font:500 15px var(--font-interface),sans-serif}
