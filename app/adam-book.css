@@ -26,9 +26,15 @@
 .adam-narrative.copy-bottom .adam-wash{margin-top:auto}
 .adam-navigation{display:flex;align-items:center;justify-content:center;gap:24px;flex:none;min-height:46px;font:500 15px var(--font-interface),sans-serif}
 .adam-navigation span{min-width:76px;text-align:center}.adam-navigation button{background:#173e32;color:white}.adam-navigation button:disabled{opacity:.25;cursor:default}
-.adam-sources{padding:24px;color:#173e32}
-.adam-sources h2{font:600 24px/1.2 var(--font-story),sans-serif;margin:0 0 14px}
-.adam-sources ol{list-style:none;padding:0;margin:0;font:400 16px/1.4 var(--font-interface),sans-serif}
-.adam-sources li+li{margin-top:8px}.adam-sources a{display:block;color:inherit;text-decoration:underline;text-underline-offset:4px;padding:3px 0}
+.adam-sources{padding:clamp(20px,7cqw,40px);color:#173e32;display:flex;align-items:center}
+.adam-source-content{width:100%;margin:0 auto;padding-bottom:8cqw}
+.adam-sources h2{font:500 clamp(26px,6cqw,34px)/1.2 var(--font-story),sans-serif;text-align:center;margin:0 0 24px}
+.adam-sources h2:after{content:"";display:block;width:40px;height:1px;background:#aa8850;margin:18px auto 0}
+.adam-source-group h3{font:500 clamp(16px,4cqw,20px)/1.35 var(--font-story),sans-serif;margin:0 0 8px;text-align:center}
+.adam-source-group+.adam-source-group{margin-top:24px}
+.adam-sources ol{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:16px;list-style:none;padding:0;margin:0;font:400 clamp(16px,4cqw,20px)/1.4 var(--font-story),sans-serif;font-variant-numeric:tabular-nums}
+.adam-sources a{display:flex;align-items:center;justify-content:space-between;gap:6px;min-height:44px;padding:6px 2px;color:inherit;text-decoration:none;border-bottom:1px solid #173e321c}
+.adam-sources a span[aria-hidden]{font-size:14px;color:#7b653f}.adam-sources a:hover{text-decoration:underline;text-underline-offset:4px}
+.adam-source-group:last-child ol{grid-template-columns:1fr;max-width:150px;margin:auto}
 .adam-reader button:focus-visible,.reading-library button:focus-visible,.adam-sources a:focus-visible{outline:3px solid #c27b11;outline-offset:3px}
-@media(max-width:600px){.adam-reader .book-turn-shell{width:min(100%,calc((100svh - 124px - env(safe-area-inset-top) - env(safe-area-inset-bottom))*2/3));min-width:min(280px,100%)}.adam-wash{top:12px;border-width:18px;border-image-width:18px}.adam-sources{padding:20px}.adam-sources h2{font-size:22px}.adam-sources li+li{margin-top:5px}}
+@media(max-width:600px){.adam-reader .book-turn-shell{width:min(100%,calc((100svh - 124px - env(safe-area-inset-top) - env(safe-area-inset-bottom))*2/3));min-width:min(280px,100%)}.adam-wash{top:12px;border-width:18px;border-image-width:18px}}

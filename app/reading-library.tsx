@@ -28,8 +28,17 @@ function AdamBook({onBack}:{onBack:()=>void}) {
       <img src="/stories/adam/cover-v1.png" alt={`${adamTitle}, ${adamSubtitle}`} draggable={false}/>
     </article>;
     if(index===last)return <article className="adam-page adam-sources">
-      <h2>Хьосташ</h2>
-      <ol>{adamSources.map(source=><li key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.label}</a></li>)}</ol>
+      <div className="adam-source-content">
+        <h2>Хьосташ</h2>
+        {["Къуръан", "СахьихӀ аль-Бухари"].map(group=><section className="adam-source-group" key={group} aria-label={group}>
+          <h3>{group}</h3>
+          <ol>{adamSources.filter(source=>source.label.startsWith(`${group} ·`)).map(source=><li key={source.url}>
+            <a href={source.url} target="_blank" rel="noreferrer" aria-label={source.label}>
+              <span>{source.label.split(" · ")[1]}</span><span aria-hidden="true">↗</span>
+            </a>
+          </li>)}</ol>
+        </section>)}
+      </div>
     </article>;
     return <article className={`adam-page adam-narrative copy-${adamArt[index-1].edge}`} aria-label={`${index} / 8`}>
       <img src={adamArt[index-1].image} alt="" draggable={false}/>
