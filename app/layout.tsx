@@ -25,6 +25,7 @@ import "./themed-backgrounds.css";
 import "./illustrated-story.css";
 import "./portrait-answers.css";
 import "./category-pattern.css";
+import "./adam-book.css";
 
 const interfaceFont = localFont({src:"./fonts/Onest.ttf", variable:"--font-interface", weight:"100 900", display:"swap"});
 const storyFont = localFont({src:"./fonts/Rubik.ttf", variable:"--font-story", weight:"300 900", display:"swap"});

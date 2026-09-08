@@ -1,0 +1,45 @@
+# Adam digital book — 2026-09-08
+
+Text in app/adam-story.mjs is the owner's exact approved eight-page retelling.
+It is not presented as a verbatim Quran translation. Sources are on the final
+page only. No recording exists; no Russian-language synthetic voice is used.
+Religious/editorial review remains advisable before public release.
+
+## Source mapping
+
+1. Creation: Quran 3:59; father of humanity: Sahih al-Bukhari 4476.
+2. Worship: Quran 51:56.
+3. Earth: Quran 3:59; names: 2:31.
+4. Garden and eating: Quran 2:35; no hunger/thirst: 20:118–119.
+5. Prohibition: Quran 2:35.
+6. Deception and tasting: Quran 7:22.
+7. Admission and request for forgiveness/mercy: Quran 7:23.
+8. Acceptance of repentance: Quran 2:37.
+
+Clickable original references are maintained in adamSources. The text was
+approved by the owner, not newly linguistically certified by the developer.
+
+## Art
+
+Approved cover reused unchanged. Eight new textless 1024×1536 backgrounds,
+built-in ImageGen, saved in public/stories/adam/page-1.png through page-8.png.
+Nature is decorative accompaniment, not a purported depiction of Paradise,
+Allah, a prophet, or a specific historical site. No figures, animals, identifiable
+forbidden fruit, or invented scenes of religious action. All text is live except
+the previously approved cover, whose exact title is also its accessible name.
+
+Common generation brief: soft richly painted gouache children's book, fine
+paper/brush texture, olive/forest foliage, blue sky and warm earth; quiet upper
+40% for live copy, substantive nature lower 60%, full bleed, no text or panels.
+No people, silhouettes, limbs, footprints, animals, angels, devils, divine
+symbols, anthropomorphism, halos, beams, calligraphy, buildings or mosques.
+
+Scene prompts: (1) fertile valley with winding river and hills; (2) sky above
+flowering meadow; (3) earth, stones, sprouts and stream; (4) foliage and water
+without visible fruit; (5) leafy tree and path, no fruit; (6) woodland path and
+fallen leaves; (7) gentle rainy meadow and droplets; (8) fresh landscape after rain.
+
+The existing brush asset is reused, with one contained wash per narrative page.
+Reader reuses held-page turning, arrow navigation and reduced-motion support.
+Reading library exposes Туьйранаш, Дийцараш, Сира; old story files are preserved
+but no longer exposed by the library, as requested by the owner.

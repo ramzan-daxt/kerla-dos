@@ -1,0 +1,24 @@
+// Owner-approved copy, 2026-09-08. Preserve verbatim; this is a retelling,
+// not a quotation or a certified translation of scripture.
+export const adamTitle = "Адам пайхмарах лаьцна дийцар";
+export const adamSubtitle = "салам хуьлда цунна";
+export const adamParagraphs = [
+  ["АллахӀа Адам кхоьллина. Адам ву дерриге адамийн да."],
+  ["АллахӀа адамаш Шена Ӏибадат дарна кхоьллина."],
+  ["АллахӀа Адам латтах кхоьллина. Цунна хӀуманийн цӀераш а Ӏамийна."],
+  ["Адам а, цуьнан зуда а йалсаманехь бехаш хилла. Царна цигахь шайна лууш долу даар а, малар хилла."],
+  ["Амма АллахӀа царна цхьана стоьман дитта тӀе ма гӀо аьлла тӀедиллина."],
+  ["ШайтӀано уьш Ӏехийна. Цара стоьмаш биийра."],
+  ["Адам а, цуьнан зуда а шайна гӀалат даьлла хилар тӀеийцира.", "Цара АллахӀе шайн гечдар а, къинхетам а барна дийхира."],
+  ["АллахӀа Адаман тоба тӀеийцир.", "АллахӀ тоба ТӀеоьцуш Верг а, Къинхетаме Верг а Волун дела."],
+];
+export const adamSources = [
+  {label:"Къуръан · 51:56", url:"https://quran.com/adh-dhariyat/56", pages:[2]},
+  {label:"Къуръан · 3:59", url:"https://quran.com/ali-imran/59", pages:[1,3]},
+  {label:"Къуръан · 2:31", url:"https://quran.com/al-baqarah/31", pages:[3]},
+  {label:"Къуръан · 2:35", url:"https://quran.com/al-baqarah/35", pages:[4,5]},
+  {label:"Къуръан · 20:118–119", url:"https://legacy.quran.com/20/118-119", pages:[4]},
+  {label:"Къуръан · 7:22–23", url:"https://quran.com/al-araf/22-23", pages:[6,7]},
+  {label:"Къуръан · 2:37", url:"https://quran.com/al-baqarah/37", pages:[8]},
+  {label:"СахьихӀ аль-Бухари · 4476", url:"https://sunnah.com/bukhari:4476", pages:[1]},
+];
