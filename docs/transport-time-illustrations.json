@@ -1,0 +1,229 @@
+{
+  "mode": "built-in ImageGen",
+  "assets": [
+    {
+      "category": "transport",
+      "id": "car",
+      "subject": "a coral compact passenger car, three-quarter view",
+      "prompt": "Use case: illustration-story. Asset: one square preschool vocabulary-card illustration. Input image is STYLE reference only, do not draw backpack. Match polished hand-painted gouache/watercolor with neat dark colored outlines, soft volume, rich gentle colors and subtle paper texture. Center whole subject with 8% padding, no cropping. Genuinely transparent alpha outside the object or compact rounded vignette, no checkerboard, no white rectangular background. No text, letters, logos, watermark, people, faces. Clear recognizable child-friendly shapes, restrained detail. Subject: a coral compact passenger car, three-quarter view.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-fe17b0b9-ad3d-41ff-965b-281daea79fe7.png",
+      "file": "public/illustrations/transport/car-v1.png"
+    },
+    {
+      "category": "transport",
+      "id": "bus",
+      "subject": "a yellow city passenger bus, large windows, three-quarter view",
+      "prompt": "Use case: illustration-story. Asset: one square preschool vocabulary-card illustration. Input image is STYLE reference only, do not draw backpack. Match polished hand-painted gouache/watercolor with neat dark colored outlines, soft volume, rich gentle colors and subtle paper texture. Center whole subject with 8% padding, no cropping. Genuinely transparent alpha outside the object or compact rounded vignette, no checkerboard, no white rectangular background. No text, letters, logos, watermark, people, faces. Clear recognizable child-friendly shapes, restrained detail. Subject: a yellow city passenger bus, large windows, three-quarter view.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-db3a44e7-bd9e-49e8-bebf-7a65f090bd7c.png",
+      "file": "public/illustrations/transport/bus-v1.png"
+    },
+    {
+      "category": "transport",
+      "id": "train",
+      "subject": "a blue passenger train locomotive and one attached carriage on a short rail section",
+      "prompt": "Use case: illustration-story. Asset: one square preschool vocabulary-card illustration. Input image is STYLE reference only, do not draw backpack. Match polished hand-painted gouache/watercolor with neat dark colored outlines, soft volume, rich gentle colors and subtle paper texture. Center whole subject with 8% padding, no cropping. Genuinely transparent alpha outside the object or compact rounded vignette, no checkerboard, no white rectangular background. No text, letters, logos, watermark, people, faces. Clear recognizable child-friendly shapes, restrained detail. Subject: a blue passenger train locomotive and one attached carriage on a short rail section.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-4b80e841-abf8-4950-842f-11d88f585016.png",
+      "file": "public/illustrations/transport/train-v1.png"
+    },
+    {
+      "category": "transport",
+      "id": "plane",
+      "subject": "a white and teal passenger airplane, both wings and tail visible",
+      "prompt": "Use case: illustration-story. Asset: one square preschool vocabulary-card illustration. Input image is STYLE reference only, do not draw backpack. Match polished hand-painted gouache/watercolor with neat dark colored outlines, soft volume, rich gentle colors and subtle paper texture. Center whole subject with 8% padding, no cropping. Genuinely transparent alpha outside the object or compact rounded vignette, no checkerboard, no white rectangular background. No text, letters, logos, watermark, people, faces. Clear recognizable child-friendly shapes, restrained detail. Subject: a white and teal passenger airplane, both wings and tail visible.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-11cf46d1-87f4-4574-8c17-b62a9676b206.png",
+      "file": "public/illustrations/transport/plane-v1.png"
+    },
+    {
+      "category": "transport",
+      "id": "bicycle",
+      "subject": "a green bicycle in side view, two wheels, pedals, saddle and handlebars",
+      "prompt": "Use case: illustration-story. Asset: one square preschool vocabulary-card illustration. Input image is STYLE reference only, do not draw backpack. Match polished hand-painted gouache/watercolor with neat dark colored outlines, soft volume, rich gentle colors and subtle paper texture. Center whole subject with 8% padding, no cropping. Genuinely transparent alpha outside the object or compact rounded vignette, no checkerboard, no white rectangular background. No text, letters, logos, watermark, people, faces. Clear recognizable child-friendly shapes, restrained detail. Subject: a green bicycle in side view, two wheels, pedals, saddle and handlebars.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-fe50a83a-2b49-4f4a-8d12-00dde2cfade3.png",
+      "file": "public/illustrations/transport/bicycle-v1.png"
+    },
+    {
+      "category": "transport",
+      "id": "ship",
+      "subject": "a large white and blue ocean passenger ship, multiple decks, tiny water ripple beneath",
+      "prompt": "Use case: illustration-story. Asset: one square preschool vocabulary-card illustration. Input image is STYLE reference only, do not draw backpack. Match polished hand-painted gouache/watercolor with neat dark colored outlines, soft volume, rich gentle colors and subtle paper texture. Center whole subject with 8% padding, no cropping. Genuinely transparent alpha outside the object or compact rounded vignette, no checkerboard, no white rectangular background. No text, letters, logos, watermark, people, faces. Clear recognizable child-friendly shapes, restrained detail. Subject: a large white and blue ocean passenger ship, multiple decks, tiny water ripple beneath.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-aae7eac1-902a-4acb-bc07-c081779e20d4.png",
+      "file": "public/illustrations/transport/ship-v1.png"
+    },
+    {
+      "category": "transport",
+      "id": "ferry",
+      "subject": "a broad low car ferry with visible open vehicle deck carrying two small cars, loading ramp, tiny water ripple beneath, clearly not a cruise ship",
+      "prompt": "Use case: illustration-story. Asset: one square preschool vocabulary-card illustration. Input image is STYLE reference only, do not draw backpack. Match polished hand-painted gouache/watercolor with neat dark colored outlines, soft volume, rich gentle colors and subtle paper texture. Center whole subject with 8% padding, no cropping. Genuinely transparent alpha outside the object or compact rounded vignette, no checkerboard, no white rectangular background. No text, letters, logos, watermark, people, faces. Clear recognizable child-friendly shapes, restrained detail. Subject: a broad low car ferry with visible open vehicle deck carrying two small cars, loading ramp, tiny water ripple beneath, clearly not a cruise ship.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-15f8e4ee-8cd3-4160-8601-79f3d02c98ab.png",
+      "file": "public/illustrations/transport/ferry-v1.png"
+    },
+    {
+      "category": "transport",
+      "id": "boat",
+      "subject": "a small wooden rowing boat with two oars, no passengers",
+      "prompt": "Use case: illustration-story. Asset: one square preschool vocabulary-card illustration. Input image is STYLE reference only, do not draw backpack. Match polished hand-painted gouache/watercolor with neat dark colored outlines, soft volume, rich gentle colors and subtle paper texture. Center whole subject with 8% padding, no cropping. Genuinely transparent alpha outside the object or compact rounded vignette, no checkerboard, no white rectangular background. No text, letters, logos, watermark, people, faces. Clear recognizable child-friendly shapes, restrained detail. Subject: a small wooden rowing boat with two oars, no passengers.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-92739fae-f333-466a-a2f5-b2acb07280d3.png",
+      "file": "public/illustrations/transport/boat-v1.png"
+    },
+    {
+      "category": "transport",
+      "id": "motorcycle",
+      "subject": "a red motorcycle in side three-quarter view, two wheels, no rider",
+      "prompt": "Use case: illustration-story. Asset: one square preschool vocabulary-card illustration. Input image is STYLE reference only, do not draw backpack. Match polished hand-painted gouache/watercolor with neat dark colored outlines, soft volume, rich gentle colors and subtle paper texture. Center whole subject with 8% padding, no cropping. Genuinely transparent alpha outside the object or compact rounded vignette, no checkerboard, no white rectangular background. No text, letters, logos, watermark, people, faces. Clear recognizable child-friendly shapes, restrained detail. Subject: a red motorcycle in side three-quarter view, two wheels, no rider.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-63d3c8f4-2c44-4c30-9093-205c799cf978.png",
+      "file": "public/illustrations/transport/motorcycle-v1.png"
+    },
+    {
+      "category": "transport",
+      "id": "tractor",
+      "subject": "a green farm tractor with large rear wheel and small front wheel, no driver",
+      "prompt": "Use case: illustration-story. Asset: one square preschool vocabulary-card illustration. Input image is STYLE reference only, do not draw backpack. Match polished hand-painted gouache/watercolor with neat dark colored outlines, soft volume, rich gentle colors and subtle paper texture. Center whole subject with 8% padding, no cropping. Genuinely transparent alpha outside the object or compact rounded vignette, no checkerboard, no white rectangular background. No text, letters, logos, watermark, people, faces. Clear recognizable child-friendly shapes, restrained detail. Subject: a green farm tractor with large rear wheel and small front wheel, no driver.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-5e1a9133-c950-4f11-a311-4bcf87f6b1d3.png",
+      "file": "public/illustrations/transport/tractor-v1.png"
+    },
+    {
+      "category": "transport",
+      "id": "helicopter",
+      "subject": "a yellow helicopter, main rotor and tail rotor clearly visible",
+      "prompt": "Use case: illustration-story. Asset: one square preschool vocabulary-card illustration. Input image is STYLE reference only, do not draw backpack. Match polished hand-painted gouache/watercolor with neat dark colored outlines, soft volume, rich gentle colors and subtle paper texture. Center whole subject with 8% padding, no cropping. Genuinely transparent alpha outside the object or compact rounded vignette, no checkerboard, no white rectangular background. No text, letters, logos, watermark, people, faces. Clear recognizable child-friendly shapes, restrained detail. Subject: a yellow helicopter, main rotor and tail rotor clearly visible.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-9fb825da-6b4a-46ee-9bf5-600bcc4baccf.png",
+      "file": "public/illustrations/transport/helicopter-v1.png"
+    },
+    {
+      "category": "transport",
+      "id": "tram",
+      "subject": "a coral electric city tram with pantograph on roof and short rails beneath",
+      "prompt": "Use case: illustration-story. Asset: one square preschool vocabulary-card illustration. Input image is STYLE reference only, do not draw backpack. Match polished hand-painted gouache/watercolor with neat dark colored outlines, soft volume, rich gentle colors and subtle paper texture. Center whole subject with 8% padding, no cropping. Genuinely transparent alpha outside the object or compact rounded vignette, no checkerboard, no white rectangular background. No text, letters, logos, watermark, people, faces. Clear recognizable child-friendly shapes, restrained detail. Subject: a coral electric city tram with pantograph on roof and short rails beneath.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-b7d78d57-26d0-48c4-9c19-00c2d51733fd.png",
+      "file": "public/illustrations/transport/tram-v1.png"
+    },
+    {
+      "category": "transport",
+      "id": "truck",
+      "subject": "a blue cargo truck with large enclosed orange cargo box behind cab",
+      "prompt": "Use case: illustration-story. Asset: one square preschool vocabulary-card illustration. Input image is STYLE reference only, do not draw backpack. Match polished hand-painted gouache/watercolor with neat dark colored outlines, soft volume, rich gentle colors and subtle paper texture. Center whole subject with 8% padding, no cropping. Genuinely transparent alpha outside the object or compact rounded vignette, no checkerboard, no white rectangular background. No text, letters, logos, watermark, people, faces. Clear recognizable child-friendly shapes, restrained detail. Subject: a blue cargo truck with large enclosed orange cargo box behind cab.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-ce7f77ea-f28b-4cc1-ab52-f67553c336a2.png",
+      "file": "public/illustrations/transport/truck-v1.png"
+    },
+    {
+      "category": "transport",
+      "id": "rocket",
+      "subject": "a friendly white and coral space rocket with fins and small orange exhaust, no stars or background",
+      "prompt": "Use case: illustration-story. Asset: one square preschool vocabulary-card illustration. Input image is STYLE reference only, do not draw backpack. Match polished hand-painted gouache/watercolor with neat dark colored outlines, soft volume, rich gentle colors and subtle paper texture. Center whole subject with 8% padding, no cropping. Genuinely transparent alpha outside the object or compact rounded vignette, no checkerboard, no white rectangular background. No text, letters, logos, watermark, people, faces. Clear recognizable child-friendly shapes, restrained detail. Subject: a friendly white and coral space rocket with fins and small orange exhaust, no stars or background.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-8f3094bf-54f9-4c17-b458-89c1c4331339.png",
+      "file": "public/illustrations/transport/rocket-v1.png"
+    },
+    {
+      "category": "time",
+      "id": "morning",
+      "subject": "a small rounded landscape vignette: same simple cream cottage and green hill, rising sun just above horizon, pale fresh golden morning sky, long soft shadows",
+      "prompt": "Use case: illustration-story. Asset: one square preschool vocabulary-card illustration. Input image is STYLE reference only, do not draw backpack. Match polished hand-painted gouache/watercolor with neat dark colored outlines, soft volume, rich gentle colors and subtle paper texture. Center whole subject with 8% padding, no cropping. Genuinely transparent alpha outside the object or compact rounded vignette, no checkerboard, no white rectangular background. No text, letters, logos, watermark, people, faces. Clear recognizable child-friendly shapes, restrained detail. Subject: a small rounded landscape vignette: same simple cream cottage and green hill, rising sun just above horizon, pale fresh golden morning sky, long soft shadows.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-d84259ff-458f-4dad-8db4-4b9757918acb.png",
+      "file": "public/illustrations/time/morning-v1.png"
+    },
+    {
+      "category": "time",
+      "id": "day",
+      "subject": "a small rounded landscape vignette: simple cream cottage and green hill under a bright sun high overhead in clear blue midday sky",
+      "prompt": "Use case: illustration-story. Asset: one square preschool vocabulary-card illustration. Input image is STYLE reference only, do not draw backpack. Match polished hand-painted gouache/watercolor with neat dark colored outlines, soft volume, rich gentle colors and subtle paper texture. Center whole subject with 8% padding, no cropping. Genuinely transparent alpha outside the object or compact rounded vignette, no checkerboard, no white rectangular background. No text, letters, logos, watermark, people, faces. Clear recognizable child-friendly shapes, restrained detail. Subject: a small rounded landscape vignette: simple cream cottage and green hill under a bright sun high overhead in clear blue midday sky.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-8d887c28-266a-4d31-a418-0fa2450892a4.png",
+      "file": "public/illustrations/time/day-v1.png"
+    },
+    {
+      "category": "time",
+      "id": "evening",
+      "subject": "a small rounded landscape vignette: simple cream cottage and green hill at sunset, low orange sun touching horizon, warm peach and purple sky",
+      "prompt": "Use case: illustration-story. Asset: one square preschool vocabulary-card illustration. Input image is STYLE reference only, do not draw backpack. Match polished hand-painted gouache/watercolor with neat dark colored outlines, soft volume, rich gentle colors and subtle paper texture. Center whole subject with 8% padding, no cropping. Genuinely transparent alpha outside the object or compact rounded vignette, no checkerboard, no white rectangular background. No text, letters, logos, watermark, people, faces. Clear recognizable child-friendly shapes, restrained detail. Subject: a small rounded landscape vignette: simple cream cottage and green hill at sunset, low orange sun touching horizon, warm peach and purple sky.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-6feac562-71cd-4074-b424-62135a12ab8b.png",
+      "file": "public/illustrations/time/evening-v1.png"
+    },
+    {
+      "category": "time",
+      "id": "night",
+      "subject": "a small rounded landscape vignette: simple cream cottage and green hill beneath deep blue night sky, crescent moon and a few stars, lit window",
+      "prompt": "Use case: illustration-story. Asset: one square preschool vocabulary-card illustration. Input image is STYLE reference only, do not draw backpack. Match polished hand-painted gouache/watercolor with neat dark colored outlines, soft volume, rich gentle colors and subtle paper texture. Center whole subject with 8% padding, no cropping. Genuinely transparent alpha outside the object or compact rounded vignette, no checkerboard, no white rectangular background. No text, letters, logos, watermark, people, faces. Clear recognizable child-friendly shapes, restrained detail. Subject: a small rounded landscape vignette: simple cream cottage and green hill beneath deep blue night sky, crescent moon and a few stars, lit window.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-3fc0900f-d336-4e9d-b499-985488962df1.png",
+      "file": "public/illustrations/time/night-v1.png"
+    },
+    {
+      "category": "time",
+      "id": "today",
+      "subject": "three identical small calendar pages arranged left to right on one baseline. Highlight only the CENTER page with teal border and small golden sun emblem. Other two pages pale cream. No numbers or letters. Visual concept: today is the middle day",
+      "prompt": "Use case: illustration-story. Asset: one square preschool vocabulary-card illustration. Input image is STYLE reference only, do not draw backpack. Match polished hand-painted gouache/watercolor with neat dark colored outlines, soft volume, rich gentle colors and subtle paper texture. Center whole subject with 8% padding, no cropping. Genuinely transparent alpha outside the object or compact rounded vignette, no checkerboard, no white rectangular background. No text, letters, logos, watermark, people, faces. Clear recognizable child-friendly shapes, restrained detail. Subject: three identical small calendar pages arranged left to right on one baseline. Highlight only the CENTER page with teal border and small golden sun emblem. Other two pages pale cream. No numbers or letters. Visual concept: today is the middle day.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-3600ee67-30d6-4a36-9e96-5d62dc61e59f.png",
+      "file": "public/illustrations/time/today-v1.png"
+    },
+    {
+      "category": "time",
+      "id": "tomorrow",
+      "subject": "three identical small calendar pages arranged left to right on one baseline. Highlight only the RIGHT page with teal border and small golden sun emblem. Small curved arrow above points from center to right. Other pages pale cream. No numbers or letters. Visual concept: tomorrow is next day",
+      "prompt": "Use case: illustration-story. Asset: one square preschool vocabulary-card illustration. Input image is STYLE reference only, do not draw backpack. Match polished hand-painted gouache/watercolor with neat dark colored outlines, soft volume, rich gentle colors and subtle paper texture. Center whole subject with 8% padding, no cropping. Genuinely transparent alpha outside the object or compact rounded vignette, no checkerboard, no white rectangular background. No text, letters, logos, watermark, people, faces. Clear recognizable child-friendly shapes, restrained detail. Subject: three identical small calendar pages arranged left to right on one baseline. Highlight only the RIGHT page with teal border and small golden sun emblem. Small curved arrow above points from center to right. Other pages pale cream. No numbers or letters. Visual concept: tomorrow is next day.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-0cc5bc0c-e687-4413-b74d-f056a731ac73.png",
+      "file": "public/illustrations/time/tomorrow-v1.png"
+    },
+    {
+      "category": "time",
+      "id": "yesterday",
+      "subject": "three identical small calendar pages arranged left to right on one baseline. Highlight only the LEFT page with teal border and small golden sun emblem. Small curved arrow above points from center to left. Other pages pale cream. No numbers or letters. Visual concept: yesterday is previous day",
+      "prompt": "Use case: illustration-story. Asset: one square preschool vocabulary-card illustration. Input image is STYLE reference only, do not draw backpack. Match polished hand-painted gouache/watercolor with neat dark colored outlines, soft volume, rich gentle colors and subtle paper texture. Center whole subject with 8% padding, no cropping. Genuinely transparent alpha outside the object or compact rounded vignette, no checkerboard, no white rectangular background. No text, letters, logos, watermark, people, faces. Clear recognizable child-friendly shapes, restrained detail. Subject: three identical small calendar pages arranged left to right on one baseline. Highlight only the LEFT page with teal border and small golden sun emblem. Small curved arrow above points from center to left. Other pages pale cream. No numbers or letters. Visual concept: yesterday is previous day.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-8c9d72d3-1e0a-40f9-9945-6e031961f96a.png",
+      "file": "public/illustrations/time/yesterday-v1.png"
+    },
+    {
+      "category": "time",
+      "id": "year",
+      "subject": "a circular cycle of four small landscape quarters showing spring blossoms, summer leafy tree, autumn orange leaves, winter snowy bare tree, one coherent four-seasons circle, no text",
+      "prompt": "Use case: illustration-story. Asset: one square preschool vocabulary-card illustration. Input image is STYLE reference only, do not draw backpack. Match polished hand-painted gouache/watercolor with neat dark colored outlines, soft volume, rich gentle colors and subtle paper texture. Center whole subject with 8% padding, no cropping. Genuinely transparent alpha outside the object or compact rounded vignette, no checkerboard, no white rectangular background. No text, letters, logos, watermark, people, faces. Clear recognizable child-friendly shapes, restrained detail. Subject: a circular cycle of four small landscape quarters showing spring blossoms, summer leafy tree, autumn orange leaves, winter snowy bare tree, one coherent four-seasons circle, no text.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-fefdd398-6606-4584-9548-7aa7bf86c6a1.png",
+      "file": "public/illustrations/time/year-v1.png"
+    },
+    {
+      "category": "time",
+      "id": "month",
+      "subject": "one large cream and teal desk calendar page with a neat grid of five rows of seven small day squares, entire page highlighted with warm golden outline, no numerals or text, clearly a calendar month not a moon",
+      "prompt": "Use case: illustration-story. Asset: one square preschool vocabulary-card illustration. Input image is STYLE reference only, do not draw backpack. Match polished hand-painted gouache/watercolor with neat dark colored outlines, soft volume, rich gentle colors and subtle paper texture. Center whole subject with 8% padding, no cropping. Genuinely transparent alpha outside the object or compact rounded vignette, no checkerboard, no white rectangular background. No text, letters, logos, watermark, people, faces. Clear recognizable child-friendly shapes, restrained detail. Subject: one large cream and teal desk calendar page with a neat grid of five rows of seven small day squares, entire page highlighted with warm golden outline, no numerals or text, clearly a calendar month not a moon.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-f67ed2c8-f45e-470a-9138-061fba74d870.png",
+      "file": "public/illustrations/time/month-v1.png"
+    },
+    {
+      "category": "time",
+      "id": "week",
+      "subject": "one cream desk calendar with a neat grid of four rows of seven little day squares, exactly one full horizontal row of seven squares highlighted teal, other rows muted cream, no numerals or text",
+      "prompt": "Use case: illustration-story. Asset: one square preschool vocabulary-card illustration. Input image is STYLE reference only, do not draw backpack. Match polished hand-painted gouache/watercolor with neat dark colored outlines, soft volume, rich gentle colors and subtle paper texture. Center whole subject with 8% padding, no cropping. Genuinely transparent alpha outside the object or compact rounded vignette, no checkerboard, no white rectangular background. No text, letters, logos, watermark, people, faces. Clear recognizable child-friendly shapes, restrained detail. Subject: one cream desk calendar with a neat grid of four rows of seven little day squares, exactly one full horizontal row of seven squares highlighted teal, other rows muted cream, no numerals or text.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-4ad71954-f2c8-4318-91f7-118167ec01a3.png",
+      "file": "public/illustrations/time/week-v1.png"
+    },
+    {
+      "category": "time",
+      "id": "hour",
+      "subject": "one round teal analog clock, cream face, twelve simple tick marks no numerals, hour hand at one oclock and minute hand at twelve, thick golden arc marks one twelfth of the outer rim from twelve to one",
+      "prompt": "Use case: illustration-story. Asset: one square preschool vocabulary-card illustration. Input image is STYLE reference only, do not draw backpack. Match polished hand-painted gouache/watercolor with neat dark colored outlines, soft volume, rich gentle colors and subtle paper texture. Center whole subject with 8% padding, no cropping. Genuinely transparent alpha outside the object or compact rounded vignette, no checkerboard, no white rectangular background. No text, letters, logos, watermark, people, faces. Clear recognizable child-friendly shapes, restrained detail. Subject: one round teal analog clock, cream face, twelve simple tick marks no numerals, hour hand at one oclock and minute hand at twelve, thick golden arc marks one twelfth of the outer rim from twelve to one.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-8a38cf04-83be-4ef5-9473-21ded5f39d27.png",
+      "file": "public/illustrations/time/hour-v1.png"
+    },
+    {
+      "category": "time",
+      "id": "minute",
+      "subject": "one coral stopwatch with top button, cream dial, tick marks no numerals, slender hand pointing twelve, a golden circular arrow around almost the entire dial showing one full revolution",
+      "prompt": "Use case: illustration-story. Asset: one square preschool vocabulary-card illustration. Input image is STYLE reference only, do not draw backpack. Match polished hand-painted gouache/watercolor with neat dark colored outlines, soft volume, rich gentle colors and subtle paper texture. Center whole subject with 8% padding, no cropping. Genuinely transparent alpha outside the object or compact rounded vignette, no checkerboard, no white rectangular background. No text, letters, logos, watermark, people, faces. Clear recognizable child-friendly shapes, restrained detail. Subject: one coral stopwatch with top button, cream dial, tick marks no numerals, slender hand pointing twelve, a golden circular arrow around almost the entire dial showing one full revolution.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-44cb7268-2d5d-4573-898c-f23d265a5320.png",
+      "file": "public/illustrations/time/minute-v1.png"
+    },
+    {
+      "category": "time",
+      "id": "early",
+      "subject": "a small rounded vignette of a bedside teal alarm clock beside a window with pale predawn sky and first sliver of rising sun, peaceful early morning, no people, no text or numerals",
+      "prompt": "Use case: illustration-story. Asset: one square preschool vocabulary-card illustration. Input image is STYLE reference only, do not draw backpack. Match polished hand-painted gouache/watercolor with neat dark colored outlines, soft volume, rich gentle colors and subtle paper texture. Center whole subject with 8% padding, no cropping. Genuinely transparent alpha outside the object or compact rounded vignette, no checkerboard, no white rectangular background. No text, letters, logos, watermark, people, faces. Clear recognizable child-friendly shapes, restrained detail. Subject: a small rounded vignette of a bedside teal alarm clock beside a window with pale predawn sky and first sliver of rising sun, peaceful early morning, no people, no text or numerals.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-178192a9-733d-47b6-b101-0d3964696da0.png",
+      "file": "public/illustrations/time/early-v1.png"
+    },
+    {
+      "category": "time",
+      "id": "late",
+      "subject": "a small rounded vignette of a bedside teal alarm clock beside a window with dark night sky and high crescent moon, dim warm bedside lamp, late at night, no people, no text or numerals",
+      "prompt": "Use case: illustration-story. Asset: one square preschool vocabulary-card illustration. Input image is STYLE reference only, do not draw backpack. Match polished hand-painted gouache/watercolor with neat dark colored outlines, soft volume, rich gentle colors and subtle paper texture. Center whole subject with 8% padding, no cropping. Genuinely transparent alpha outside the object or compact rounded vignette, no checkerboard, no white rectangular background. No text, letters, logos, watermark, people, faces. Clear recognizable child-friendly shapes, restrained detail. Subject: a small rounded vignette of a bedside teal alarm clock beside a window with dark night sky and high crescent moon, dim warm bedside lamp, late at night, no people, no text or numerals.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-82ce50b1-6c67-44ce-a147-37080ab6944a.png",
+      "file": "public/illustrations/time/late-v1.png"
+    }
+  ]
+}

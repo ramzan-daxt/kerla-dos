@@ -4,10 +4,10 @@ import {forwardRef,useImperativeHandle,useRef,useState,useEffect,type ReactNode,
 export type BookTurnHandle={turnTo:(page:number)=>void};
 type Turn={target:number;direction:1|-1;progress:number};
 type Gesture={id:number;x:number;y:number;width:number;dragged:boolean};
-type Props={index:number;lastIndex:number;renderPage:(index:number)=>ReactNode;onStart:()=>void;onFinish:(target:number|null)=>void;onCenterTap?:()=>void};
+type Props={index:number;lastIndex:number;renderPage:(index:number)=>ReactNode;onStart:()=>void;onFinish:(target:number|null)=>void;onCenterTap?:()=>void;tapAnywhere?:boolean;onTurnStart?:()=>void};
 
 // Both page faces stay mounted until release completes. No text swap mid-turn.
-export default forwardRef<BookTurnHandle,Props>(function BookPageTurn({index,lastIndex,renderPage,onStart,onFinish,onCenterTap},ref){
+export default forwardRef<BookTurnHandle,Props>(function BookPageTurn({index,lastIndex,renderPage,onStart,onFinish,onCenterTap,tapAnywhere=false,onTurnStart},ref){
   const [turn,setTurn]=useState<Turn|null>(null);
   const current=useRef<Turn|null>(null);
   const gesture=useRef<Gesture|null>(null);
@@ -22,6 +22,7 @@ export default forwardRef<BookTurnHandle,Props>(function BookPageTurn({index,las
   function begin(target:number){
     if(current.current||target<0||target>lastIndex||target===index)return false;
     update({target,direction:target>index?1:-1,progress:0});
+    onTurnStart?.();
     startHold();
     return true;
   }
@@ -92,7 +93,7 @@ export default forwardRef<BookTurnHandle,Props>(function BookPageTurn({index,las
     if(g.dragged){releaseHold();return;}
     const rect=event.currentTarget.getBoundingClientRect();
     const relative=(event.clientX-rect.left)/rect.width;
-    if(relative>.23&&relative<.77&&onCenterTap){releaseHold();onCenterTap();return;}
+    if(onCenterTap&&(tapAnywhere||(relative>.23&&relative<.77))){releaseHold();onCenterTap();return;}
     if(begin(index+(event.clientX<rect.left+rect.width/2?-1:1)))settle(true);else releaseHold();
   }
   function cancel(){gesture.current=null;if(current.current&&!settling.current)settle(false);else if(!current.current)releaseHold();}

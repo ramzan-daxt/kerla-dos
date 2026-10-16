@@ -22,12 +22,7 @@ export type LearningItem = {
     classMarker?: string;
 };
 type View = "random" | "favorites" | "stories" | "games";
-const tales = [
-    { id: "borz-ka", image: "/stories/borz-ka/cover.png", title: "Борз а, къена ка а", summary: "Харц дуьйнах а, кхетамах а лаьцна йоккха туьйра", text: [] },
-    { id: "fox", image: "/stories/borz-ka/scene-06.png", title: "Цхьогал а, кемсаш а", summary: "Кхетаме цхьогалх а, стомах а лаьцна туьйра", text: ["Цкъа цхьа цхьогал хьуьн чохь лелаш хилла.", "Цунна лакхахь долу кемсаш гина. Цхьогал дукха хьийзира, амма кемсаш кхаьчна дац.", "Цул тӀаьхьа цо аьлла: «И кемсаш кӀорга ду», — аьлла, дӀавахана."] },
-    { id: "friends", image: "/stories/borz-ka/scene-05.png", title: "Ши доттагӀ", summary: "ДоттагӀаллех а, вовшашка гӀо дарх а лаьцна", text: ["Цхьана хьуьн чохь ши доттагӀ вехаш хилла.", "Цара даима вовшашка гӀо дора, йаахӀума екъара, цхьаьна ловзара.", "Бакъ доттагӀ халачу хенахь гуш ву."] },
-    { id: "sun", image: "/stories/borz-ka/scene-01.png", title: "Малх а, морх а", summary: "Ӏаламах а, де дика хиларх а лаьцна", text: ["Ӏуьйранна стиглахь морхаш хилла.", "ТӀаккха малх арабаьлла, хьуьн серлайаьлла.", "Берийн самукъадала ловзуш арадаьлла."] }
-];
+type Tale = { id: string; image: string; title: string; summary: string; text: string[] };
 
 function RandomLearning({
     item,
@@ -87,6 +82,7 @@ function RandomLearning({
                 </aside>
 
                 <div className="random-study">
+                    {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- The nested sound button provides the keyboard action. */}
                     <div className="random-card" onClick={event => { audioTapFeedback(event.currentTarget); onSpeak(item.word, item.audioSrc); }}>
                         <div className="random-card-actions">
                             <button
@@ -147,7 +143,7 @@ export default function HomeExtras({ view, items, favorites, onFavorite, onBack,
     mosaicPieces: 6 | 9 | 12 | 15;
     mosaicMode: "tray" | "swap";
 }) {
-    const [random, setRandom] = useState(() => Math.floor(Math.random() * Math.max(1, items.length))), [story, setStory] = useState<(typeof tales)[number] | null>(null), [storyAudioState, setStoryAudioState] = useState<"idle" | "playing" | "paused">("idle"), [sessionSize, setSessionSize] = useState(10), [sessionStep, setSessionStep] = useState(1), [favoriteIndex, setFavoriteIndex] = useState(0);
+    const [random, setRandom] = useState(() => Math.floor(Math.random() * Math.max(1, items.length))), [story, setStory] = useState<Tale | null>(null), [storyAudioState, setStoryAudioState] = useState<"idle" | "playing" | "paused">("idle"), [sessionSize, setSessionSize] = useState(10), [sessionStep, setSessionStep] = useState(1), [favoriteIndex, setFavoriteIndex] = useState(0);
     const wordAudio = useRef<HTMLAudioElement | null>(null);
     const audioPool = useRef(createAudioPool());
     const wordAudioRequest = useRef(0);
@@ -191,6 +187,8 @@ export default function HomeExtras({ view, items, favorites, onFavorite, onBack,
             return;
         setSessionSize(size);
         setSessionStep(1);
+        // Only called by the session-size buttons, never during render.
+        // eslint-disable-next-line react-hooks/purity
         setRandom(Math.floor(Math.random() * Math.max(1, items.length)));
     }
     function say(text: string, audioSrc?: string) {
@@ -254,7 +252,7 @@ export default function HomeExtras({ view, items, favorites, onFavorite, onBack,
     if (story?.id === "borz-ka")
         return <ScriptText latin={latin}><FullStory rate={rate} volume={volume} onBack={closeStory}/></ScriptText>;
     if (story)
-        return <ScriptText latin={latin}><main className="extra-shell extra-theme-stories"><header><button className="back icon-label" onClick={closeStory}><AppIcon name="arrow-left"/> <span>Хьалха</span></button><a className="brand" onClick={leaveStory}>KERLA <i>DOŞ</i></a></header><article className="story-reader"><div><img src={story.image} alt=""/></div><small>ТУЬЙРА</small><h1>{story.title}</h1>{story.text.map((paragraph, index) => <p key={index}>{paragraph}</p>)}<button className="icon-label" onClick={toggleStoryAudio}><AppIcon name={storyAudioState === "playing" ? "pause" : "play"}/>{storyAudioState === "playing" ? "Соцаде" : storyAudioState === "paused" ? "ДӀахӀоттаде" : "Туьйра хаза"}</button></article></main></ScriptText>;
+        return <ScriptText latin={latin}><main className="extra-shell extra-theme-stories"><header><button className="back icon-label" aria-label="Хьалха" onClick={closeStory}><AppIcon name="arrow-left"/> <span>Хьалха</span></button><button type="button" className="brand" onClick={leaveStory}>KERLA <i>DOŞ</i></button></header><article className="story-reader"><div><img src={story.image} alt=""/></div><small>ТУЬЙРА</small><h1>{story.title}</h1>{story.text.map((paragraph, index) => <p key={index}>{paragraph}</p>)}<button className="icon-label" onClick={toggleStoryAudio}><AppIcon name={storyAudioState === "playing" ? "pause" : "play"}/>{storyAudioState === "playing" ? "Соцаде" : storyAudioState === "paused" ? "ДӀахӀоттаде" : "Туьйра хаза"}</button></article></main></ScriptText>;
     if (view === "games")
         return <ScriptText latin={latin}><GameCenter items={items} onBack={onBack} mosaicPieces={mosaicPieces} mosaicMode={mosaicMode}/></ScriptText>;
     if (view === "random" && item)
@@ -262,10 +260,10 @@ export default function HomeExtras({ view, items, favorites, onFavorite, onBack,
             <ScriptText latin={latin}>
                 <main className="extra-shell random-extra-shell extra-theme-random">
                     <header>
-                        <button className="back icon-label" onClick={onBack}>
+                        <button className="back icon-label" aria-label="Хьалха" onClick={onBack}>
                             <AppIcon name="arrow-left" /> <span>Коьртачу агӀор</span>
                         </button>
-                        <a className="brand" onClick={onBack}>KERLA <i>DOŞ</i></a>
+                        <button type="button" className="brand" onClick={onBack}>KERLA <i>DOŞ</i></button>
                         <span className="extra-count icon-label">
                             {favorites.length} <AppIcon name="heart-filled" />
                         </span>
@@ -284,5 +282,7 @@ export default function HomeExtras({ view, items, favorites, onFavorite, onBack,
                 </main>
             </ScriptText>
         );
-return <ScriptText latin={latin}><main className={`extra-shell extra-theme-${view}`}><header><button className="back icon-label" onClick={onBack}><AppIcon name="arrow-left"/> <span>Коьртачу агӀор</span></button><a className="brand" onClick={onBack}>KERLA <i>DOŞ</i></a><span className="extra-count icon-label">{favorites.length} <AppIcon name="heart-filled"/></span></header>{view === "random" && item && <section className="random-zone"><small>ХӀИНЦАЛЕРА ДОШ</small><h1>Тайп-тайпана дешнаш Ӏамо</h1><div className="random-session"><span>Масийтта дош Ӏамо?</span><div>{[10, 20, 30, 40, 50].map(size => <button key={size} disabled={!premium && size > 10} className={sessionSize === size ? "active" : ""} onClick={() => chooseSessionSize(size)}>{!premium && size > 10 && <AppIcon name="lock"/>}{size}</button>)}</div><small>{sessionStep} / {sessionSize}</small></div><div className="random-card"><button className="favorite-button" onClick={() => onFavorite(item.key)} aria-label="Схьакъастина"><AppIcon name={favorites.includes(item.key) ? "heart-filled" : "heart"}/></button><div className="random-visual" style={!item.image && item.color ? { background: item.color } : {}}>{item.image ? <img src={item.image} alt="" draggable={false}/> : item.color ? "" : item.visual}</div><h2><WordLabel word={cardWord(item.word)} classMarker={item.classMarker}/></h2><p>{item.category}</p><button className="random-audio icon-label" onClick={() => say(item.word, item.audioSrc)}><AppIcon name="sound"/> Хаза</button></div><button className="next-random icon-label" onClick={nextRandom}><AppIcon name={sessionStep >= sessionSize ? "refresh" : "dice"}/>{sessionStep >= sessionSize ? "Йуха волавала" : "Кхин дош"}</button></section>}{view === "favorites" && <section className="favorites-zone favorite-learning"><small>ЙУХА ӀАМОР</small><h1>Схьакъастина дешнаш</h1>{!favoriteItem ? <div className="empty-favorites"><span><AppIcon name="heart"/></span><h2>ХӀинца дешнаш дац</h2></div> : <><p className="review-intro">{saved.length} дош йуха Ӏаморан могӀанехь ду</p><div className="card-stage"><div className="big-card favorite-study-card" onClick={event => { audioTapFeedback(event.currentTarget); say(favoriteItem.word, favoriteItem.audioSrc); }}><button className="play" aria-label="Хаза"><AppIcon name="sound"/></button><button className="word-favorite" aria-label="ДӀадаккха" onClick={event => { event.stopPropagation(); favoriteFeedback(event.currentTarget, false); onFavorite(favoriteItem.key); }}><AppIcon name="heart-filled"/></button>{favoriteItem.image ? <div className="word-visual illustrated-visual"><img src={favoriteItem.image} alt="" draggable={false}/></div> : favoriteItem.color ? <span className="color-orb" style={{ background: favoriteItem.color }}/> : <div className="word-visual">{favoriteItem.visual}</div>}<h2><WordLabel word={cardWord(favoriteItem.word)} classMarker={favoriteItem.classMarker}/></h2><small>{favoriteItem.category}</small></div><div className="pager"><button onClick={() => setFavoriteIndex(i => i === 0 ? saved.length - 1 : i - 1)} aria-label="Хьалхара"><AppIcon name="arrow-left"/></button><span>{favoriteIndex % saved.length + 1} / {saved.length}</span><button onClick={() => setFavoriteIndex(i => (i + 1) % saved.length)} aria-label="РогӀера"><AppIcon name="arrow-right"/></button></div></div></>}</section>}</main></ScriptText>;
+// The nested sound button handles keyboard activation of the favorite card.
+// eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+return <ScriptText latin={latin}><main className={`extra-shell extra-theme-${view}`}><header><button className="back icon-label" aria-label="Хьалха" onClick={onBack}><AppIcon name="arrow-left"/> <span>Коьртачу агӀор</span></button><button type="button" className="brand" onClick={onBack}>KERLA <i>DOŞ</i></button><span className="extra-count icon-label">{favorites.length} <AppIcon name="heart-filled"/></span></header>{view === "random" && item && <section className="random-zone"><small>ХӀИНЦАЛЕРА ДОШ</small><h1>Тайп-тайпана дешнаш Ӏамо</h1><div className="random-session"><span>Масийтта дош Ӏамо?</span><div>{[10, 20, 30, 40, 50].map(size => <button key={size} disabled={!premium && size > 10} className={sessionSize === size ? "active" : ""} onClick={() => chooseSessionSize(size)}>{!premium && size > 10 && <AppIcon name="lock"/>}{size}</button>)}</div><small>{sessionStep} / {sessionSize}</small></div><div className="random-card"><button className="favorite-button" onClick={() => onFavorite(item.key)} aria-label="Схьакъастина"><AppIcon name={favorites.includes(item.key) ? "heart-filled" : "heart"}/></button><div className="random-visual" style={!item.image && item.color ? { background: item.color } : {}}>{item.image ? <img src={item.image} alt="" draggable={false}/> : item.color ? "" : item.visual}</div><h2><WordLabel word={cardWord(item.word)} classMarker={item.classMarker}/></h2><p>{item.category}</p><button className="random-audio icon-label" onClick={() => say(item.word, item.audioSrc)}><AppIcon name="sound"/> Хаза</button></div><button className="next-random icon-label" onClick={nextRandom}><AppIcon name={sessionStep >= sessionSize ? "refresh" : "dice"}/>{sessionStep >= sessionSize ? "Йуха волавала" : "Кхин дош"}</button></section>}{view === "favorites" && <section className="favorites-zone favorite-learning"><small>ЙУХА ӀАМОР</small><h1>Схьакъастина дешнаш</h1>{!favoriteItem ? <div className="empty-favorites"><span><AppIcon name="heart"/></span><h2>ХӀинца дешнаш дац</h2></div> : <><p className="review-intro">{saved.length} дош йуха Ӏаморан могӀанехь ду</p><div className="card-stage"><div className="big-card favorite-study-card" onClick={event => { audioTapFeedback(event.currentTarget); say(favoriteItem.word, favoriteItem.audioSrc); }}><button className="play" aria-label="Хаза"><AppIcon name="sound"/></button><button className="word-favorite" aria-label="ДӀадаккха" onClick={event => { event.stopPropagation(); favoriteFeedback(event.currentTarget, false); onFavorite(favoriteItem.key); }}><AppIcon name="heart-filled"/></button>{favoriteItem.image ? <div className="word-visual illustrated-visual"><img src={favoriteItem.image} alt="" draggable={false}/></div> : favoriteItem.color ? <span className="color-orb" style={{ background: favoriteItem.color }}/> : <div className="word-visual">{favoriteItem.visual}</div>}<h2><WordLabel word={cardWord(favoriteItem.word)} classMarker={favoriteItem.classMarker}/></h2><small>{favoriteItem.category}</small></div><div className="pager"><button onClick={() => setFavoriteIndex(i => i === 0 ? saved.length - 1 : i - 1)} aria-label="Хьалхара"><AppIcon name="arrow-left"/></button><span>{favoriteIndex % saved.length + 1} / {saved.length}</span><button onClick={() => setFavoriteIndex(i => (i + 1) % saved.length)} aria-label="РогӀера"><AppIcon name="arrow-right"/></button></div></div></>}</section>}</main></ScriptText>;
 }

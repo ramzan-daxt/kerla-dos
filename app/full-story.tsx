@@ -49,9 +49,11 @@ export default function FullStory({rate,volume,onBack}:{rate:number;volume:numbe
 
   useEffect(()=>()=>{audioEpoch.current++;window.speechSynthesis?.cancel();},[]);
   useEffect(()=>{
-    try{const saved=Number(localStorage.getItem("kerla-dos-story-borz-ka-page"));if(Number.isInteger(saved)&&saved>=0&&saved<scenes.length){setSi(saved);cursor.current=[saved,0];}}catch{}
+    // Restore the browser-only bookmark after hydration.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    try{const saved=Number(localStorage.getItem("kerla-dos-story-borz-ka-page"));if(Number.isInteger(saved)&&saved>=0&&saved<scenes.length){setSi(saved);cursor.current=[saved,0];}}catch{/* Storage is optional; keep the current in-memory value. */}
   },[]);
-  useEffect(()=>{if(mode==="read"||mode==="listen")try{localStorage.setItem("kerla-dos-story-borz-ka-page",String(si));}catch{}},[si,mode]);
+  useEffect(()=>{if(mode==="read"||mode==="listen")try{localStorage.setItem("kerla-dos-story-borz-ka-page",String(si));}catch{/* Storage is optional; keep the current in-memory value. */}},[si,mode]);
   useEffect(()=>{
     for(const page of [si-1,si+1])if(scenes[page]){
       const image=new Image();image.src=scenes[page].image.replace(".png","-portrait.webp");
@@ -60,7 +62,9 @@ export default function FullStory({rate,volume,onBack}:{rate:number;volume:numbe
   useEffect(()=>{
     const saved=window.localStorage.getItem("kerla-dos-story-ratings");
     if(!saved)return;
-    try{setRating(Number(JSON.parse(saved)["borz-ka"])||0)}catch{}
+    // Restore the browser-only rating after hydration.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    try{setRating(Number(JSON.parse(saved)["borz-ka"])||0)}catch{/* Storage is optional; keep the current in-memory value. */}
   },[]);
   useEffect(()=>{
     if(mode!=="read"&&mode!=="listen") return;
@@ -130,7 +134,7 @@ export default function FullStory({rate,volume,onBack}:{rate:number;volume:numbe
   function rateStory(value:number){
     setRating(value);
     let saved:Record<string,number>={};
-    try{saved=JSON.parse(window.localStorage.getItem("kerla-dos-story-ratings")||"{}")}catch{}
+    try{saved=JSON.parse(window.localStorage.getItem("kerla-dos-story-ratings")||"{}")}catch{/* Storage is optional; keep the current in-memory value. */}
     saved["borz-ka"]=value;
     window.localStorage.setItem("kerla-dos-story-ratings",JSON.stringify(saved));
   }

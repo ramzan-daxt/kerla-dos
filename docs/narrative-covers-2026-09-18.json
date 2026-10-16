@@ -1,0 +1,21 @@
+{
+  "tool": "builtin image_gen",
+  "reference": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-c94068d4-5084-4ba8-b9a0-a11e479e5ffc.png",
+  "covers": [
+    {
+      "id": "adam",
+      "output": "public/stories/adam/cover-clean-v2.png",
+      "prompt": "Use case: illustration-story. Reference is approved three-cover concept sheet. Deliver ONE standalone full bleed portrait 2:3 cover, not triptych. Recreate RIGHT panel: lush garden and stream flowing toward an earthly landscape and modest path, no gates or identifiable forbidden fruit. Retain approved rich tactile painterly relief detail and colors. REMOVE ALL LETTERING completely, no text or symbols. Composition for existing HTML title: keep x=7%..93%, y=22%..37% a naturally light, quiet sky area free of dark branches, clouds, structures, rain lines or objects. Blend it organically into scene without plaque, brushstroke, label or artificial panel. Subject occupies lower half, crisp and expressive. No people, prophets, angels, divine representations, animals or footprints. No borders. Match selected reference scene closely, adjust to 2:3 and title safe space."
+    },
+    {
+      "id": "nuh",
+      "output": "public/stories/nuh/cover-clean-v2.png",
+      "prompt": "Use case: illustration-story. Reference is approved three-cover concept sheet. Deliver ONE standalone full bleed portrait 2:3 cover, not triptych. Recreate LEFT panel: wooden ark amid great blue waves, storm and rain with warm opening in clouds. Retain approved rich tactile painterly relief detail and colors. REMOVE ALL LETTERING completely, no text or symbols. Composition for existing HTML title: keep x=7%..93%, y=22%..37% a naturally light, quiet sky area free of dark branches, clouds, structures, rain lines or objects. Blend it organically into scene without plaque, brushstroke, label or artificial panel. Subject occupies lower half, crisp and expressive. No people, prophets, angels, divine representations, animals or footprints. No borders. Match selected reference scene closely, adjust to 2:3 and title safe space."
+    },
+    {
+      "id": "hud",
+      "output": "public/stories/hud/cover-clean-v2.png",
+      "prompt": "Use case: illustration-story. Reference is approved three-cover concept sheet. Deliver ONE standalone full bleed portrait 2:3 cover, not triptych. Recreate MIDDLE panel: powerful wind sweeping sand, bent date palms, ancient earthen buildings in distance. Retain approved rich tactile painterly relief detail and colors. REMOVE ALL LETTERING completely, no text or symbols. Composition for existing HTML title: keep x=7%..93%, y=22%..37% a naturally light, quiet sky area free of dark branches, clouds, structures, rain lines or objects. Blend it organically into scene without plaque, brushstroke, label or artificial panel. Subject occupies lower half, crisp and expressive. No people, prophets, angels, divine representations, animals or footprints. No borders. Match selected reference scene closely, adjust to 2:3 and title safe space."
+    }
+  ]
+}

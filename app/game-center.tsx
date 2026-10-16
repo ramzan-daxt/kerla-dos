@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import type { LearningItem } from "./home-extras";
+import Modal from "./components/modal";
 import AppIcon from "./ui-icon";
 import { addAnswerTile, removeAnswerTile } from "./word-selection.mjs";
 import { tapHaptic } from "./haptics.mjs";
@@ -219,6 +220,8 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
   }, []);
 
   useEffect(() => {
+    // Settings can change outside this screen; reset the board when they do.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPuzzleState(makePuzzleState(difficulty, mosaicMode));
     setSelectedPiece(null);
     setMosaicResult("idle");
@@ -227,6 +230,8 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
   useEffect(() => {
     if (screen !== "word" || wordPhase !== "playing" || wordPlayMode !== "timed" || wordResult === "right" || advancingWordRef.current) return;
     if (timeLeft <= 0) {
+      // The timer has expired; report the result before scheduling the next word.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setWordResult("wrong");
       advancingWordRef.current = true;
       wordAdvanceTimerRef.current = window.setTimeout(() => {
@@ -449,10 +454,10 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
   return (
     <main className={`extra-shell games-shell extra-theme-games games-screen-${screen}`}>
       <header>
-        <button className="back icon-label" onClick={returnOneLevel} aria-label="Хьалха">
+        <button className="back icon-label" aria-label="Хьалха" onClick={returnOneLevel}>
           <AppIcon name="arrow-left" /> <span>Хьалха</span>
         </button>
-        <a className="brand" onClick={onBack}>KERLA <i>DOŞ</i></a>
+        <button type="button" className="brand" onClick={onBack}>KERLA <i>DOŞ</i></button>
         <span className="games-header-icon"><AppIcon name="puzzle" /></span>
       </header>
 
@@ -689,8 +694,8 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
             </div>
           )}
           {previewOpen && (
-            <div className="mosaic-preview-dialog" role="dialog" aria-modal="true" aria-label={puzzle.title} onClick={() => setPreviewOpen(false)}>
-              <div onClick={(event) => event.stopPropagation()}>
+            <Modal className="mosaic-preview-dialog" label={puzzle.title} onClose={() => setPreviewOpen(false)}>
+              <div>
                 <button className="mosaic-preview-close" onClick={() => setPreviewOpen(false)} aria-label="ДӀакъовла">
                   <AppIcon name="close" />
                 </button>
@@ -698,7 +703,7 @@ export default function GameCenter({ items, onBack, mosaicPieces, mosaicMode }: 
                 <strong>{puzzle.title}</strong>
                 <small>{3 - previewUses} йуха хьажа йиш йу</small>
               </div>
-            </div>
+            </Modal>
           )}
         </section>
       )}

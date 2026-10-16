@@ -1,6 +1,6 @@
 "use client";
-import { useEffect, useMemo, useRef, useState } from "react";
-import SettingsPanel, { defaultSettings, type Settings } from "./settings";
+import { useEffect, useRef, useState } from "react";
+import SettingsPanel, { type Settings } from "./settings";
 import ScriptText, { latinize } from "./script-text";
 import { getWordTranslation } from "./word-translations";
 import HomeExtras, { type LearningItem } from "./home-extras";
@@ -11,1111 +11,30 @@ import { favoriteFeedback } from "./favorite-feedback";
 import { createAudioPool } from "./audio-pool.mjs";
 import LessonActions from "./lesson-actions";
 import CategoryPattern from "./category-pattern";
-import { getWordClass } from "./word-classes";
 import { normalizeChechen, cardWord } from "./chechen-orthography.mjs";
-type Word = {
-  id: string;
-  chechen: string;
-  russian: string;
-  visual: string;
-  color?: string;
-  example?: string;
-  image?: string;
-  audioSrc?: string;
-  classMarker?: string;
-};
-type Category = {
-  id: string;
-  title: string;
-  russian: string;
-  icon: string;
-  accent: string;
-  words: Word[];
-};
-type LessonPosition = { categoryId: string; index: number };
-const categories: Category[] = [
-  {
-    id: "family",
-    title: "Доьзал а, адамаш а",
-    russian: "Семья и люди",
-    icon: "👨‍👩‍👧",
-    accent: "#f27d5f",
-    words: [
-      { id: "father", chechen: "Да", russian: "Отец", visual: "👨", classMarker: "ву" },
-      { id: "mother", chechen: "Нана", russian: "Мама", visual: "👩" },
-      { id: "brother", chechen: "Ваша", russian: "Брат", visual: "👦" },
-      { id: "sister", chechen: "Йиша", russian: "Сестра", visual: "👧" },
-      { id: "son", chechen: "КӀант", russian: "Сын", visual: "🧒" },
-      { id: "daughter", chechen: "ЙоӀ", russian: "Дочь", visual: "👧🏽" },
-      { id: "husband", chechen: "Мар", russian: "Муж", visual: "👨🏻" },
-      { id: "wife", chechen: "Зуда", russian: "Жена", visual: "👩🏻" },
-      {
-        id: "grandfather",
-        chechen: "Ден да",
-        russian: "Дедушка по отцу",
-        visual: "👴",
-      },
-      {
-        id: "grandmother",
-        chechen: "Ден нана",
-        russian: "Бабушка по отцу",
-        visual: "👵",
-      },
-      {
-        id: "maternal-grandfather",
-        chechen: "Ненада",
-        russian: "Дедушка по матери",
-        visual: "👴🏽",
-      },
-      {
-        id: "maternal-grandmother",
-        chechen: "Ненан нана",
-        russian: "Бабушка по матери",
-        visual: "👵🏽",
-      },
-      {
-        id: "uncle",
-        chechen: "Ден ваша",
-        russian: "Дядя по отцу",
-        visual: "🧔",
-      },
-      {
-        id: "aunt",
-        chechen: "Ден йиша",
-        russian: "Тётя по отцу",
-        visual: "👩🏽",
-      },
-    ],
-  },
-  {
-    id: "numbers",
-    title: "Терахьаш",
-    russian: "Числа",
-    icon: "123",
-    accent: "#7358ca",
-    words: [
-      { id: "zero", chechen: "Ноль", russian: "Ноль", visual: "0" },
-      { id: "one", chechen: "Цхьаъ", russian: "Один", visual: "1" },
-      { id: "two", chechen: "Шиъ", russian: "Два", visual: "2" },
-      { id: "three", chechen: "Кхоъ", russian: "Три", visual: "3" },
-      { id: "four", chechen: "Диъ", russian: "Четыре", visual: "4" },
-      { id: "five", chechen: "Пхиъ", russian: "Пять", visual: "5" },
-      { id: "six", chechen: "Йалх", russian: "Шесть", visual: "6" },
-      { id: "seven", chechen: "ВорхӀ", russian: "Семь", visual: "7" },
-      { id: "eight", chechen: "БархӀ", russian: "Восемь", visual: "8" },
-      { id: "nine", chechen: "Исс", russian: "Девять", visual: "9" },
-      { id: "ten", chechen: "Итт", russian: "Десять", visual: "10" },
-      {
-        id: "eleven",
-        chechen: "Цхьайтта",
-        russian: "Одиннадцать",
-        visual: "11",
-      },
-      { id: "twelve", chechen: "Шийтта", russian: "Двенадцать", visual: "12" },
-      {
-        id: "thirteen",
-        chechen: "Кхойтта",
-        russian: "Тринадцать",
-        visual: "13",
-      },
-      {
-        id: "fourteen",
-        chechen: "Дейтта",
-        russian: "Четырнадцать",
-        visual: "14",
-      },
-      {
-        id: "fifteen",
-        chechen: "Пхийтта",
-        russian: "Пятнадцать",
-        visual: "15",
-      },
-    ],
-  },
-  {
-    id: "colors",
-    title: "Босаш",
-    russian: "Цвета",
-    icon: "🎨",
-    accent: "#e6ad31",
-    words: [
-      {
-        id: "red",
-        chechen: "ЦӀен",
-        russian: "Красный",
-        visual: "",
-        color: "#f05f4f",
-      },
-      {
-        id: "blue",
-        chechen: "Сийна",
-        russian: "Синий",
-        visual: "",
-        color: "#4d82db",
-      },
-      {
-        id: "green",
-        chechen: "Баьццара",
-        russian: "Зелёный",
-        visual: "",
-        color: "#58a675",
-      },
-      {
-        id: "yellow",
-        chechen: "Можа",
-        russian: "Жёлтый",
-        visual: "",
-        color: "#f5c746",
-      },
-      {
-        id: "white",
-        chechen: "КӀайн",
-        russian: "Белый",
-        visual: "",
-        color: "#f7f3e9",
-      },
-      {
-        id: "black",
-        chechen: "Ӏаьржа",
-        russian: "Чёрный",
-        visual: "",
-        color: "#313532",
-      },
-      {
-        id: "gray",
-        chechen: "Чола",
-        russian: "Серый",
-        visual: "",
-        color: "#9ba1a0",
-      },
-      {
-        id: "brown",
-        chechen: "Боьмаша",
-        russian: "Коричневый",
-        visual: "",
-        color: "#96613d",
-      },
-      {
-        id: "pink",
-        chechen: "Сирла цӀен",
-        russian: "Розовый",
-        visual: "",
-        color: "#ef91b3",
-      },
-      {
-        id: "purple",
-        chechen: "ЦӀехо-сийна",
-        russian: "Фиолетовый",
-        visual: "",
-        color: "#8158a8",
-      },
-      {
-        id: "gold",
-        chechen: "Дашо бос",
-        russian: "Золотой",
-        visual: "",
-        color: "#dba928",
-      },
-      {
-        id: "light",
-        chechen: "Сирла",
-        russian: "Светлый",
-        visual: "",
-        color: "#f5e9b8",
-      },
-      {
-        id: "variegated",
-        chechen: "Къорза",
-        russian: "Пёстрый",
-        visual: "",
-        color: "conic-gradient(#f05f4f,#f5c746,#58a675,#4d82db,#f05f4f)",
-      },
-    ],
-  },
-  {
-    id: "animals",
-    title: "Дийнаташ",
-    russian: "Животные",
-    icon: "🐴",
-    accent: "#4d9d85",
-    words: [
-      { id: "cat", chechen: "Цициг", russian: "Кошка", visual: "🐈" },
-      { id: "dog", chechen: "ЖӀаьла", russian: "Собака", visual: "🐕" },
-      { id: "horse", chechen: "Говр", russian: "Лошадь", visual: "🐎" },
-      { id: "bear", chechen: "Ча", russian: "Медведь", visual: "🐻" },
-      { id: "wolf", chechen: "Борз", russian: "Волк", visual: "🐺" },
-      { id: "fox", chechen: "Цхьогал", russian: "Лиса", visual: "🦊" },
-      { id: "hedgehog", chechen: "Зу", russian: "Ёж", visual: "🦔" },
-      { id: "rabbit", chechen: "Пхьагал", russian: "Заяц", visual: "🐇" },
-      { id: "deer", chechen: "Сай", russian: "Олень", visual: "🦌" },
-      { id: "lion", chechen: "Лом", russian: "Лев", visual: "🦁" },
-      { id: "cow", chechen: "Йетт", russian: "Корова", visual: "🐄" },
-      { id: "sheep", chechen: "УьстагӀ", russian: "Овца", visual: "🐑" },
-      { id: "goat", chechen: "Газа", russian: "Коза", visual: "🐐" },
-      { id: "snake", chechen: "Лаьхьа", russian: "Змея", visual: "🐍" },
-      { id: "pig", chechen: "Хьакха", russian: "Свинья", visual: "🐖" },
-      { id: "donkey", chechen: "Вир", russian: "Осёл", visual: "🫏" },
-      { id: "bull", chechen: "Сту", russian: "Бык", visual: "🐂" },
-      { id: "calf", chechen: "Эса", russian: "Телёнок", visual: "🐮" },
-      { id: "tiger", chechen: "ЦӀоькъа-лом", russian: "Тигр", visual: "🐅" },
-      { id: "monkey", chechen: "Маймал", russian: "Обезьяна", visual: "🐒" },
-    ],
-  },
-  {
-    id: "body",
-    title: "ДегӀан меженаш",
-    russian: "Части тела",
-    icon: "🖐️",
-    accent: "#d86f8e",
-    words: [
-      { id: "head", chechen: "Корта", russian: "Голова", visual: "🙂" },
-      { id: "eye", chechen: "БӀаьрг", russian: "Глаз", visual: "👁️" },
-      { id: "ear", chechen: "Лерг", russian: "Ухо", visual: "👂" },
-      { id: "nose", chechen: "Мара", russian: "Нос", visual: "👃" },
-      { id: "mouth", chechen: "Бага", russian: "Рот", visual: "👄" },
-      { id: "tooth", chechen: "Церг", russian: "Зуб", visual: "🦷" },
-      { id: "tongue", chechen: "Мотт", russian: "Язык", visual: "👅" },
-      { id: "hand", chechen: "Куьг", russian: "Рука", visual: "✋" },
-      { id: "foot", chechen: "Ког", russian: "Нога", visual: "🦶" },
-      { id: "finger", chechen: "ПӀелг", russian: "Палец", visual: "☝️" },
-      { id: "hair", chechen: "Месаш", russian: "Волосы", visual: "💇" },
-      { id: "face", chechen: "Йуьхь", russian: "Лицо", visual: "😊" },
-      { id: "heart", chechen: "Дог", russian: "Сердце", visual: "❤️" },
-      { id: "belly", chechen: "Гай", russian: "Живот", visual: "🧍" },
-      { id: "back", chechen: "Букъ", russian: "Спина", visual: "🔙" },
-      { id: "blood", chechen: "ЦӀий", russian: "Кровь", visual: "🩸" },
-      { id: "bone", chechen: "ДаьӀахк", russian: "Кость", visual: "🦴" },
-      { id: "skin", chechen: "Чкъор", russian: "Кожа", visual: "🤚" },
-      { id: "nail", chechen: "МӀара", russian: "Ноготь", visual: "💅" },
-      { id: "body", chechen: "ДегӀ", russian: "Тело", visual: "🧍‍♂️" },
-    ],
-  },
-  {
-    id: "nature",
-    title: "Ӏалам",
-    russian: "Природа",
-    icon: "🌿",
-    accent: "#3f91a8",
-    words: [
-      { id: "sun", chechen: "Малх", russian: "Солнце", visual: "☀️" },
-      { id: "moon", chechen: "Бутт", russian: "Луна", visual: "🌙" },
-      { id: "star", chechen: "Седа", russian: "Звезда", visual: "⭐" },
-      { id: "sky", chechen: "Стигал", russian: "Небо", visual: "🌤️" },
-      { id: "water", chechen: "Хи", russian: "Вода", visual: "💧" },
-      { id: "mountain", chechen: "Лам", russian: "Гора", visual: "⛰️" },
-      { id: "tree", chechen: "Дитт", russian: "Дерево", visual: "🌳" },
-      { id: "flower", chechen: "Зезаг", russian: "Цветок", visual: "🌸" },
-      { id: "grass", chechen: "Буц", russian: "Трава", visual: "🌱" },
-      { id: "snow", chechen: "Ло", russian: "Снег", visual: "❄️" },
-      { id: "rain", chechen: "ДогӀа", russian: "Дождь", visual: "🌧️" },
-      { id: "wind", chechen: "Мох", russian: "Ветер", visual: "🌬️" },
-      { id: "fire", chechen: "ЦӀе", russian: "Огонь", visual: "🔥" },
-      { id: "stone", chechen: "ТӀулг", russian: "Камень", visual: "🪨" },
-      { id: "earth", chechen: "Латта", russian: "Земля", visual: "🌍" },
-      { id: "sea", chechen: "ХӀорд", russian: "Море", visual: "🌊" },
-      { id: "cloud", chechen: "Марха", russian: "Облако", visual: "☁️" },
-      { id: "forest", chechen: "Хьун", russian: "Лес", visual: "🌲" },
-      { id: "ice", chechen: "Ша", russian: "Лёд", visual: "🧊" },
-      { id: "road", chechen: "Некъ", russian: "Дорога", visual: "🛤️" },
-    ],
-  },
-];
-categories.push(
-  {
-    id: "fruit",
-    title: "Стомаш",
-    russian: "Фрукты",
-    icon: "🍎",
-    accent: "#e16c4d",
-    words: [
-      { id: "apple", chechen: "Ӏаж", russian: "Яблоко", visual: "🍎" },
-      { id: "pear", chechen: "Кхор", russian: "Груша", visual: "🍐" },
-      { id: "grapes", chechen: "Кемсаш", russian: "Виноград", visual: "🍇" },
-      { id: "apricot", chechen: "Шаптал", russian: "Абрикос", visual: "🍑" },
-      { id: "plum", chechen: "Хьач", russian: "Слива", visual: "🫐" },
-      { id: "mulberry", chechen: "Комар", russian: "Шелковица", visual: "🫐" },
-      { id: "watermelon", chechen: "Хорбаз", russian: "Арбуз", visual: "🍉" },
-      { id: "banana", chechen: "Банан", russian: "Банан", visual: "🍌" },
-      { id: "orange", chechen: "Апельсин", russian: "Апельсин", visual: "🍊" },
-      { id: "lemon", chechen: "Лимон", russian: "Лимон", visual: "🍋" },
-      { id: "peach", chechen: "ГӀаммагӀа", russian: "Персик", visual: "🍑" },
-      { id: "pomegranate", chechen: "Нар", russian: "Гранат", visual: "🔴" },
-      {
-        id: "strawberry",
-        chechen: "ЦӀазам",
-        russian: "Клубника",
-        visual: "🍓",
-      },
-      { id: "cherry", chechen: "Балл", russian: "Вишня", visual: "🍒" },
-    ],
-  },
-  {
-    id: "food",
-    title: "ЙаахӀума",
-    russian: "Еда",
-    icon: "🍞",
-    accent: "#bd7b3d",
-    words: [
-      { id: "bread", chechen: "Бепиг", russian: "Хлеб", visual: "🍞" },
-      { id: "milk", chechen: "Шура", russian: "Молоко", visual: "🥛" },
-      { id: "cheese", chechen: "Нехча", russian: "Сыр", visual: "🧀" },
-      { id: "meat", chechen: "Жижиг", russian: "Мясо", visual: "🥩" },
-      { id: "butter", chechen: "Налха", russian: "Сливочное масло", visual: "🧈" },
-      { id: "honey", chechen: "Моз", russian: "Мёд", visual: "🍯" },
-      { id: "salt", chechen: "Туьха", russian: "Соль", visual: "🧂" },
-      { id: "water-food", chechen: "Хи", russian: "Вода", visual: "💧" },
-      { id: "corn", chechen: "ХьаьжкӀа", russian: "Кукуруза", visual: "🌽" },
-      { id: "cucumber", chechen: "Наьрс", russian: "Огурец", visual: "🥒" },
-      { id: "potato", chechen: "Картолг", russian: "Картофель", visual: "🥔" },
-      { id: "tomato", chechen: "Бадарж", russian: "Помидор", visual: "🍅" },
-      { id: "rice", chechen: "Дуга", russian: "Рис", visual: "🍚" },
-      { id: "soup", chechen: "Чорпа", russian: "Суп", visual: "🥣" },
-    ],
-  },
-  {
-    id: "clothes",
-    title: "Духарш",
-    russian: "Одежда",
-    icon: "👕",
-    accent: "#6679c7",
-    words: [
-      { id: "shirt", chechen: "Коч", russian: "Рубашка", visual: "👕" },
-      { id: "trousers", chechen: "Хеча", russian: "Брюки", visual: "👖" },
-      { id: "hat", chechen: "Куй", russian: "Шапка", visual: "🧢" },
-      { id: "dress", chechen: "ГӀабали", russian: "Платье", visual: "👗" },
-      { id: "shoes", chechen: "Мача", russian: "Обувь", visual: "👟" },
-      { id: "socks", chechen: "Пазаташ", russian: "Носки", visual: "🧦" },
-      { id: "scarf", chechen: "Йовлакх", russian: "Платок", visual: "🧣" },
-      { id: "coat", chechen: "Пальто", russian: "Пальто", visual: "🧥" },
-      { id: "jacket", chechen: "Куьртиг", russian: "Куртка", visual: "🧥" },
-      // Owner temporarily excluded skirt; keep its assets and saved progress intact.
-      { id: "gloves", chechen: "Каранаш", russian: "Перчатки", visual: "🧤" },
-      { id: "boots", chechen: "Эткаш", russian: "Сапоги", visual: "🥾" },
-    ],
-  },
-  {
-    id: "school",
-    title: "Ишкола",
-    russian: "Школа",
-    icon: "🎒",
-    accent: "#3996a2",
-    words: [
-      { id: "book", chechen: "Жайна", russian: "Книга", visual: "📕" },
-      { id: "notebook", chechen: "Тептар", russian: "Тетрадь", visual: "📓" },
-      { id: "pencil", chechen: "Къолам", russian: "Карандаш", visual: "✏️" },
-      { id: "pen", chechen: "Йазолг", russian: "Ручка", visual: "🖊️" },
-      { id: "teacher", chechen: "Хьехархо", russian: "Учитель / учительница", visual: "🧑‍🏫" },
-      { id: "student", chechen: "Дешархо", russian: "Ученик / ученица", visual: "🧑‍🎓" },
-      {
-        id: "school-building",
-        chechen: "Ишкола",
-        russian: "Школа",
-        visual: "🏫",
-      },
-      { id: "class", chechen: "Класс", russian: "Класс", visual: "🚪" },
-      { id: "desk", chechen: "Парта", russian: "Парта", visual: "🪑" },
-      { id: "board", chechen: "Ишколан у", russian: "Доска", visual: "🟩" },
-      { id: "ruler", chechen: "Сизар", russian: "Линейка", visual: "📏" },
-      { id: "scissors", chechen: "Тукар", russian: "Ножницы", visual: "✂️" },
-      { id: "backpack", chechen: "БугӀул", russian: "Рюкзак", visual: "🎒" },
-      { id: "paint", chechen: "Басарш", russian: "Краски", visual: "🎨" },
-    ],
-  },
-);
-categories
-  .find((c) => c.id === "family")
-  ?.words.push(
-    { id: "child", chechen: "Бер", russian: "Ребёнок", visual: "👶" },
-    {
-      id: "daughter-in-law",
-      chechen: "Нус",
-      russian: "Невестка",
-      visual: "👰",
-    },
-    { id: "son-in-law", chechen: "Нуц", russian: "Зять", visual: "🤵" },
-    { id: "bride", chechen: "Нускал", russian: "Невеста", visual: "👰‍♀️" },
-    {
-      id: "cousin",
-      chechen: "Шича",
-      russian: "Двоюродный брат или сестра",
-      visual: "🧑",
-    },
-    { id: "ancestors", chechen: "Дай", russian: "Предки", visual: "👥" },
-  );
-categories
-  .find((c) => c.id === "numbers")
-  ?.words.push(
-    {
-      id: "sixteen",
-      chechen: "Йалхитта",
-      russian: "Шестнадцать",
-      visual: "16",
-    },
-    {
-      id: "seventeen",
-      chechen: "ВуьрхӀитта",
-      russian: "Семнадцать",
-      visual: "17",
-    },
-    {
-      id: "eighteen",
-      chechen: "БерхӀитта",
-      russian: "Восемнадцать",
-      visual: "18",
-    },
-    {
-      id: "nineteen",
-      chechen: "Ткъаесна",
-      russian: "Девятнадцать",
-      visual: "19",
-    },
-    { id: "twenty", chechen: "Ткъа", russian: "Двадцать", visual: "20" },
-    {
-      id: "twenty-one",
-      chechen: "Ткъе цхьаъ",
-      russian: "Двадцать один",
-      visual: "21",
-    },
-    {
-      id: "twenty-two",
-      chechen: "Ткъе шиъ",
-      russian: "Двадцать два",
-      visual: "22",
-    },
-    {
-      id: "twenty-three",
-      chechen: "Ткъе кхоъ",
-      russian: "Двадцать три",
-      visual: "23",
-    },
-    {
-      id: "twenty-four",
-      chechen: "Ткъе диъ",
-      russian: "Двадцать четыре",
-      visual: "24",
-    },
-    {
-      id: "twenty-five",
-      chechen: "Ткъе пхиъ",
-      russian: "Двадцать пять",
-      visual: "25",
-    },
-    {
-      id: "twenty-six",
-      chechen: "Ткъе йалх",
-      russian: "Двадцать шесть",
-      visual: "26",
-    },
-    {
-      id: "twenty-seven",
-      chechen: "Ткъе ворхӀ",
-      russian: "Двадцать семь",
-      visual: "27",
-    },
-    {
-      id: "twenty-eight",
-      chechen: "Ткъе бархӀ",
-      russian: "Двадцать восемь",
-      visual: "28",
-    },
-    {
-      id: "twenty-nine",
-      chechen: "Ткъе исс",
-      russian: "Двадцать девять",
-      visual: "29",
-    },
-    { id: "thirty", chechen: "Ткъе итт", russian: "Тридцать", visual: "30" },
-  );
-const numberCategory = categories.find((c) => c.id === "numbers");
-if (numberCategory) {
-  numberCategory.words = numberCategory.words.filter(
-    (w) => Number(w.visual) <= 30,
-  );
-  numberCategory.words.push(
-    { id: "forty", chechen: "Шовзткъа", russian: "Сорок", visual: "40" },
-    {
-      id: "fifty",
-      chechen: "Шовзткъе итт",
-      russian: "Пятьдесят",
-      visual: "50",
-    },
-    { id: "sixty", chechen: "Кхузткъа", russian: "Шестьдесят", visual: "60" },
-    {
-      id: "seventy",
-      chechen: "Кхузткъе итт",
-      russian: "Семьдесят",
-      visual: "70",
-    },
-    { id: "eighty", chechen: "Дезткъа", russian: "Восемьдесят", visual: "80" },
-    {
-      id: "ninety",
-      chechen: "Дезткъе итт",
-      russian: "Девяносто",
-      visual: "90",
-    },
-    { id: "hundred", chechen: "БӀе", russian: "Сто", visual: "100" },
-    { id: "thousand", chechen: "Эзар", russian: "Тысяча", visual: "1 000" },
-    {
-      id: "million",
-      chechen: "Миллион",
-      russian: "Миллион",
-      visual: "1 000 000",
-    },
-  );
-  numberCategory.words.forEach((w) => {
-    w.image = `/illustrations/numbers/number-${w.visual.replace(/\s/g, "")}.png`;
-  });
-}
-const fruitAndVegetables = categories.find((c) => c.id === "fruit");
-if (fruitAndVegetables) {
-  fruitAndVegetables.title = "Стоьмаш а, хастоьмаш";
-  fruitAndVegetables.russian = "Фрукты и овощи";
-  fruitAndVegetables.icon = "🍎";
-  fruitAndVegetables.words.push(
-    {
-      id: "corn-vegetable",
-      chechen: "ХьаьжкӀа",
-      russian: "Кукуруза",
-      visual: "🌽",
-    },
-    {
-      id: "cucumber-vegetable",
-      chechen: "Наьрс",
-      russian: "Огурец",
-      visual: "🥒",
-    },
-    {
-      id: "potato-vegetable",
-      chechen: "Картолг",
-      russian: "Картофель",
-      visual: "🥔",
-    },
-    {
-      id: "tomato-vegetable",
-      chechen: "Бадарж",
-      russian: "Помидор",
-      visual: "🍅",
-    },
-    { id: "pepper", chechen: "Бурч", russian: "Перец", visual: "🫑" },
-    { id: "onion", chechen: "Хох", russian: "Лук", visual: "🧅" },
-  );
-}
-const foodCategory = categories.find((c) => c.id === "food");
-if (foodCategory)
-  foodCategory.words = foodCategory.words.filter(
-    (w) => !["corn", "cucumber", "potato", "tomato"].includes(w.id),
-  );
-categories.push(
-  {
-    id: "home",
-    title: "ЦӀа",
-    russian: "Дом",
-    icon: "🏠",
-    accent: "#b36f55",
-    words: [
-      { id: "house", chechen: "ЦӀа", russian: "Дом", visual: "🏠" },
-      { id: "door", chechen: "НеӀ", russian: "Дверь", visual: "🚪" },
-      { id: "window", chechen: "Кор", russian: "Окно", visual: "🪟" },
-      { id: "roof", chechen: "Тхов", russian: "Крыша", visual: "🏡" },
-      { id: "wall", chechen: "Пен", russian: "Стена", visual: "🧱" },
-      { id: "room", chechen: "Чоь", russian: "Комната", visual: "🛋️" },
-      { id: "table", chechen: "Шун", russian: "Стол", visual: "🪑" },
-      { id: "chair", chechen: "ГӀант", russian: "Стул", visual: "🪑" },
-      { id: "bed", chechen: "Маьнга", russian: "Кровать", visual: "🛏️" },
-      { id: "closet", chechen: "Ишкап", russian: "Шкаф", visual: "🚪" },
-      { id: "lamp", chechen: "Стогар", russian: "Лампа", visual: "💡" },
-      {
-        id: "television",
-        chechen: "Телевизор",
-        russian: "Телевизор",
-        visual: "📺",
-      },
-      {
-        id: "fridge",
-        chechen: "Шаьлдар",
-        russian: "Холодильник",
-        visual: "🧊",
-      },
-      { id: "key", chechen: "ДогӀа", russian: "Ключ", visual: "🔑" },
-    ],
-  },
-  {
-    id: "transport",
-    title: "Транспорт",
-    russian: "Транспорт",
-    icon: "🚗",
-    accent: "#527db4",
-    words: [
-      { id: "car", chechen: "Машен", russian: "Машина", visual: "🚗" },
-      { id: "bus", chechen: "Автобус", russian: "Автобус", visual: "🚌" },
-      { id: "train", chechen: "ЦӀерпошт", russian: "Поезд", visual: "🚆" },
-      { id: "plane", chechen: "Кема", russian: "Самолёт", visual: "✈️" },
-      {
-        id: "bicycle",
-        chechen: "Вилиспет",
-        russian: "Велосипед",
-        visual: "🚲",
-      },
-      { id: "ship", chechen: "ХӀордкема", russian: "Корабль", visual: "🚢" },
-      { id: "ferry", chechen: "Бурам", russian: "Паром", visual: "⛴️" },
-      { id: "boat", chechen: "Мара", russian: "Лодка", visual: "🚣" },
-      {
-        id: "motorcycle",
-        chechen: "Мотоцикл",
-        russian: "Мотоцикл",
-        visual: "🏍️",
-      },
-      { id: "tractor", chechen: "Чатаз", russian: "Трактор", visual: "🚜" },
-      {
-        id: "helicopter",
-        chechen: "Вертолёт",
-        russian: "Вертолёт",
-        visual: "🚁",
-      },
-      { id: "tram", chechen: "Трамвай", russian: "Трамвай", visual: "🚋" },
-      {
-        id: "truck",
-        chechen: "Йоккха машен",
-        russian: "Грузовик",
-        visual: "🚚",
-      },
-      { id: "rocket", chechen: "Ракета", russian: "Ракета", visual: "🚀" },
-    ],
-  },
-  {
-    id: "time",
-    title: "Хан",
-    russian: "Время",
-    icon: "⏰",
-    accent: "#8b67b1",
-    words: [
-      { id: "morning", chechen: "Ӏуьйре", russian: "Утро", visual: "🌅" },
-      { id: "day", chechen: "Де", russian: "День", visual: "☀️" },
-      { id: "evening", chechen: "Суьйре", russian: "Вечер", visual: "🌇" },
-      { id: "night", chechen: "Буьйса", russian: "Ночь", visual: "🌙" },
-      { id: "today", chechen: "Тахана", russian: "Сегодня", visual: "📅" },
-      { id: "tomorrow", chechen: "Кхана", russian: "Завтра", visual: "➡️" },
-      { id: "yesterday", chechen: "Селхана", russian: "Вчера", visual: "⬅️" },
-      { id: "year", chechen: "Шо", russian: "Год", visual: "🗓️" },
-      { id: "month", chechen: "Бутт", russian: "Месяц", visual: "🌙" },
-      { id: "week", chechen: "КӀира", russian: "Неделя", visual: "📆" },
-      { id: "hour", chechen: "Сахьт", russian: "Час", visual: "🕐" },
-      { id: "minute", chechen: "Минот", russian: "Минута", visual: "⏱️" },
-      { id: "early", chechen: "Хьалха", russian: "Рано", visual: "🌄" },
-      { id: "late", chechen: "ТӀаьхьа", russian: "Поздно", visual: "🌃" },
-    ],
-  },
-);
-const alphabetExamples: [string, string, string, string][] = [
-  ["А а", "адам", "🧍", "человек"],
-  ["Аь аь", "аьрзу", "🦅", "орёл"],
-  ["Б б", "борз", "🐺", "волк"],
-  ["В в", "ваша", "👦", "брат"],
-  ["Г г", "говр", "🐎", "лошадь"],
-  ["ГӀ гӀ", "гӀала", "🏙️", "город"],
-  ["Д д", "да", "👨", "отец"],
-  ["Е е", "йетт", "🐄", "корова"],
-  ["Ж ж", "жижиг", "🥩", "мясо"],
-  ["З з", "зезаг", "🌸", "цветок"],
-  ["И и", "шун", "🪑", "стол"],
-  ["Й й", "йиша", "👧", "сестра"],
-  ["К к", "кор", "🪟", "окно"],
-  ["Кх кх", "кхор", "🍐", "груша"],
-  ["Къ къ", "къолам", "✏️", "карандаш"],
-  ["КӀ кӀ", "кӀант", "🧒", "сын"],
-  ["Л л", "лам", "⛰️", "гора"],
-  ["М м", "малх", "☀️", "солнце"],
-  ["Н н", "нана", "👩", "мама"],
-  ["О о", "олхазар", "🐦", "птица"],
-  ["Оь оь", "оьпа", "🐿️", "суслик"],
-  ["П п", "пен", "🧱", "стена"],
-  ["ПӀ пӀ", "пӀелг", "☝️", "палец"],
-  ["Р р", "руьйта", "💧", "водопой"],
-  ["С с", "седа", "⭐", "звезда"],
-  ["Т т", "тхов", "🏠", "крыша"],
-  ["ТӀ тӀ", "тӀулг", "🪨", "камень"],
-  ["У у", "урам", "🛣️", "улица"],
-  ["Уь уь", "уьстагӀ", "🐑", "овца"],
-  ["Х х", "хи", "💧", "вода"],
-  ["Хь хь", "хьач", "🫐", "слива"],
-  ["ХӀ хӀ", "хӀаваъ", "🌬️", "воздух; атмосфера"],
-  ["Ц ц", "цициг", "🐈", "кошка"],
-  ["ЦӀ цӀ", "цӀа", "🏠", "дом"],
-  ["Ч ч", "ча", "🐻", "медведь"],
-  ["ЧӀ чӀ", "чӀара", "🐟", "рыба"],
-  ["Ш ш", "шура", "🥛", "молоко"],
-  ["Ъ ъ", "шиъ", "2️⃣", "два"],
-  ["Ь ь", "туьйра", "📖", "сказка"],
-  ["Э э", "эса", "🐮", "телёнок"],
-  ["Йу йу", "йурт", "🏘️", "село"],
-  ["Йуь йуь", "йуьхь", "🙂", "лицо"],
-  ["Йа йа", "йаздархо", "✍️", "писатель"],
-  ["Ӏ ӏ", "Ӏаж", "🍎", "яблоко"],
-];
-const alphabetImages: Record<string, string> = {
-  адам: "/illustrations/alphabet/person.png",
-  аьрзу: "/illustrations/alphabet/eagle.png",
-  борз: "/illustrations/animals/wolf.png",
-  ваша: "/illustrations/family/brother.png",
-  говр: "/illustrations/animals/horse.png",
-  гӀала: "/illustrations/alphabet/city.png",
-  да: "/illustrations/family/father.png",
-  йетт: "/illustrations/animals/cow.png",
-  жижиг: "/illustrations/alphabet/meat.png",
-  зезаг: "/illustrations/alphabet/flower.png",
-  шун: "/illustrations/alphabet/table.png",
-  йиша: "/illustrations/family/sister.png",
-  кор: "/illustrations/alphabet/window.png",
-  кхор: "/illustrations/alphabet/pear.png",
-  къолам: "/illustrations/alphabet/pencil.png",
-  кӀант: "/illustrations/family/son.png",
-  лам: "/illustrations/alphabet/mountain.png",
-  малх: "/illustrations/alphabet/sun.png",
-  нана: "/illustrations/family/mother.png",
-  олхазар: "/illustrations/alphabet/bird.png",
-  оьпа: "/illustrations/alphabet/ground-squirrel.png",
-  пен: "/illustrations/alphabet/wall.png",
-  пӀелг: "/illustrations/alphabet/finger.png",
-  руьйта: "/illustrations/alphabet/watering-place.png",
-  седа: "/illustrations/alphabet/star.png",
-  тхов: "/illustrations/alphabet/roof.png",
-  тӀулг: "/illustrations/alphabet/stone.png",
-  урам: "/illustrations/alphabet/street.png",
-  уьстагӀ: "/illustrations/animals/sheep-clean.svg",
-  хи: "/illustrations/alphabet/water.png",
-  хьач: "/illustrations/alphabet/plums.png",
-  хӀаваъ: "/illustrations/alphabet/air.png",
-  цициг: "/illustrations/animals/cat.png",
-  цӀа: "/illustrations/alphabet/house.png",
-  ча: "/illustrations/animals/bear-clean.svg",
-  чӀара: "/illustrations/alphabet/fish.png",
-  шура: "/illustrations/alphabet/milk.png",
-  шиъ: "/illustrations/alphabet/two.png",
-  туьйра: "/illustrations/alphabet/fairytale.png",
-  эса: "/illustrations/animals/calf.png",
-  йурт: "/illustrations/alphabet/village.png",
-  йуьхь: "/illustrations/alphabet/face.png",
-  йаздархо: "/illustrations/alphabet/writer.png",
-  Ӏаж: "/illustrations/alphabet/apple.png",
-};
-categories.push({
-  id: "alphabet",
-  title: "Абат",
-  russian: "Чеченский алфавит",
-  icon: "Аь",
-  accent: "#ee795b",
-  words: alphabetExamples.map(([letter, example, visual, russian], i) => ({
-    id: `letter-${i + 1}`,
-    chechen: letter,
-    russian,
-    visual,
-    example,
-    image: [29, 35].includes(i + 1)
-      ? `/illustrations/alphabet/cards/letter-${i + 1}-clean.svg`
-      : `/illustrations/alphabet/cards/letter-${i + 1}.png?v=4`,
-  })),
-});
-const recordedAudioByWord = new Map<string, string>();
-// Normalize before matching recordings, building games or rendering any words.
-categories.forEach(category => {
-  category.title = normalizeChechen(category.title);
-  category.words.forEach(word => {
-    word.chechen = normalizeChechen(word.chechen);
-    if (word.example) word.example = normalizeChechen(word.example);
-  });
-});
-const recordedCategoryIds = new Set(["family", "colors", "animals"]);
-categories.forEach((category) => {
-  if (!recordedCategoryIds.has(category.id)) return;
-  category.words.forEach((word) => {
-    word.audioSrc = `/audio/${category.id}/${word.id}.wav`;
-    recordedAudioByWord.set(word.chechen.toLocaleLowerCase(), word.audioSrc);
-  });
-});
-categories.forEach((category) =>
-  category.words.forEach((word) => {
-    const spokenWord = category.id === "alphabet" ? word.example : word.chechen;
-    word.audioSrc ||= recordedAudioByWord.get(
-      (spokenWord || "").toLocaleLowerCase(),
-    );
-  }),
-);
-const categoryIcons: Record<string, string> = {
-  alphabet: "/icons/categories/alphabet.png",
-  numbers: "/icons/categories/numbers.png",
-  family: "/icons/categories/family.png",
-  colors: "/icons/categories/colors.png",
-  animals: "/icons/categories/animals.png",
-  body: "/icons/categories/body.png",
-  nature: "/icons/categories/nature.png",
-  fruit: "/icons/categories/fruit.png",
-  food: "/icons/categories/food-national-v2.png",
-  clothes: "/icons/categories/clothes.png",
-  school: "/icons/categories/school.png",
-  home: "/icons/categories/home.png",
-  transport: "/icons/categories/transport.png",
-  time: "/icons/categories/time.png",
-};
-categories.forEach((category) => {
-  category.icon = categoryIcons[category.id] || category.icon;
-  category.words.forEach(word => {
-    word.classMarker = ["numbers", "colors"].includes(category.id)
-      ? undefined : getWordClass(word.example || word.chechen);
-  });
-});
-const alphabetCategory = categories.find((c) => c.id === "alphabet")!;
-const freeCategoryIds = new Set([
-  "alphabet",
-  "numbers",
-  "family",
-  "colors",
-  "animals",
-]);
-const illustratedWords: Record<string, string> = {
-  'home:table': '/illustrations/home/table-v1.png',
-  'home:chair': '/illustrations/home/chair-v1.png',
-  'home:bed': '/illustrations/home/bed-v1.png',
-  'home:closet': '/illustrations/home/closet-v1.png',
-  'home:lamp': '/illustrations/home/lamp-v1.png',
-  'home:television': '/illustrations/home/television-v1.png',
-  'home:fridge': '/illustrations/home/fridge-v1.png',
-  'home:key': '/illustrations/home/key-v1.png',
-  'home:house': '/illustrations/home/house-v1.png',
-  'home:door': '/illustrations/home/door-v1.png',
-  'home:roof': '/illustrations/home/roof-v1.png',
-  'home:room': '/illustrations/home/room-v1.png',
-  'home:wall': '/illustrations/alphabet/wall.png',
-  'home:window': '/illustrations/alphabet/window.png',
-  'school:backpack': '/illustrations/school/backpack-v1.png',
-  'school:paint': '/illustrations/school/paint-v1.png',
-  'school:teacher': '/illustrations/school/teacher-pair-v2.png',
-  'school:student': '/illustrations/school/student-pair-v2.png',
-  'school:school-building': '/illustrations/school/school-building-v1.png',
-  'school:class': '/illustrations/school/class-v1.png',
-  'school:desk': '/illustrations/school/desk-v1.png',
-  'school:board': '/illustrations/school/board-v1.png',
-  'school:ruler': '/illustrations/school/ruler-v1.png',
-  'school:scissors': '/illustrations/school/scissors-v1.png',
-  "school:book": "/illustrations/school/book-v1.png",
-  "school:notebook": "/illustrations/school/notebook-v1.png",
-  "school:pencil": "/illustrations/school/pencil-v1.png",
-  "school:pen": "/illustrations/school/pen-v1.png",
-  "family:father": "/illustrations/family/father.png",
-  "family:mother": "/illustrations/family/mother.png",
-  "family:child": "/illustrations/family/child.png",
-  "family:brother": "/illustrations/family/brother.png",
-  "family:sister": "/illustrations/family/sister.png",
-  "family:son": "/illustrations/family/son.png",
-  "family:daughter": "/illustrations/family/daughter.png",
-  "family:husband": "/illustrations/family/husband.png",
-  "family:wife": "/illustrations/family/wife.png",
-  "family:grandfather": "/illustrations/family/grandfather.png",
-  "family:grandmother": "/illustrations/family/grandmother.png",
-  "family:maternal-grandfather":
-    "/illustrations/family/maternal-grandfather.png",
-  "family:maternal-grandmother":
-    "/illustrations/family/maternal-grandmother.png?v=2",
-  "family:uncle": "/illustrations/family/uncle.png",
-  "family:aunt": "/illustrations/family/aunt.png",
-  "family:daughter-in-law": "/illustrations/family/daughter-in-law.png",
-  "family:son-in-law": "/illustrations/family/son-in-law.png",
-  "family:bride": "/illustrations/family/bride.png",
-  "family:cousin": "/illustrations/family/cousins.png",
-  "family:ancestors": "/illustrations/family/ancestors-v2.png",
-  "colors:red": "/illustrations/colors/red.png",
-  "colors:blue": "/illustrations/colors/blue.png",
-  "colors:green": "/illustrations/colors/green.png",
-  "colors:yellow": "/illustrations/colors/yellow.png",
-  "colors:white": "/illustrations/colors/white.png",
-  "colors:black": "/illustrations/colors/black.png",
-  "colors:gray": "/illustrations/colors/gray.png",
-  "colors:brown": "/illustrations/colors/brown.png",
-  "colors:pink": "/illustrations/colors/pink.png",
-  "colors:purple": "/illustrations/colors/purple.png",
-  "colors:gold": "/illustrations/colors/gold.png",
-  "colors:light": "/illustrations/colors/light.png",
-  "colors:variegated": "/illustrations/colors/variegated.png",
-  "animals:cat": "/illustrations/animals/cat.png",
-  "animals:dog": "/illustrations/animals/dog.png",
-  "animals:horse": "/illustrations/animals/horse.png",
-  "animals:bear": "/illustrations/animals/bear-clean.svg",
-  "animals:wolf": "/illustrations/animals/wolf.png",
-  "animals:fox": "/illustrations/animals/fox.png",
-  "animals:hedgehog": "/illustrations/animals/hedgehog.png",
-  "animals:rabbit": "/illustrations/animals/rabbit.png",
-  "animals:deer": "/illustrations/animals/deer.png",
-  "animals:lion": "/illustrations/animals/lion.png",
-  "animals:cow": "/illustrations/animals/cow.png",
-  "animals:sheep": "/illustrations/animals/sheep-clean.svg",
-  "animals:goat": "/illustrations/animals/goat.png",
-  "animals:snake": "/illustrations/animals/snake.png",
-  "animals:pig": "/illustrations/animals/pig.png",
-  "animals:donkey": "/illustrations/animals/donkey.png",
-  "animals:bull": "/illustrations/animals/bull.png",
-  "animals:calf": "/illustrations/animals/calf.png",
-  "animals:tiger": "/illustrations/animals/tiger.png",
-  "animals:monkey": "/illustrations/animals/monkey.png",
-  "body:head": "/illustrations/body/head.png",
-  "body:eye": "/illustrations/body/eye.png",
-  "body:ear": "/illustrations/body/ear.png",
-  "body:nose": "/illustrations/body/nose.png",
-  "body:mouth": "/illustrations/body/mouth.png",
-  "body:tooth": "/illustrations/body/tooth.png",
-  "body:tongue": "/illustrations/body/tongue.png",
-  "body:hand": "/illustrations/body/hand.png",
-  "body:foot": "/illustrations/body/foot.png",
-  "body:finger": "/illustrations/alphabet/finger.png",
-  "body:hair": "/illustrations/body/hair.png",
-  "body:face": "/illustrations/alphabet/face.png",
-  "body:heart": "/illustrations/body/heart.png",
-  "body:belly": "/illustrations/body/belly.png",
-  "body:back": "/illustrations/body/back.png",
-  "body:blood": "/illustrations/body/blood.png",
-  "body:bone": "/illustrations/body/bone.png",
-  "body:skin": "/illustrations/body/skin.png",
-  "body:nail": "/illustrations/body/nail.png",
-  "body:body": "/illustrations/body/body-full.png",
-  "nature:sun": "/illustrations/nature/sun.png",
-  "nature:moon": "/illustrations/nature/moon.png",
-  "nature:star": "/illustrations/nature/star.png",
-  "nature:sky": "/illustrations/nature/sky.png",
-  "nature:water": "/illustrations/nature/water.png",
-  "nature:mountain": "/illustrations/nature/mountain.png",
-  "nature:tree": "/illustrations/nature/tree.png",
-  "nature:flower": "/illustrations/nature/flower.png",
-  "nature:grass": "/illustrations/nature/grass.png",
-  "nature:snow": "/illustrations/nature/snow.png",
-  "nature:rain": "/illustrations/nature/rain.png",
-  "nature:wind": "/illustrations/nature/wind.png",
-  "nature:fire": "/illustrations/nature/fire.png",
-  "nature:stone": "/illustrations/nature/stone.png",
-  "nature:earth": "/illustrations/nature/earth.png",
-  "nature:sea": "/illustrations/nature/sea.png",
-  "nature:cloud": "/illustrations/nature/cloud.png",
-  "nature:forest": "/illustrations/nature/forest.png",
-  "nature:ice": "/illustrations/nature/ice.png",
-  "nature:road": "/illustrations/nature/road.png",
-  "fruit:apple": "/illustrations/alphabet/apple.png",
-  "fruit:pear": "/illustrations/alphabet/pear.png",
-  "fruit:grapes": "/illustrations/fruit/grapes.png",
-  "fruit:apricot": "/illustrations/fruit/apricot.png",
-  "fruit:plum": "/illustrations/alphabet/plums.png",
-  "fruit:mulberry": "/illustrations/fruit/mulberry.png",
-  "fruit:watermelon": "/illustrations/fruit/watermelon.png",
-  "fruit:banana": "/illustrations/fruit/banana.png",
-  "fruit:orange": "/illustrations/fruit/orange.png",
-  "fruit:lemon": "/illustrations/fruit/lemon.png",
-  "fruit:peach": "/illustrations/fruit/peach.png",
-  "fruit:pomegranate": "/illustrations/fruit/pomegranate.png",
-  "fruit:strawberry": "/illustrations/fruit/strawberry.png",
-  "fruit:cherry": "/illustrations/fruit/cherry.png",
-  "fruit:corn-vegetable": "/illustrations/fruit/corn-vegetable.png",
-  "fruit:cucumber-vegetable": "/illustrations/fruit/cucumber-vegetable.png",
-  "fruit:potato-vegetable": "/illustrations/fruit/potato-vegetable.png",
-  "fruit:tomato-vegetable": "/illustrations/fruit/tomato-vegetable.png",
-  "fruit:pepper": "/illustrations/fruit/pepper.png",
-  "fruit:onion": "/illustrations/fruit/onion.png",
-  "food:bread": "/illustrations/food/bread-v1.png",
-  "food:milk": "/illustrations/food/milk-v1.png",
-  "food:cheese": "/illustrations/food/cheese-v1.png",
-  "food:meat": "/illustrations/food/meat-v1.png",
-  "food:butter": "/illustrations/food/butter-v1.png",
-  "food:honey": "/illustrations/food/honey-v1.png",
-  "food:salt": "/illustrations/food/salt-v1.png",
-  "food:water-food": "/illustrations/food/water-food-v1.png",
-  "food:rice": "/illustrations/food/rice-v1.png",
-  "food:soup": "/illustrations/food/soup-v1.png",
-};
-categories.forEach((category) =>
-  category.words.forEach((word) => {
-    word.image = illustratedWords[`${category.id}:${word.id}`] || word.image;
-  }),
-);
-function LockedWords({ words }: { words: Word[] }) {
-  return (
-    <div className="locked-word-grid">
-      {words.map((w) => (
-        <div key={w.id}>
-          <span>
-            {w.color ? (
-              <i style={{ background: w.color }} />
-            ) : (
-              <b>{w.visual}</b>
-            )}
-          </span>
-          <em>
-            <AppIcon name="lock" />
-          </em>
-        </div>
-      ))}
-    </div>
-  );
-}
-function AlphabetWord({ word, letter }: { word: string; letter: string }) {
-  const at = word.toLocaleLowerCase().indexOf(letter.toLocaleLowerCase());
-  if (at <= 0) return <>{word}</>;
-  return (
-    <>
-      {word.slice(0, at)}
-      <mark className="letter-in-word">
-        {word.slice(at, at + letter.length)}
-      </mark>
-      {word.slice(at + letter.length)}
-    </>
-  );
-}
-function NumberIllustration({ value }: { value: string }) {
-  const plain = value.replace(/\s/g, "");
-  const n = Number(plain);
-  const hue =
-    n <= 10
-      ? n * 33
-      : n < 30
-        ? 135
-        : n === 30
-          ? 175
-          : n <= 90
-            ? 175 + (n - 30) * 2
-            : n === 100
-              ? 310
-              : n === 1000
-                ? 80
-                : 245;
-  return (
-    <div
-      className={`number-illustration ${plain.length > 3 ? "very-long-number" : plain.length > 2 ? "long-number" : ""}`}
-      style={{ "--number-hue": `${hue}deg` } as React.CSSProperties}
-    >
-      {[...plain].map((digit, i) => (
-        <img
-          key={`${digit}-${i}`}
-          src={`/illustrations/numbers/${digit}.png`}
-          alt=""
-          draggable={false}
-        />
-      ))}
-    </div>
-  );
-}
+import type { Word, Category } from "./types";
+import { categories, alphabetCategory, categoryIcons, freeCategoryIds } from "./data/vocabulary";
+import Modal from "./components/modal";
+import AlphabetWord from "./components/alphabet-word";
+import { useLearningProgress } from "./hooks/use-learning-progress";
+import { quizOptions } from "./lib/quiz-options.mjs";
+
 export default function Home() {
+  const { progress, update } = useLearningProgress();
+  const { stars, premium, settings, favorites, lastLesson, learnedWords } = progress;
   const [active, setActive] = useState<Category | null>(null),
     [mode, setMode] = useState<"learn" | "game">("learn"),
+    [alphabetOverview, setAlphabetOverview] = useState(false),
     [index, setIndex] = useState(0),
-    [stars, setStars] = useState(0),
     [round, setRound] = useState(0),
     [answer, setAnswer] = useState<"idle" | "right" | "wrong">("idle"),
     [selected, setSelected] = useState<Word | null>(null),
-    [premium, setPremium] = useState(false),
     [paywall, setPaywall] = useState(false),
     [muted, setMuted] = useState(false),
     [settingsOpen, setSettingsOpen] = useState(false),
-    [settings, setSettings] = useState<Settings>(defaultSettings),
     [homeView, setHomeView] = useState<
       "categories" | "random" | "favorites" | "stories" | "games" | null
     >(null),
-    [favorites, setFavorites] = useState<string[]>([]),
-    [lastLesson, setLastLesson] = useState<LessonPosition | null>(null),
-    [learnedWords, setLearnedWords] = useState<string[]>([]),
     [cardMotion, setCardMotion] = useState<
       "idle" | "out-left" | "out-right" | "in-left" | "in-right"
     >("idle"),
@@ -1138,40 +57,9 @@ export default function Home() {
   const audioRequest = useRef(0);
   const skipNextAutoSpeak = useRef(false);
   useEffect(() => {
-    const s = localStorage.getItem("kerla-stars");
-    if (s) setStars(Number(s));
-    setPremium(localStorage.getItem("kerla-premium-v2") === "yes");
-    const saved = localStorage.getItem("kerla-settings");
-    if (saved)
-      try {
-        const next = { ...defaultSettings, ...JSON.parse(saved) };
-        next.script = "cyrillic";
-        if (!localStorage.getItem("kerla-autospeak-v2")) next.autoSpeak = true;
-        setSettings(next);
-      } catch {}
-    if (!localStorage.getItem("kerla-autospeak-v2"))
-      localStorage.setItem("kerla-autospeak-v2", "yes");
-    const fav = localStorage.getItem("kerla-favorites");
-    if (fav)
-      try {
-        setFavorites(JSON.parse(fav));
-      } catch {}
-    const savedLesson = localStorage.getItem("kerla-last-lesson");
-    if (savedLesson)
-      try {
-        setLastLesson(JSON.parse(savedLesson));
-      } catch {}
-    const learned = localStorage.getItem("kerla-learned-words");
-    if (learned)
-      try {
-        setLearnedWords(JSON.parse(learned));
-      } catch {}
-  }, []);
-  useEffect(() => {
     document.body.classList.toggle("premium-open", premium);
     document.body.classList.toggle("large-text", settings.largeText);
     document.body.classList.toggle("reduce-motion", settings.reduceMotion);
-    localStorage.setItem("kerla-settings", JSON.stringify(settings));
   }, [premium, settings]);
   useEffect(() => {
     const resetScroll = () => {
@@ -1190,20 +78,10 @@ export default function Home() {
   const available =
     active && (premium || freeCategoryIds.has(active.id)) ? active.words : [];
   const target = available[round % (available.length || 1)];
-  const options = useMemo(() => {
-    if (!active || !target) return [];
-    return [
-      target,
-      ...available
-        .filter((w) => w.id !== target.id)
-        .sort(() => 0.5 - Math.random())
-        .slice(0, settings.difficulty - 1),
-    ].sort(() => 0.5 - Math.random());
-  }, [active, target?.id, round, premium, settings.difficulty]);
+  const options = quizOptions(available, target?.id, settings.difficulty, round);
   const tx = (s: string) => normalizeChechen(s);
   function saveSettings(v: Settings) {
-    setSettings(v);
-    localStorage.setItem("kerla-settings", JSON.stringify(v));
+    update("settings", v);
   }
   function stopAudio() {
     audioRequest.current += 1;
@@ -1257,6 +135,8 @@ export default function Home() {
     );
   }
   function open(cat: Category, resumeAt?: number) {
+    stopAudio();
+    setAlphabetOverview(false);
     const startIndex =
       resumeAt !== undefined
         ? Math.min(Math.max(resumeAt, 0), cat.words.length - 1)
@@ -1282,9 +162,11 @@ export default function Home() {
       cat.words[startIndex]
     ) {
       skipNextAutoSpeak.current = true;
-      cat.id === "alphabet"
-        ? speakAlphabetPart(cat.words[startIndex], "letter")
-        : speak(cat.words[startIndex], cat);
+      if (cat.id === "alphabet") {
+        speakAlphabetPart(cat.words[startIndex], "letter");
+      } else {
+        speak(cat.words[startIndex], cat);
+      }
     }
   }
   function clearCardTimers() {
@@ -1313,9 +195,11 @@ export default function Home() {
     motionLocked.current = false;
     if (settings.autoSpeak) {
       const nextWord = active.words[indexRef.current];
-      active.id === "alphabet"
-        ? speakAlphabetPart(nextWord, "letter")
-        : speak(nextWord);
+      if (active.id === "alphabet") {
+        speakAlphabetPart(nextWord, "letter");
+      } else {
+        speak(nextWord);
+      }
     }
   }
   function finishCardExit() {
@@ -1379,7 +263,9 @@ export default function Home() {
       osc.start();
       gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.22);
       osc.stop(ctx.currentTime + 0.23);
-    } catch {}
+    } catch {
+      // Audio feedback is optional on browsers without AudioContext support.
+    }
   }
   function check() {
     if (!selected || !target) return;
@@ -1389,16 +275,14 @@ export default function Home() {
       speak(target);
       if (active && active.id !== "alphabet" && active.id !== "numbers") {
         const key = `${active.id}:${target.id}`;
-        setLearnedWords((current) => {
+        update("learnedWords", (current) => {
           if (current.includes(key)) return current;
           const next = [...current, key];
-          localStorage.setItem("kerla-learned-words", JSON.stringify(next));
           return next;
         });
       }
       const n = stars + 1;
-      setStars(n);
-      localStorage.setItem("kerla-stars", String(n));
+      update("stars", n);
     } else {
       setAnswer("wrong");
       gameTone(false);
@@ -1410,8 +294,7 @@ export default function Home() {
     setAnswer("idle");
   }
   function unlock() {
-    localStorage.setItem("kerla-premium-v2", "yes");
-    setPremium(true);
+    update("premium", true);
     setPaywall(false);
   }
   useEffect(() => {
@@ -1421,9 +304,11 @@ export default function Home() {
     }
     if (settings.autoSpeak && active && !motionLocked.current) {
       const word = active.words[index];
-      active.id === "alphabet"
-        ? speakAlphabetPart(word, "letter")
-        : speak(word);
+      if (active.id === "alphabet") {
+        speakAlphabetPart(word, "letter");
+      } else {
+        speak(word);
+      }
     }
   }, [active?.id, index, settings.autoSpeak]);
   useEffect(() => {
@@ -1440,18 +325,17 @@ export default function Home() {
   useEffect(() => {
     if (!active) return;
     const position = { categoryId: active.id, index };
-    setLastLesson(position);
-    localStorage.setItem("kerla-last-lesson", JSON.stringify(position));
-  }, [active?.id, index]);
+    update("lastLesson", position);
+  }, [active, index, update]);
   useEffect(() => {
     function handleCardKeys(event: KeyboardEvent) {
-      if (!active || mode !== "learn") return;
+      if (!active || mode !== "learn" || alphabetOverview) return;
       if (event.key === "ArrowLeft") moveCard(-1);
       if (event.key === "ArrowRight") moveCard(1);
     }
     window.addEventListener("keydown", handleCardKeys);
     return () => window.removeEventListener("keydown", handleCardKeys);
-  }, [active?.id, mode]);
+  }, [active?.id, mode, alphabetOverview]);
   useEffect(
     () => () => {
       stopAudio();
@@ -1482,11 +366,10 @@ export default function Home() {
   const learningItems = availableItems.filter(item => item.categoryId !== "alphabet" && item.categoryId !== "numbers");
   const visibleFavorites = availableItems.filter(item => favorites.includes(item.key)).map(item => item.key);
   function toggleFavorite(key: string) {
-    setFavorites((current) => {
+    update("favorites", (current) => {
       const next = current.includes(key)
         ? current.filter((x) => x !== key)
         : [...current, key];
-      localStorage.setItem("kerla-favorites", JSON.stringify(next));
       return next;
     });
   }
@@ -1503,14 +386,14 @@ export default function Home() {
         <main className="category-library category-library-theme">
           <header>
             <button
-              className="back icon-label"
+              className="back icon-label" aria-label="Хьалха"
               onClick={() => setHomeView(null)}
             >
               <AppIcon name="arrow-left" /> <span>Коьртачу агӀор</span>
             </button>
-            <a className="brand" onClick={() => setHomeView(null)}>
+            <button type="button" className="brand" onClick={() => setHomeView(null)}>
               KERLA <i>DOŞ</i>
-            </a>
+            </button>
             <div className="stars icon-label">
               {stars} <AppIcon name="star" />
             </div>
@@ -1577,12 +460,12 @@ export default function Home() {
         <main className={`app-shell category-gate learning-shell category-theme-${active.id}`}>
           <CategoryPattern icon={categoryIcons[active.id]} />
           <header>
-            <button className="back icon-label" onClick={() => closeLesson(true)}>
+            <button className="back icon-label" aria-label="Хьалха" onClick={() => closeLesson(true)}>
               <AppIcon name="arrow-left" /> <span>Дешнийн тобанаш</span>
             </button>
-            <a className="brand" onClick={() => closeLesson(false)}>
+            <button type="button" className="brand" onClick={() => closeLesson(false)}>
               KERLA <i>DOŞ</i>
-            </a>
+            </button>
             <div className="stars icon-label">
               {stars} <AppIcon name="star" />
             </div>
@@ -1619,7 +502,7 @@ export default function Home() {
           <CategoryPattern icon={categoryIcons[active.id]} />
           <header>
             <button
-              className="back icon-label"
+              className="back icon-label" aria-label="Хьалха"
               onClick={() =>
                 closeLesson(active.id !== "alphabet" && active.id !== "numbers")
               }
@@ -1631,9 +514,9 @@ export default function Home() {
                   : "Коьртачу агӀор"}
               </span>
             </button>
-            <a className="brand" onClick={() => closeLesson(false)}>
+            <button type="button" className="brand" onClick={() => closeLesson(false)}>
               KERLA <i>DOŞ</i>
-            </a>
+            </button>
             <button
               className="sound"
               onClick={() => {
@@ -1683,11 +566,27 @@ export default function Home() {
               </span>
             </button>
           </nav>
-          {mode === "learn" ? (
-            <section className="learn-area">
+          {active.id === "alphabet" && mode === "learn" && (
+            <div className="alphabet-overview-controls">
+              <button type="button" aria-label="Абат" aria-expanded={alphabetOverview} aria-controls="alphabet-content" onClick={() => { stopAudio(); clearCardTimers(); motionLocked.current = false; motionPhase.current = "idle"; setCardMotion("idle"); setCardDrag(0); setAlphabetOverview(!alphabetOverview); }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>
+                Абат
+              </button>
+            </div>
+          )}
+          {mode === "learn" && active.id === "alphabet" && alphabetOverview ? (
+            <section id="alphabet-content" className="alphabet-overview" aria-label="Абат">
+              {active.words.map((word, letterIndex) => {
+                const forms = tx(word.chechen).split(" ");
+                return <button type="button" key={word.id} aria-label={word.chechen} aria-current={letterIndex === index ? "true" : undefined} onClick={() => { open(active, letterIndex); window.scrollTo({ top: 0, behavior: "instant" }); }}><strong>{forms[0]}</strong><span>{forms[1] || forms[0].toLowerCase()}</span></button>;
+              })}
+            </section>
+          ) : mode === "learn" ? (
+            <section id="alphabet-content" className="learn-area">
               <div
                 className={`card-stage ${active.id === "alphabet" ? "alphabet-stage" : ""}`}
               >
+                {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- The nested sound button provides the same action by keyboard. */}
                 <div
                   key={`${active.id}:${current.id}:${cardMotion.startsWith("in-") ? "incoming" : "current"}`}
                   className={`big-card ${active.id === "alphabet" ? "alphabet-card" : ""} card-motion-${cardMotion}${cardDragging ? " card-dragging" : ""}`}
@@ -1763,9 +662,11 @@ export default function Home() {
                     }
                     if (motionLocked.current) return;
                     audioTapFeedback(event.currentTarget);
-                    active.id === "alphabet"
-                      ? speakAlphabetPart(current, "letter")
-                      : speak(current);
+                    if (active.id === "alphabet") {
+                      speakAlphabetPart(current, "letter");
+                    } else {
+                      speak(current);
+                    }
                   }}
                 >
                   <button className="play" aria-label="Хаза">
@@ -1880,7 +781,7 @@ export default function Home() {
               </div>
               <div className="answer-grid picture-only">
                 {options.map((w) => (
-                  <button
+                  <button aria-label={tx(w.chechen)}
                     key={w.id}
                     onClick={() => choose(w)}
                     className={
@@ -1949,10 +850,9 @@ export default function Home() {
             </section>
           )}
           {paywall && (
-            <div className="paywall" onClick={() => setPaywall(false)}>
+            <Modal className="paywall" label="Массо категореш дӀайоьлла" onClose={() => setPaywall(false)}>
               <div
                 className="paywall-card"
-                onClick={(e) => e.stopPropagation()}
               >
                 <button
                   className="close-paywall"
@@ -1975,7 +875,7 @@ export default function Home() {
                   Приложени дӀаэца
                 </button>
               </div>
-            </div>
+            </Modal>
           )}
         </main>
       </ScriptText>
@@ -1985,9 +885,9 @@ export default function Home() {
     <ScriptText latin={false}>
       <main className="home-shell">
         <header>
-          <a className="brand">
+          <span className="brand">
             KERLA <i>DOŞ</i>
-          </a>
+          </span>
           <span className="header-actions">
             <button
               className="sound"
@@ -2085,7 +985,7 @@ export default function Home() {
             </span>
             <span className="feature-copy">
               <strong>Абат Ӏамо</strong>
-              <em>45 элп · хаза · масал</em>
+              <em>{alphabetCategory.words.length} элп · хаза · масал</em>
             </span>
           </button>
           <button
@@ -2106,9 +1006,8 @@ export default function Home() {
             onClick={() => setHomeView("categories")}
           >
             <span className="category-preview" aria-hidden="true">
-              <img src={categoryIcons.family} alt="" draggable={false} />
-              <img src={categoryIcons.colors} alt="" draggable={false} />
-              <img src={categoryIcons.animals} alt="" draggable={false} />
+              <img src={categoryIcons.school} alt="" draggable={false} />
+              <img src={categoryIcons.clothes} alt="" draggable={false} />
             </span>
             <span className="feature-copy">
               <strong>Дешнийн тобанаш</strong>
@@ -2177,6 +1076,7 @@ export default function Home() {
         <footer>
           <span>KERLA DOŞ</span>
           <p>Даймехкан мотт — берашна</p>
+          <small className="footer-credits">© 2026 daxt agency · v1.0</small>
         </footer>
         {settingsOpen && (
           <SettingsPanel
@@ -2185,17 +1085,14 @@ export default function Home() {
             stars={stars}
             premium={premium}
             onPreviewFree={() => {
-              localStorage.removeItem("kerla-premium-v2");
-              setPremium(false);
+              update("premium", false);
               setSettingsOpen(false);
             }}
             onClose={() => setSettingsOpen(false)}
             onReset={() => {
               if (confirm("Кхиам дӀабаккха?")) {
-                setStars(0);
-                setLearnedWords([]);
-                localStorage.removeItem("kerla-stars");
-                localStorage.removeItem("kerla-learned-words");
+                update("stars", 0);
+                update("learnedWords", []);
               }
             }}
           />

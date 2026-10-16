@@ -1,0 +1,6 @@
+{
+  "tool": "builtin image_gen",
+  "input": "public/stories/salih/cover-clean-v1.png",
+  "output": "public/stories/salih/cover-clean-v2.png",
+  "prompt": "Use case: precise-object-edit. Edit target: supplied Salih children's book cover. Change ONLY the upper pale sandstone title area: widen it horizontally so the entire rectangle x=7%..93%, y=22%..38% is uninterrupted LIGHT PALE SANDSTONE, smoothly integrated with the existing carved rock. Push dark terracotta edges and left foliage outside this title rectangle; retain irregular organic rock perimeter elsewhere. This is natural stone, no painted wash, no label panel, no text. Preserve the lower camel, water, rock dwellings, all framing and rich textured sculpted-paper illustration style exactly. Keep portrait2:3. No letters or typography. No human figures. Camel must keep its ears, muzzle and anatomy and have no drawn eyes/eyelids. Do not enlarge or crop the whole image: only broaden the naturally light upper stone surface, especially the left boundary behind future first letter. No other changes."
+}

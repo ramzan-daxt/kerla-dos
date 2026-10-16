@@ -1,5 +1,11 @@
 # Vocabulary corrections — Matsiev
 
+## Owner confirmation, 2026-09-18
+
+Вертолёт = пиллиг кема. Бурам, мара, йазолг и ишколан у подтверждены
+владельцем. Это не новая словарная сверка и не подтверждение аудиозаписей.
+Новые классы в этом сообщении не указаны.
+
 ## Latest owner overrides, 2026-09-07 (supersede earlier entries below)
 
 бадар → бадарж; куртиг → куьртиг; йупка retained under owner orthography.
@@ -74,6 +80,18 @@ Not automatically changed: historical/modern usage differences (жайна, те
 
 Audio: no recorded files exist for these 22 corrected live entries, and none receives a recording from another word. Browser speech fallback is still ru-RU and is not validated Chechen pronunciation. New verified recordings remain necessary; changing a card label does not validate its spoken output.
 # Классы слов
+
+## Лексика рассказа о Салихе — 2026-09-09
+
+Проверено по указанному выше электронному словарю Мациева (страницы PDF, начиная с 1):
+
+| Статья | Смысл | Страница PDF |
+| --- | --- | --- |
+| эмкал | верблюд; класс й | 511 |
+| стен эмкал (в статье стен²) | верблюдица | 369 |
+| билгало | признак, примета; также отметка | 61 |
+
+«Билгало» в религиозном контексте «знамение» оставлено как редакционный выбор для проверки владельцем, а не как заверенный словарём богословский перевод. Эти слова используются только в рассказе; новые словарные карточки и записи озвучки не добавлены. Проверка трёх статей не означает языковую проверку всего рассказа.
 
 Оформление и сверка классов карточек: [полный список и сомнения](word-classes.md).
 Страницы словарных статей: `app/word-classes.ts`. Не определять класс по русскому роду.

@@ -1,0 +1,8 @@
+{
+  "inputPath": "/Users/ramzan/Documents/Codex/2026-08-25/new-chat/kerla-dos/public/stories/adam/cover-v2.png",
+  "path": "/Users/ramzan/.codex/generated_images/01a083dc-ebec-7fa0-a1ef-c2a27d496708/exec-c1350164-6893-4622-8cf9-bd21ce4dc5a9.png",
+  "prompt": "Use case: precise-object-edit. Input image is the edit target. Remove ALL baked-in dark green lettering from this illustrated cover: every character, word and line, including the large title and all smaller subtitle lines. Replace only the letter-shaped regions with seamless continuous blue sky and soft watercolor clouds matching the immediately surrounding sky. The final image must contain NO text, letters, numbers, typographic marks, logos or watermarks anywhere. Do not add a wash, panel, patch, gradient overlay, banner or visible erased region. Preserve the exact existing portrait composition and framing, surrounding green leafy branches, blue river, rocks, flowers, grasses, distant hills and mountains, clouds, original colors, watercolor/gouache texture and lighting. Keep all non-lettering content unchanged. Pure landscape illustration only, no added objects or figures. Portrait 2:3 PNG 1024x1536.",
+  "mode": "built-in image_gen targeted edit",
+  "inspection": "PASS: all lettering removed, continuous watercolor sky and clouds; landscape, foliage, river and portrait framing visually preserved.",
+  "savedPath": "public/stories/adam/cover-art-v3.png"
+}

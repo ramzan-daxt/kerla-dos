@@ -5,7 +5,7 @@ import vm from 'node:vm';
 import ts from 'typescript';
 
 test('all fourteen home cards have distinct local illustrations in shared data', () => {
-  const source = fs.readFileSync('app/page.tsx', 'utf8');
+  const source = fs.readFileSync('app/data/vocabulary.ts', 'utf8') + fs.readFileSync('app/page.tsx', 'utf8');
   const declaration = source.slice(source.indexOf('const illustratedWords:'), source.indexOf('categories.forEach((category) =>', source.indexOf('const illustratedWords:')));
   const images = vm.runInNewContext(ts.transpile(declaration + ';illustratedWords'));
   const ids = ['house', 'door', 'window', 'roof', 'wall', 'room', 'table', 'chair', 'bed', 'closet', 'lamp', 'television', 'fridge', 'key'];

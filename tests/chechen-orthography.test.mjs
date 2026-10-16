@@ -13,7 +13,7 @@ test('normalization is idempotent and preserves Latin transcription', () => {
   assert.equal(normalizeChechen(text), text);
 });
 test('all current Chechen word and category fields use the chosen spelling', () => {
-  const source=readFileSync(new URL('../app/page.tsx',import.meta.url),'utf8');
+  const source=readFileSync(new URL('../app/data/vocabulary.ts',import.meta.url),'utf8');
   for(const match of source.matchAll(/(?:chechen|title):\s*"([^"]*)"/g)) assert.doesNotMatch(match[1],/[ЯяЮю]/);
   assert.match(source,/chechen: "Йалх", russian: "Шесть"/);
   assert.match(source,/chechen: "Йуьхь", russian: "Лицо"/);

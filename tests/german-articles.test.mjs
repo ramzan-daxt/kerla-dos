@@ -22,7 +22,7 @@ test('articles do not leak into adverbs, colors or numerals', () => {
   assert.equal(exports.getWordTranslation('Отец','ru'), 'Отец');
 });
 test('every current noun card including alphabet examples has a German article', () => {
-  const source = fs.readFileSync('app/page.tsx', 'utf8');
+  const source = fs.readFileSync('app/data/vocabulary.ts', 'utf8');
   const categories = vm.runInNewContext(ts.transpile(source.slice(source.indexOf('const categories:'),source.indexOf('const categoryIcons:'))+';categories'), {normalizeChechen:s=>s});
   const adverbs = new Set(['Сегодня','Завтра','Вчера','Рано','Поздно','два']);
   for (const category of categories) {

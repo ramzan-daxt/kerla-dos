@@ -1,0 +1,12 @@
+/* The web view fills the screen; CSS alone owns safe-area spacing.
+   Never combine this with automatic WKWebView scroll insets. */
+body {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+body > main {
+  min-height: calc(100svh - env(safe-area-inset-top, 0px));
+}
+/* The home indicator sits over the footer itself, not an extra scroll band. */
+main.home-shell {
+  padding-bottom: 0;
+}

@@ -26,6 +26,11 @@ import "./illustrated-story.css";
 import "./portrait-answers.css";
 import "./category-pattern.css";
 import "./adam-book.css";
+import "./safe-area.css";
+import "./wolf-theme.css";
+import "./startup-screen.css";
+import "./alphabet-overview.css";
+import StartupScreen from "./startup-screen";
 
 const interfaceFont = localFont({src:"./fonts/Onest.ttf", variable:"--font-interface", weight:"100 900", display:"swap"});
 const storyFont = localFont({src:"./fonts/Rubik.ttf", variable:"--font-story", weight:"300 900", display:"swap"});
@@ -34,9 +39,9 @@ export const metadata: Metadata = {
   title: "KERLA DOŞ — нохчийн мотт берашна",
   description: "Хаза, дагахь латтаде, ловза.",
   icons: {
-    icon: "/kerla-dos-logo.png",
-    shortcut: "/kerla-dos-logo.png",
-    apple: "/kerla-dos-logo.png",
+    icon: "/kerla-wolf-logo.png",
+    shortcut: "/kerla-wolf-logo.png",
+    apple: "/kerla-wolf-app-icon.png",
   },
 };
 
@@ -68,6 +73,7 @@ export default function RootLayout({
           <small>KERLA DOŞ</small>
         </div>
         {children}
+        <StartupScreen />
       </body>
     </html>
   );

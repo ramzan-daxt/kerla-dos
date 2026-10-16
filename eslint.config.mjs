@@ -23,6 +23,10 @@ const eslintConfig = defineConfig([
   jsxA11y.flatConfigs.recommended,
   next.configs["core-web-vitals"],
   {
+    rules: {
+      // Labels contain a span and bold title before their input.
+      "jsx-a11y/label-has-associated-control": ["error", { depth: 3 }],
+    },
     languageOptions: {
       globals: {
         ...globals.browser,

@@ -1,0 +1,28 @@
+{
+  "mode": "built-in image_gen",
+  "calls": 4,
+  "retries": 0,
+  "qa": "All inputs inspected before editing; all outputs visually inspected. All lettering and title dividers removed. Overall subject geometry, framing, palette and tactile style retained, with ordinary generative fine-detail/texture drift. No new objects, text, panels or wash observed.",
+  "assets": [
+    {
+      "name": "adam",
+      "output": "/Users/ramzan/.codex/generated_images/01a088e6-3d02-7cf2-bac4-7246f675499a/exec-ee9e6693-3cfb-485d-9d8c-305f05742dac.png",
+      "prompt": "Use case: precise-object-edit\nInput image 1: edit target, Adam cover.\nPrimary request: Surgical removal of ALL baked lettering (large title, two-line subtitle, blessing) and ONLY the small leaf-and-line ornamental divider between the subtitle and blessing. Inpaint those marks with the same underlying quiet pale mint sky and its original subtle paper texture.\nPreserve every other pixel as closely as possible: identical foliage, branches, flowers, river, rocks, mountains, clouds, illustration geometry, framing, object positions and scale, colors, contrast, lighting, tactile paper-relief style. Do not reshape or move artwork. Do not enlarge the empty area. No wash, no panels, no new objects, no letters, no words, no watermark. The image will receive live HTML text later, so output illustration only. Keep original 2:3 portrait composition, 1024x1536."
+    },
+    {
+      "name": "nuh",
+      "output": "/Users/ramzan/.codex/generated_images/01a088e6-3d02-7cf2-bac4-7246f675499a/exec-fb180f19-c894-470a-b9fd-7ea0bf60d230.png",
+      "prompt": "Use case: precise-object-edit\nInput image 1: edit target, Nuh cover.\nPrimary request: Surgical removal of ALL baked lettering (large title, two-line subtitle, blessing) and ONLY the small ochre curved ornamental divider between the subtitle and blessing. Inpaint those marks with the same underlying quiet pale cream sky/cloud material and its original subtle paper texture.\nPreserve every other pixel as closely as possible: identical wooden ark, planks, windows, waves and their cut-paper layers, foam, clouds and sun, illustration geometry, framing, object positions and scale, colors, contrast, lighting, tactile paper-relief style. Do not reshape or move artwork. Do not enlarge the empty area. No wash, no panels, no new objects, no letters, no words, no watermark. The image will receive live HTML text later, so output illustration only. Keep original 2:3 portrait composition, 1024x1536."
+    },
+    {
+      "name": "hud",
+      "output": "/Users/ramzan/.codex/generated_images/01a088e6-3d02-7cf2-bac4-7246f675499a/exec-f849adad-4184-4995-8969-210172931d59.png",
+      "prompt": "Use case: precise-object-edit\nInput image 1: edit target, Hud cover.\nPrimary request: Surgical removal of ALL baked lettering (large title, two-line subtitle, blessing) and ONLY the small ochre leaf-between-lines ornamental divider between subtitle and blessing. Inpaint those marks with the same underlying quiet pale sandy sky and its original subtle paper texture.\nPreserve every other pixel as closely as possible: identical windblown palm trees and airborne leaves, layered dunes, rocks, buildings, mountains, clouds and sun, illustration geometry, framing, object positions and scale, colors, contrast, lighting, tactile paper-relief style. The naturally flying leaves are artwork and must remain; remove only the isolated title divider. Do not reshape or move artwork. Do not enlarge the empty area. No wash, no panels, no new objects, no letters, no words, no watermark. The image will receive live HTML text later, so output illustration only. Keep original 2:3 portrait composition, 1024x1536."
+    },
+    {
+      "name": "salih",
+      "output": "/Users/ramzan/.codex/generated_images/01a088e6-3d02-7cf2-bac4-7246f675499a/exec-0d3211de-4119-4ab5-ac53-83313f182d67.png",
+      "prompt": "Use case: precise-object-edit\nInput image 1: edit target, Salih cover.\nPrimary request: Surgical removal of ALL baked lettering (large carved title including letter recesses and their shadows, two-line subtitle, blessing) and ONLY the small terracotta sprig-between-lines ornamental divider between subtitle and blessing. Inpaint those marks with the same underlying quiet pale sandstone material and its original tactile paper-relief texture. The existing pale irregular stone face must remain exactly its original shape and size, simply without any text.\nPreserve every other pixel as closely as possible: identical camel and pose, turquoise water and ripples, rock arch, cliff dwellings, plants, rocks, mountains and sky, illustration geometry, framing, object positions and scale, colors, contrast, lighting, tactile paper-relief style. Do not reshape or move artwork. Do not enlarge the empty area or add a panel. No wash, no panels, no new objects, no letters, no words, no watermark. The image will receive live HTML text later, so output illustration only. Keep original 2:3 portrait composition, 1024x1536."
+    }
+  ]
+}

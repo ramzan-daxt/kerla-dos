@@ -1,0 +1,72 @@
+{
+  "mode": "built-in imagegen",
+  "reference": "public/illustrations/school/backpack-v1.png",
+  "entries": [
+    {
+      "id": "shirt",
+      "prompt": "Use case: illustration-story. Make a single square vocabulary-card illustration for a preschool Chechen learning app. Reference image is STYLE ONLY, do not draw its backpack. Match its polished hand-painted gouache/watercolor, rich but gentle colors, neat dark colored contours, soft volume and fabric texture, child-friendly clear silhouette. Isolated object centered, entire object visible with balanced 8% padding, occupies about 80% canvas. Genuine transparent alpha background, no white rectangle, no painted checkerboard, no scenery, no ground, no floating artifacts, no text, no letters, no logos, no people, no mannequin, no hanger, no faces. Subject: one coral long-sleeved button-up shirt with collar and buttons, front view.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-de3d23c0-8e30-4810-908f-df0fdc06b85a.png",
+      "destination": "public/illustrations/clothes/shirt-v1.png"
+    },
+    {
+      "id": "trousers",
+      "prompt": "Use case: illustration-story. Make a single square vocabulary-card illustration for a preschool Chechen learning app. Reference image is STYLE ONLY, do not draw its backpack. Match its polished hand-painted gouache/watercolor, rich but gentle colors, neat dark colored contours, soft volume and fabric texture, child-friendly clear silhouette. Isolated object centered, entire object visible with balanced 8% padding, occupies about 80% canvas. Genuine transparent alpha background, no white rectangle, no painted checkerboard, no scenery, no ground, no floating artifacts, no text, no letters, no logos, no people, no mannequin, no hanger, no faces. Subject: one pair navy blue full-length trousers, two legs, front view.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-0d9848df-d669-40b2-a60a-5a81c2a89b92.png",
+      "destination": "public/illustrations/clothes/trousers-v1.png"
+    },
+    {
+      "id": "hat",
+      "prompt": "Use case: illustration-story. Make a single square vocabulary-card illustration for a preschool Chechen learning app. Reference image is STYLE ONLY, do not draw its backpack. Match its polished hand-painted gouache/watercolor, rich but gentle colors, neat dark colored contours, soft volume and fabric texture, child-friendly clear silhouette. Isolated object centered, entire object visible with balanced 8% padding, occupies about 80% canvas. Genuine transparent alpha background, no white rectangle, no painted checkerboard, no scenery, no ground, no floating artifacts, no text, no letters, no logos, no people, no mannequin, no hanger, no faces. Subject: one warm mustard knitted winter beanie with folded cuff, not a baseball cap.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-def3789b-5ad0-4db7-8d9f-e29f5dc71951.png",
+      "destination": "public/illustrations/clothes/hat-v1.png"
+    },
+    {
+      "id": "dress",
+      "prompt": "Use case: illustration-story. Make a single square vocabulary-card illustration for a preschool Chechen learning app. Reference image is STYLE ONLY, do not draw its backpack. Match its polished hand-painted gouache/watercolor, rich but gentle colors, neat dark colored contours, soft volume and fabric texture, child-friendly clear silhouette. Isolated object centered, entire object visible with balanced 8% padding, occupies about 80% canvas. Genuine transparent alpha background, no white rectangle, no painted checkerboard, no scenery, no ground, no floating artifacts, no text, no letters, no logos, no people, no mannequin, no hanger, no faces. Subject: one modest ankle-length emerald dress with long sleeves and high closed neckline, front view.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-c0f25d92-3063-4de3-bc55-a11b031af50b.png",
+      "destination": "public/illustrations/clothes/dress-v1.png"
+    },
+    {
+      "id": "shoes",
+      "prompt": "Use case: illustration-story. Make a single square vocabulary-card illustration for a preschool Chechen learning app. Reference image is STYLE ONLY, do not draw its backpack. Match its polished hand-painted gouache/watercolor, rich but gentle colors, neat dark colored contours, soft volume and fabric texture, child-friendly clear silhouette. Isolated object centered, entire object visible with balanced 8% padding, occupies about 80% canvas. Genuine transparent alpha background, no white rectangle, no painted checkerboard, no scenery, no ground, no floating artifacts, no text, no letters, no logos, no people, no mannequin, no hanger, no faces. Subject: one matching pair brown low shoes, three-quarter view, low ankle height.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-ad03019b-d0da-4dc7-8de3-3370ddb1dfa9.png",
+      "destination": "public/illustrations/clothes/shoes-v1.png"
+    },
+    {
+      "id": "socks",
+      "prompt": "Use case: illustration-story. Make a single square vocabulary-card illustration for a preschool Chechen learning app. Reference image is STYLE ONLY, do not draw its backpack. Match its polished hand-painted gouache/watercolor, rich but gentle colors, neat dark colored contours, soft volume and fabric texture, child-friendly clear silhouette. Isolated object centered, entire object visible with balanced 8% padding, occupies about 80% canvas. Genuine transparent alpha background, no white rectangle, no painted checkerboard, no scenery, no ground, no floating artifacts, no text, no letters, no logos, no people, no mannequin, no hanger, no faces. Subject: one matching pair cozy coral socks with cream cuffs.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-d3e6ec77-01b8-461c-8b85-d1e74503ee8e.png",
+      "destination": "public/illustrations/clothes/socks-v1.png"
+    },
+    {
+      "id": "scarf",
+      "prompt": "Use case: illustration-story. Make a single square vocabulary-card illustration for a preschool Chechen learning app. Reference image is STYLE ONLY, do not draw its backpack. Match its polished hand-painted gouache/watercolor, rich but gentle colors, neat dark colored contours, soft volume and fabric texture, child-friendly clear silhouette. Isolated object centered, entire object visible with balanced 8% padding, occupies about 80% canvas. Genuine transparent alpha background, no white rectangle, no painted checkerboard, no scenery, no ground, no floating artifacts, no text, no letters, no logos, no people, no mannequin, no hanger, no faces. Subject: one cream women's square headscarf folded into a triangle with naturally draping ends, clearly a headscarf not a winter neck scarf.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-51ff59b0-61f9-44dd-81bd-f47d206dfeb2.png",
+      "destination": "public/illustrations/clothes/scarf-v1.png"
+    },
+    {
+      "id": "coat",
+      "prompt": "Use case: illustration-story. Make a single square vocabulary-card illustration for a preschool Chechen learning app. Reference image is STYLE ONLY, do not draw its backpack. Match its polished hand-painted gouache/watercolor, rich but gentle colors, neat dark colored contours, soft volume and fabric texture, child-friendly clear silhouette. Isolated object centered, entire object visible with balanced 8% padding, occupies about 80% canvas. Genuine transparent alpha background, no white rectangle, no painted checkerboard, no scenery, no ground, no floating artifacts, no text, no letters, no logos, no people, no mannequin, no hanger, no faces. Subject: one long camel-brown wool overcoat reaching below knees, long sleeves, lapels and buttons, front view.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-744a4efd-831b-492a-83fb-9791237f19d8.png",
+      "destination": "public/illustrations/clothes/coat-v1.png"
+    },
+    {
+      "id": "jacket",
+      "prompt": "Use case: illustration-story. Make a single square vocabulary-card illustration for a preschool Chechen learning app. Reference image is STYLE ONLY, do not draw its backpack. Match its polished hand-painted gouache/watercolor, rich but gentle colors, neat dark colored contours, soft volume and fabric texture, child-friendly clear silhouette. Isolated object centered, entire object visible with balanced 8% padding, occupies about 80% canvas. Genuine transparent alpha background, no white rectangle, no painted checkerboard, no scenery, no ground, no floating artifacts, no text, no letters, no logos, no people, no mannequin, no hanger, no faces. Subject: one short teal padded zip-up jacket, hip-length, long sleeves and hood, front view.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-0ec373c2-96f7-4c8c-8078-6443307b7bb4.png",
+      "destination": "public/illustrations/clothes/jacket-v1.png"
+    },
+    {
+      "id": "gloves",
+      "prompt": "Use case: illustration-story. Make a single square vocabulary-card illustration for a preschool Chechen learning app. Reference image is STYLE ONLY, do not draw its backpack. Match its polished hand-painted gouache/watercolor, rich but gentle colors, neat dark colored contours, soft volume and fabric texture, child-friendly clear silhouette. Isolated object centered, entire object visible with balanced 8% padding, occupies about 80% canvas. Genuine transparent alpha background, no white rectangle, no painted checkerboard, no scenery, no ground, no floating artifacts, no text, no letters, no logos, no people, no mannequin, no hanger, no faces. Subject: one matching pair rust-red knitted five-finger gloves, five distinct fingers on each including thumb.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-fc59357b-9bb3-4fad-ab32-32a86b5e61aa.png",
+      "destination": "public/illustrations/clothes/gloves-v1.png"
+    },
+    {
+      "id": "boots",
+      "prompt": "Use case: illustration-story. Make a single square vocabulary-card illustration for a preschool Chechen learning app. Reference image is STYLE ONLY, do not draw its backpack. Match its polished hand-painted gouache/watercolor, rich but gentle colors, neat dark colored contours, soft volume and fabric texture, child-friendly clear silhouette. Isolated object centered, entire object visible with balanced 8% padding, occupies about 80% canvas. Genuine transparent alpha background, no white rectangle, no painted checkerboard, no scenery, no ground, no floating artifacts, no text, no letters, no logos, no people, no mannequin, no hanger, no faces. Subject: one matching pair tall navy blue boots with long shafts and warm brown soles, three-quarter view.",
+      "source": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-3a0117aa-347b-4dd5-8cd5-edbcfcf1f3d7.png",
+      "destination": "public/illustrations/clothes/boots-v1.png"
+    }
+  ]
+}

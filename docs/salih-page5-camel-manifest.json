@@ -1,0 +1,12 @@
+{
+  "id": "page5",
+  "inputPaths": [
+    "/Users/ramzan/Documents/Codex/2026-08-25/new-chat/kerla-dos/public/stories/salih/page-5.png",
+    "/Users/ramzan/Documents/Codex/2026-08-25/new-chat/kerla-dos/public/stories/salih/page-4-v2.png"
+  ],
+  "path": "/Users/ramzan/.codex/generated_images/01a083dc-ebec-7fa0-a1ef-c2a27d496708/exec-569a37ba-f08b-46fc-a380-a6e0f4b4e8b2.png",
+  "prompt": "Use case: compositing, targeted story illustration edit. Image 1 is the edit target: preserve this dusk sandstone village and watering-place watercolor. Image 2 is ONLY an appearance reference for the sandy-tan single-humped female camel, not for the people or background. Add exactly one such she-camel to Image 1, lying motionless ON HER SIDE on sandy earth in the lower half of the image beside the water trough. Her torso rests laterally on the ground, her legs extend naturally sideways, her long neck lies low along the ground and her head rests fully on the earth. She has died, depicted gently and non-graphically: absolutely no blood, wounds, exposed tissue, injuries, weapons, violence, or distress. Do not use an upright seated or kneeling camel pose. Natural anatomy, one hump, four legs. FACE REQUIREMENT: omit the camel's eyes entirely, just uninterrupted natural sandy fur across the eye area; no eyes at all, no eyelid lines, lashes, sockets, black dots, eyebrows, patch, painted-over mark, blindfold or bandage. Preserve natural muzzle and ears. Match the reference camel's sandy-gold fur and painterly texture. Preserve Image 1's warm muted amber dusk, turquoise water, ordinary sandstone homes with plain doors, palms and gentle textured watercolor/gouache style. Keep the upper approximately 40 percent of the portrait quiet and available for future HTML text. No people, prophets, religious figures or other animals. No text, letters, logos or watermarks. Full portrait 2:3 PNG, 1024x1536. Change only the addition and naturally necessary ground integration; keep the setting and composition consistent.",
+  "mode": "built-in image_gen targeted edit with target plus camel appearance reference",
+  "inspection": "PASS: one sandy-tan camel lying on side with head resting on ground in lower half; no eye marks visible, natural fur/muzzle; no wounds, blood, people, prophets, other animals or text. Dusk watering-place background and upper copy area preserved.",
+  "savedPath": "public/stories/salih/page-5-v2.png"
+}

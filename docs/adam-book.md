@@ -1,5 +1,13 @@
 # Adam digital book — 2026-09-08
 
+## Cover subtitle update
+
+Owner's exact subtitle: «Делере салам хуьлда цунна».
+Current asset: public/stories/adam/cover-v2.png (original preserved).
+Built-in ImageGen text-localization edit prompt: replace only the subtitle with
+that exact text, centered in the same dark-green rounded font (two lines allowed);
+preserve «Адам пайхмарах лаьцна дийцар», painted landscape, palette and composition.
+
 ## Requested addition: arrogance and deception
 
 Owner requested adding Iblis's arrogance and intention to mislead on 2026-09-08.

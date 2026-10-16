@@ -6,7 +6,7 @@ import ts from 'typescript';
 import {normalizeChechen} from '../app/chechen-orthography.mjs';
 const classes = {}, translations = {};
 for (const [file, exports] of [['word-classes',classes],['word-translations',translations]]) vm.runInNewContext(ts.transpile(fs.readFileSync(`app/${file}.ts`,'utf8'),{module:1}),{exports});
-const source = fs.readFileSync('app/page.tsx','utf8');
+const source = fs.readFileSync('app/data/vocabulary.ts','utf8');
 const categories = vm.runInNewContext(ts.transpile(source.slice(source.indexOf('const categories:'),source.indexOf('const alphabetCategory ='))+';categories'),{normalizeChechen,getWordClass:classes.getWordClass});
 const words = categories.flatMap(c=>c.words.map(w=>({...w,key:`${c.id}:${w.id}`})));
 const expected = {

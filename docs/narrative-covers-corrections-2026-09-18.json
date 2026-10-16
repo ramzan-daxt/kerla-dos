@@ -1,0 +1,15 @@
+{
+  "tool": "builtin image_gen",
+  "corrections": [
+    {
+      "id": "adam",
+      "output": "public/stories/adam/cover-clean-v3.png",
+      "prompt": "Use case: precise-object-edit. Lower the distant treetops and mountain horizon beneath y=38%, especially the tree under the future leftmost title letter. Extend pale blue sky naturally down to y=37%. Critical exact region x=20%..80%, y=23%..35% must be softly LIGHT, quiet sky. This is where existing dark lettering will go, not a blank label. Preserve rest of illustration exactly including lower scene, style and portrait 2:3 dimensions. No text, no added people, no symbols or panels."
+    },
+    {
+      "id": "nuh",
+      "output": "public/stories/nuh/cover-clean-v3.png",
+      "prompt": "Use case: precise-object-edit. Move the LOWER rim of the bright cloud opening down below y=38%, enlarge the light opening horizontally. No dark clouds behind future word at x=20..80%, y=23..35%. Keep ark where it is. Critical exact region x=20%..80%, y=23%..35% must be softly LIGHT, quiet sky. This is where existing dark lettering will go, not a blank label. Preserve rest of illustration exactly including lower scene, style and portrait 2:3 dimensions. No text, no added people, no symbols or panels."
+    }
+  ]
+}

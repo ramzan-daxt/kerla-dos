@@ -1,0 +1,14 @@
+/* Shared quiet paper canvas. Decoration never covers a card or book page. */
+.brand::before,.mascot{background-image:url('/kerla-wolf-logo.png')!important}
+.home-shell,.category-library,.reading-library,.extra-shell:not(.full-tale),.learning-shell{
+  background-image:url('/backgrounds/learning-linework.svg');
+  background-size:640px 680px;
+  background-repeat:repeat;
+}
+.home-shell::before,.category-library::before,.category-library-theme::after,.extra-shell:not(.full-tale)::before,.learning-shell::before{display:none}
+.category-pattern{opacity:.045}
+.reading-library{background-image:url('/backgrounds/reading-linework.svg')}
+.extra-shell.games-shell{background-image:url('/backgrounds/games-linework.svg')}
+@media(max-width:760px){
+  .home-shell,.category-library,.reading-library,.extra-shell:not(.full-tale),.learning-shell{background-size:440px 468px}
+}

@@ -1,0 +1,21 @@
+{
+  "editCount": 2,
+  "assets": [
+    {
+      "id": "page2",
+      "inputPath": "/Users/ramzan/.codex/generated_images/01a083dc-ebec-7fa0-a1ef-c2a27d496708/exec-1d48adcc-c104-484f-8030-e908e14dd9c5.png",
+      "path": "/Users/ramzan/.codex/generated_images/01a083dc-ebec-7fa0-a1ef-c2a27d496708/exec-f8e695bf-4be9-4137-94b5-d0879ff1d3c7.png",
+      "prompt": "Use case: precise-object-edit. Input image is the edit target. Edit this children's watercolor illustration with exactly these corrections: remove the entire camel at left, including saddle, blanket, bridle and rope; remove the central seated man entirely. Fill both removed areas naturally with the continuing oasis landscape, stone doorstep, sandstone wall and water that belong there. Retain EXACTLY TWO ordinary women with pottery, the existing teal standing woman and existing terracotta seated woman. Neither is a leader or addressing anyone; keep understated everyday resting/holding-pottery poses. Preserve their smooth simple eye-free faces: absolutely no drawn eyes, eyelids, pupils, dots, eyebrows or blindfolds. Preserve watercolor/gouache style, warm sandstone village with simple doors, palms, shaded roof, turquoise water, original framing and lighting. Keep both whole women in upper/middle composition and bottom 35-40 percent quiet sandy ground for future HTML copy. No animals of any kind. No other people. No prophet, religious leader, preacher or prophet stand-in or symbolic representation, no text/logos, no violence. Change only required removals and naturally filled areas, maintain all other details. Output portrait PNG 1024x1536.",
+      "mode": "built-in image_gen targeted edit via referenced_image_paths",
+      "inspection": "PASS: inspected result. No animals or animal equipment remain; ordinary humans have no drawn eyes, no religious leader or prophet stand-in. Composition and copy space preserved."
+    },
+    {
+      "id": "page7",
+      "inputPath": "/Users/ramzan/.codex/generated_images/01a083dc-ebec-7fa0-a1ef-c2a27d496708/exec-4a600f56-9e96-4dd0-8937-84a09053488d.png",
+      "path": "/Users/ramzan/.codex/generated_images/01a083dc-ebec-7fa0-a1ef-c2a27d496708/exec-efe61b25-77fd-43f9-af77-91a8a20a85bb.png",
+      "prompt": "Use case: precise-object-edit. Input image is the edit target. Remove the entire camel from the upper-left/middle-left area, including all saddle, blanket, bridle and rope. Fill this area seamlessly with the natural oasis landscape: palms, low greenery, sand and distant water consistent with the surroundings. There must be NO ANIMALS anywhere in final image. Preserve exactly the existing three ordinary adult villagers seated at equal height and scale, viewed from behind, quietly looking across the landscape. None leads, preaches or addresses the others, none represents a prophet or any religious figure. Preserve their poses, robes and eye-free faces/back views, add no eyes/eyelids/dots/pupils/eyebrows. Preserve original warm textured watercolor/gouache style, sandstone village, blue sky, turquoise oasis and overall composition. Keep existing quiet sandy bottom area for copy. No text/logos. Change only camel removal and naturally filled area. Output portrait PNG 1024x1536.",
+      "mode": "built-in image_gen targeted edit via referenced_image_paths",
+      "inspection": "PASS: inspected result. No animals or animal equipment remain; ordinary humans have no drawn eyes, no religious leader or prophet stand-in. Composition and copy space preserved."
+    }
+  ]
+}

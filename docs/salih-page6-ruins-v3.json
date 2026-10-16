@@ -1,0 +1,7 @@
+{
+  "mode": "built-in image_gen edit",
+  "input": "public/stories/salih/page-6-v2.png",
+  "output": "public/stories/salih/page-6-v3.png",
+  "prompt": "Use case: precise-object-edit. Edit target: attached current Salih story page 6. Change ONLY damage to buildings: on the upper-right hillside replace at least THREE of the nearly intact cracked buildings with almost completely destroyed structures, only low foundation footprints, tiny irregular wall stubs (5–15% of original height), collapsed sandstone masonry heaps. REMOVE their tall facades, doorways and rooflines entirely; expose the rock slope behind these ruined footprints. Include one similarly almost-total collapse in the middle settlement. Retain a few partially standing cracked buildings for clear varied destruction, NOT rows of similar upright cracked facades. Preserve portrait 2:3 composition, original watercolor children's book style, ochre palette, palms, valley, foreground path, warm lighting and spacious quiet sky for text. No people, animals, prophets, supernatural beings, bodies, text or symbols. Ruins should read unmistakably as collapsed buildings, not merely cracked standing houses.",
+  "review": "Upper-right buildings and a central building reduced to rubble and low wall remnants; some cracked standing buildings retained. Prior versions preserved."
+}

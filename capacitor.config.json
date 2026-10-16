@@ -1,0 +1,10 @@
+{
+  "appId": "com.kerlados.app",
+  "appName": "Kerla Doş",
+  "webDir": "out",
+  "ios": {
+    "backgroundColor": "#f5efe3",
+    "contentInset": "never",
+    "preferredContentMode": "mobile"
+  }
+}

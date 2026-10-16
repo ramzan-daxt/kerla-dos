@@ -5,7 +5,7 @@ import vm from 'node:vm';
 import ts from 'typescript';
 import { normalizeChechen } from '../app/chechen-orthography.mjs';
 
-const source = readFileSync(new URL('../app/page.tsx', import.meta.url), 'utf8');
+const source = readFileSync(new URL('../app/data/vocabulary.ts', import.meta.url), 'utf8');
 const start = source.indexOf('const categories:');
 const end = source.indexOf('const alphabetCategory =');
 const classExports = {};

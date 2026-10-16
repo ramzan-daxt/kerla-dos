@@ -38,3 +38,12 @@ yarn-error.log*
 /.wrangler/
 /outputs/
 /work/
+
+# Local build state and native dependencies
+*.tsbuildinfo
+/output/
+**/xcuserdata/
+**/DerivedData/
+/ios/App/App/public/
+/ios/App/Pods/
+/ios/App/CapApp-SPM/.build/

@@ -1,0 +1,6 @@
+{
+  "tool": "built-in ImageGen",
+  "prompt": "Use case: precise-object-edit. Edit this existing portrait illustration only. Remove ALL animals: the donkey beside the woman and child on the right, and both sheep in the lower right. Seamlessly replace their areas with existing garden plants, grass and sandstone ground. Adjust only the right woman and child's hands slightly to a natural relaxed pose or tending the plants where the donkey was. Preserve all other people, clothing, detailed ears, noses, mouths, hands, landscape, framing, dimensions, paper/stone relief texture, colors and light exactly. Preserve NO DRAWN EYES on every person: no dots, pupils, eyelids, closed-eye lines, patches, hollow sockets. No new people/animals, no prophets or symbolic leaders. Keep entire upper pale apricot blank text area unchanged; no text, no lettering, no paint wash, panel or plaque. This is one surgical correction, not redesign.",
+  "source": "/Users/ramzan/.codex/generated_images/01a08826-3e7e-7ba2-84c5-5387100f8f31/exec-119981ad-7e61-48af-af5b-ea3035fd8c53.png",
+  "output": "public/stories/salih/page-7-relief-v2.png"
+}

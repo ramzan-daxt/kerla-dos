@@ -1,0 +1,8 @@
+{
+  "mode": "built-in image_gen edit",
+  "prompt": "Use case: precise-object-edit. Image 1 is the edit target: children's watercolor portrait book illustration. Change ONLY the visible eye area of the drinking camel: omit all drawn eye features entirely, including the dark eye shape, eyelids, lashes and brow/eye outline. Continue the natural golden fur watercolor texture and gentle facial planes seamlessly across that area, as if no eye was ever drawn. No painted-over patch, smudge, band, dot, closed-eye line, scar, hollow socket, mask or blindfold. Preserve the natural head silhouette, muzzle, nostrils, mouth and ears, camel pose and anatomy, both ordinary villagers from behind, their eye-free faces, all background details, exact composition, colors, lighting and brushwork. No new figures, no prophet or symbolic substitute, no text. Preserve 1024x1536 portrait and quiet bottom copy area. Return one finished illustration.",
+  "input": "public/stories/salih/page-4.png",
+  "output": "public/stories/salih/page-4-v2.png",
+  "generated": "/Users/ramzan/.codex/generated_images/01a035d1-81bf-7b42-a4a4-07271f5e88eb/exec-9619b0df-7f49-49fa-a0ac-008c719e2559.png",
+  "inspection": "Eye omitted with continuous fur texture, no patch or closed-eye line; composition preserved."
+}
